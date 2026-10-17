@@ -67,7 +67,7 @@
     <string name="pin_set_message">४ अङ्क छान्नुहोस्। सेटिङ खोल्न यो चाहिन्छ।</string>
     <string name="pin_confirm_message">उही ४ अङ्क फेरि हाल्नुहोस्।</string>
     <string name="pin_mismatch">अङ्क मिलेनन्। फेरि सुरु गर्नुहोस्।</string>
-    <string name="pin_progress">%2$d मध्ये %1$d अङ्क हालियो</string>
+    <string name="pin_progress">हालिएका अङ्क: %2$d मध्ये %1$d</string>
     <string name="pin_delete">मेटाउनुहोस्</string>
 
     <!-- Speak on shake -->
@@ -75,4 +75,11 @@
     <string name="shake_channel_description">Niko Clock ले फोन हल्लाएको सुनिरहेको बेला देखिन्छ।</string>
     <string name="shake_notification_title">समय सुन्न फोन हल्लाउनुहोस्</string>
     <string name="shake_notification_text">Niko Clock ले फोन हल्लाएको सुनिरहेको छ। बन्द गर्न, Niko Clock को सेटिङमा \"हल्लाउँदा समय सुन्नुहोस्\" बन्द गर्नुहोस्।</string>
+
+    <!-- Chimes, quick settings tile and widget -->
+    <string name="notification_channel_speaking">समय भन्दै</string>
+    <string name="notification_channel_speaking_description">Niko Clock ले समय भन्दा केही बेर देखिन्छ।</string>
+    <string name="notification_speaking">समय भन्दै</string>
+    <string name="widget_description">ठूलो घडी। समय सुन्न यसमा छुनुहोस्।</string>
+    <string name="widget_content_description">घडी। समय सुन्न छुनुहोस्।</string>
 </resources>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Home-screen widget, dark: Night background, Paper text. -->
+    <color name="widget_paper">#14110D</color>
+    <color name="widget_ink">#FFF9EE</color>
+</resources>
