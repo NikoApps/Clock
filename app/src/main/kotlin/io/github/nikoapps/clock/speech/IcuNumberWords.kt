@@ -12,3 +12,7 @@ class IcuNumberWords(locale: Locale) : NumberWords {
 
     override fun words(number: Int): String = format.format(arrayOf(number))
 }
+
+/** The phraser for the language in [settings], or the phone's language when none is set. */
+fun phraserFor(settings: io.github.nikoapps.clock.settings.Settings): TimePhraser? =
+    timePhraserFor(settings.language?.let(Locale::forLanguageTag) ?: Locale.getDefault()) { IcuNumberWords(it) }

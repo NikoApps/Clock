@@ -45,6 +45,11 @@ android {
         compose = true
     }
 
+    // Lets people pick Niko Clock's language on its own in Android 13+ settings.
+    androidResources {
+        generateLocaleConfig = true
+    }
+
     lint {
         // Accessibility issues fail the build.
         error += listOf("ContentDescription", "ClickableViewAccessibility", "KeyboardInaccessibleWidget", "LabelFor")
@@ -67,6 +72,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.datastore.preferences)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.material3)

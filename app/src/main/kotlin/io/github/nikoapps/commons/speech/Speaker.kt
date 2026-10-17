@@ -40,6 +40,11 @@ class Speaker(
         onReady(isReady)
     }
 
+    /** 1.0 is the engine's normal speed. */
+    fun setRate(rate: Float) {
+        tts.setSpeechRate(rate)
+    }
+
     /** Returns false if the engine has no voice for [locale]. */
     fun setLanguage(locale: Locale): Boolean {
         if (!isReady) return false

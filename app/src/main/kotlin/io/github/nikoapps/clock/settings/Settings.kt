@@ -1,0 +1,38 @@
+package io.github.nikoapps.clock.settings
+
+import java.time.LocalTime
+
+enum class ShakeSensitivity { Low, Medium, High }
+
+/** Everything a helper can set. Defaults follow the Clock spec. */
+data class Settings(
+    /** BCP 47 tag such as "ne-NP", or null to follow the phone's language. */
+    val language: String? = null,
+    /** 1.0 is the engine's normal speed. */
+    val speechRate: Float = 0.9f,
+    val chimeEnabled: Boolean = false,
+    /** 60, 30 or 15. */
+    val chimeIntervalMinutes: Int = 60,
+    /** Percent of the alarm stream's maximum volume. */
+    val chimeVolumePercent: Int = 80,
+    val quietHoursEnabled: Boolean = true,
+    val quietStart: LocalTime = LocalTime.of(22, 0),
+    val quietEnd: LocalTime = LocalTime.of(7, 0),
+    /** Chimes stay silent while Do Not Disturb is on. User-triggered speech still answers. */
+    val chimeFollowsDoNotDisturb: Boolean = true,
+    val shakeEnabled: Boolean = false,
+    val shakeSensitivity: ShakeSensitivity = ShakeSensitivity.Medium,
+    val vibrateBeforeSpeaking: Boolean = false,
+    /** SHA-256 of the helper's 4-digit PIN, or null when there is no PIN. */
+    val helperPinHash: String? = null,
+) {
+    /** True when [time] falls inside quiet hours, including ranges that cross midnight. */
+    fun isQuiet(time: LocalTime): Boolean {
+        if (!quietHoursEnabled || quietStart == quietEnd) return false
+        return if (quietStart < quietEnd) {
+            time >= quietStart && time < quietEnd
+        } else {
+            time >= quietStart || time < quietEnd
+        }
+    }
+}

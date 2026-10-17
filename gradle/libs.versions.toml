@@ -6,6 +6,7 @@ coreKtx = "1.19.1"
 activityCompose = "1.13.0"
 lifecycle = "2.11.0"
 junit = "4.13.2"
+datastore = "1.2.1"
 icu4j = "78.3"
 
 [libraries]
@@ -18,6 +19,7 @@ androidx-compose-ui = { module = "androidx.compose.ui:ui" }
 androidx-compose-material3 = { module = "androidx.compose.material3:material3" }
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 junit = { module = "junit:junit", version.ref = "junit" }
 icu4j = { module = "com.ibm.icu:icu4j", version.ref = "icu4j" }
 
