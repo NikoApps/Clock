@@ -10,9 +10,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
+import androidx.core.net.toUri
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -22,7 +34,10 @@ import io.github.nikoapps.clock.settings.Settings
 import io.github.nikoapps.clock.settings.ShakeSensitivity
 import io.github.nikoapps.clock.settings.SpeechSpeed
 import io.github.nikoapps.clock.settings.TextSize
+import io.github.nikoapps.clock.settings.VoicePitch
 import io.github.nikoapps.commons.ui.ChoiceRow
+import io.github.nikoapps.commons.ui.InfoStrings
+import io.github.nikoapps.commons.ui.LocalInfoStrings
 import io.github.nikoapps.commons.ui.ScreenTopBar
 import io.github.nikoapps.commons.ui.SettingsGroup
 import io.github.nikoapps.commons.ui.SwitchRow
@@ -78,6 +93,7 @@ fun SettingsScreen(
 ) {
     val context = LocalContext.current
     val chevron = painterResource(R.drawable.ic_chevron_right)
+    val external = painterResource(R.drawable.ic_open_external)
     fun open(intent: Intent) {
         try {
             context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
@@ -94,6 +110,14 @@ fun SettingsScreen(
     val on = stringResource(R.string.value_on)
     val off = stringResource(R.string.value_off)
 
+    val resources = LocalResources.current
+    val infoStrings = InfoStrings(
+        icon = painterResource(R.drawable.ic_info),
+        moreAbout = { title -> resources.getString(R.string.info_more_about, title) },
+        ok = stringResource(R.string.ok),
+    )
+
+    CompositionLocalProvider(LocalInfoStrings provides infoStrings) {
     Column(modifier = Modifier.fillMaxSize().safeDrawingPadding()) {
         ScreenTopBar(
             title = stringResource(R.string.settings_title),
@@ -135,8 +159,17 @@ fun SettingsScreen(
                     onSelect = { speed -> onUpdate { it.copy(speechRate = speed.rate) } },
                     cancelLabel = cancel,
                 )
+                ChoiceRow(
+                    title = stringResource(R.string.setting_voice_pitch),
+                    options = VoicePitch.entries,
+                    selected = settings.voicePitch,
+                    optionLabel = { stringResource(it.label()) },
+                    onSelect = { pitch -> onUpdate { it.copy(voicePitch = pitch) } },
+                    cancelLabel = cancel,
+                )
                 SwitchRow(
                     title = stringResource(R.string.setting_vibrate),
+                    info = stringResource(R.string.info_vibrate),
                     checked = settings.vibrateBeforeSpeaking,
                     onCheckedChange = { checked -> onUpdate { it.copy(vibrateBeforeSpeaking = checked) } },
                 )
@@ -152,6 +185,7 @@ fun SettingsScreen(
             SettingsGroup(stringResource(R.string.section_chimes)) {
                 SwitchRow(
                     title = stringResource(R.string.setting_chime),
+                    info = stringResource(R.string.info_chime),
                     checked = settings.chimeEnabled,
                     onCheckedChange = { checked ->
                         if (checked) onNeedNotifications()
@@ -193,6 +227,7 @@ fun SettingsScreen(
                     )
                     SwitchRow(
                         title = stringResource(R.string.setting_quiet_hours),
+                        info = stringResource(R.string.info_quiet_hours),
                         value = if (settings.quietHoursEnabled) {
                             "${clockTime(settings.quietStart)} – ${clockTime(settings.quietEnd)}"
                         } else {
@@ -221,6 +256,7 @@ fun SettingsScreen(
                     }
                     SwitchRow(
                         title = stringResource(R.string.setting_follow_dnd),
+                        info = stringResource(R.string.info_dnd),
                         checked = settings.chimeFollowsDoNotDisturb,
                         onCheckedChange = { checked -> onUpdate { it.copy(chimeFollowsDoNotDisturb = checked) } },
                     )
@@ -230,6 +266,7 @@ fun SettingsScreen(
             SettingsGroup(stringResource(R.string.section_shake)) {
                 SwitchRow(
                     title = stringResource(R.string.setting_shake),
+                    info = stringResource(R.string.info_shake),
                     value = stringResource(R.string.setting_shake_value),
                     checked = settings.shakeEnabled,
                     onCheckedChange = { checked ->
@@ -273,12 +310,14 @@ fun SettingsScreen(
             SettingsGroup(stringResource(R.string.section_phone_setup)) {
                 ValueRow(
                     title = stringResource(R.string.open_battery_settings),
+                    info = stringResource(R.string.info_battery),
                     value = stringResource(R.string.battery_value),
                     trailing = chevron,
                     onClick = { open(Intent(AndroidSettings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)) },
                 )
                 ValueRow(
                     title = stringResource(R.string.section_pin),
+                    info = stringResource(R.string.info_pin),
                     value = if (settings.helperPinHash == null) off else on,
                     trailing = chevron,
                     onClick = onSetPin,
@@ -287,9 +326,84 @@ fun SettingsScreen(
                     ValueRow(title = stringResource(R.string.pin_remove), value = null, onClick = onRemovePin)
                 }
             }
+
+            SettingsGroup(stringResource(R.string.section_support)) {
+                ValueRow(
+                    title = stringResource(R.string.help_feedback),
+                    value = stringResource(R.string.help_feedback_value),
+                    leading = painterResource(R.drawable.ic_help),
+                    trailing = external,
+                    onClick = { open(Intent(Intent.ACTION_VIEW, ISSUES_URL.toUri())) },
+                )
+                val shareText = stringResource(R.string.share_text, WEBSITE_URL)
+                ValueRow(
+                    title = stringResource(R.string.share_app),
+                    value = stringResource(R.string.share_app_value),
+                    leading = painterResource(R.drawable.ic_share),
+                    trailing = chevron,
+                    onClick = {
+                        val send = Intent(Intent.ACTION_SEND).setType("text/plain").putExtra(Intent.EXTRA_TEXT, shareText)
+                        open(Intent.createChooser(send, null))
+                    },
+                )
+            }
+
+            SettingsGroup(stringResource(R.string.section_about)) {
+                var privacyOpen by rememberSaveable { mutableStateOf(false) }
+                ValueRow(
+                    title = stringResource(R.string.privacy),
+                    value = stringResource(R.string.privacy_value),
+                    leading = painterResource(R.drawable.ic_privacy),
+                    trailing = chevron,
+                    onClick = { privacyOpen = true },
+                )
+                if (privacyOpen) {
+                    AlertDialog(
+                        onDismissRequest = { privacyOpen = false },
+                        title = { Text(stringResource(R.string.privacy), style = MaterialTheme.typography.titleLarge) },
+                        text = { Text(stringResource(R.string.privacy_text), style = MaterialTheme.typography.bodyLarge) },
+                        confirmButton = {
+                            TextButton(onClick = { privacyOpen = false }, modifier = Modifier.heightIn(min = 56.dp)) {
+                                Text(stringResource(R.string.ok), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
+                            }
+                        },
+                        containerColor = MaterialTheme.colorScheme.surface,
+                    )
+                }
+                ValueRow(
+                    title = stringResource(R.string.source_code),
+                    value = stringResource(R.string.source_code_value),
+                    leading = painterResource(R.drawable.ic_code),
+                    trailing = external,
+                    onClick = { open(Intent(Intent.ACTION_VIEW, SOURCE_URL.toUri())) },
+                )
+                ValueRow(
+                    title = stringResource(R.string.licence),
+                    value = stringResource(R.string.licence_value),
+                    leading = painterResource(R.drawable.ic_licence),
+                    trailing = external,
+                    onClick = { open(Intent(Intent.ACTION_VIEW, LICENCE_URL.toUri())) },
+                )
+                ValueRow(
+                    title = stringResource(R.string.version),
+                    value = appVersion(context),
+                    leading = painterResource(R.drawable.ic_info),
+                    onClick = null,
+                )
+            }
         }
     }
+    }
 }
+
+private const val SOURCE_URL = "https://github.com/NikoApps/Clock"
+private const val ISSUES_URL = "https://github.com/NikoApps/Clock/issues"
+private const val WEBSITE_URL = "https://nikoapps.github.io"
+private const val LICENCE_URL = "https://www.gnu.org/licenses/gpl-3.0.html"
+
+/** The installed version name, read from the package so nothing is baked into the build. */
+private fun appVersion(context: android.content.Context): String =
+    context.packageManager.getPackageInfo(context.packageName, 0).versionName.orEmpty()
 
 /** "9:00 PM" or "21:00", following the phone's clock style. */
 private fun clockTime(time: LocalTime): String = time.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
@@ -304,6 +418,12 @@ private fun TextSize.label(): Int = when (this) {
     TextSize.Small -> R.string.size_small
     TextSize.Medium -> R.string.size_medium
     TextSize.Large -> R.string.size_large
+}
+
+private fun VoicePitch.label(): Int = when (this) {
+    VoicePitch.Lower -> R.string.pitch_lower
+    VoicePitch.Normal -> R.string.pitch_normal
+    VoicePitch.Higher -> R.string.pitch_higher
 }
 
 private fun ShakeSensitivity.label(): Int = when (this) {

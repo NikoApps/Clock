@@ -10,6 +10,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,7 +39,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.semantics
@@ -117,6 +120,7 @@ private fun App(settingsViewModel: SettingsViewModel, clockViewModel: ClockViewM
         Screen.Clock -> ClockScreen(
             voice = clock.voice,
             onSpeak = clockViewModel::onSpeak,
+            onSpeakDate = clockViewModel::onSpeakDate,
             onOpenSettings = { screen = if (current.helperPinHash == null) Screen.Settings else Screen.Unlock },
         )
         Screen.Unlock -> UnlockPinScreen(
@@ -158,7 +162,7 @@ private fun TextSizeScale(size: TextSize, content: @Composable () -> Unit) {
 }
 
 @Composable
-private fun ClockScreen(voice: VoiceStatus, onSpeak: () -> Unit, onOpenSettings: () -> Unit) {
+private fun ClockScreen(voice: VoiceStatus, onSpeak: () -> Unit, onSpeakDate: () -> Unit, onOpenSettings: () -> Unit) {
     var now by remember { mutableStateOf(LocalDateTime.now()) }
 
     // Tick at the start of each second so the minute flips on time.
@@ -174,6 +178,7 @@ private fun ClockScreen(voice: VoiceStatus, onSpeak: () -> Unit, onOpenSettings:
         dayText = now.format(DateTimeFormatter.ofPattern("EEEE")),
         voice = voice,
         onSpeak = onSpeak,
+        onSpeakDate = onSpeakDate,
         onOpenSettings = onOpenSettings,
     )
 }
@@ -184,9 +189,11 @@ private fun ClockContent(
     dayText: String,
     voice: VoiceStatus,
     onSpeak: () -> Unit,
+    onSpeakDate: () -> Unit,
     onOpenSettings: () -> Unit,
 ) {
     val speakLabel = stringResource(R.string.speak_time)
+    val speakDateLabel = stringResource(R.string.speak_date)
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -219,13 +226,17 @@ private fun ClockContent(
                 )
             }
         }
-        // Tapping anywhere on the time speaks it. TalkBack reads time and day as one item.
+        // Tap the time to hear it, tap it twice to hear the date. TalkBack reads time and day
+        // as one item and offers "Speak the date" as an action, since double taps are its own.
         Column(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .semantics(mergeDescendants = true) { heading() }
-                .clickable(onClickLabel = speakLabel, onClick = onSpeak),
+                .semantics(mergeDescendants = true) {
+                    heading()
+                    customActions = listOf(CustomAccessibilityAction(speakDateLabel) { onSpeakDate(); true })
+                }
+                .combinedClickable(onClickLabel = speakLabel, onClick = onSpeak, onDoubleClick = onSpeakDate),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -268,6 +279,7 @@ private fun ClockContentPreview() {
             dayText = "Saturday",
             voice = VoiceStatus.Ready,
             onSpeak = {},
+            onSpeakDate = {},
             onOpenSettings = {},
         )
     }

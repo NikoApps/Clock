@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="speak_time">Dire l\'heure</string>
-    <string name="status_ready">Touchez l\'heure ou appuyez sur le bouton pour l\'entendre.</string>
+    <string name="status_ready">Touchez l\'heure pour l\'entendre. Touchez deux fois pour entendre la date.</string>
     <string name="status_no_voice">Le téléphone n\'a pas encore de voix pour cette langue. Un proche peut en ajouter une dans les réglages de synthèse vocale.</string>
     <string name="status_no_engine">Ce téléphone n\'a pas de voix pour parler. Un proche peut en installer une, comme RHVoice ou eSpeak NG.</string>
     <string name="status_language_not_supported">Niko Clock ne parle pas encore cette langue.</string>
@@ -72,4 +72,33 @@
     <string name="voice_problem">La voix a besoin d\'aide</string>
     <string name="setting_shake_value">Fonctionne écran éteint</string>
     <string name="battery_value">Laisser Niko Clock fonctionner en arrière-plan</string>
+    <string name="speak_date">Dire la date</string>
+    <string name="setting_voice_pitch">Hauteur de la voix</string>
+    <string name="pitch_lower">Plus grave</string>
+    <string name="pitch_normal">Normale</string>
+    <string name="pitch_higher">Plus aiguë</string>
+    <string name="ok">OK</string>
+    <string name="info_more_about">En savoir plus sur %1$s</string>
+    <string name="info_vibrate">Le téléphone vibre un peu juste avant de parler, pour que la personne soit prête à écouter. Utile pour les personnes malentendantes.</string>
+    <string name="info_chime">Niko Clock dit l\'heure tout seul à heures fixes dans la journée, même téléphone verrouillé. Le bouton et la secousse marchent toujours aussi.</string>
+    <string name="info_quiet_hours">Pas d\'annonces pendant ces heures, pour ne réveiller personne la nuit. Toucher l\'heure, le bouton ou secouer marche quand même.</string>
+    <string name="info_dnd">En mode Ne pas déranger, les annonces se taisent. Demander l\'heure marche quand même.</string>
+    <string name="info_shake">Secouez vite le téléphone quelques fois pour entendre l\'heure, même écran éteint et verrouillé. Marcher ou poser le téléphone ne le déclenche pas. Consomme un peu plus de batterie.</string>
+    <string name="info_battery">Certains téléphones ferment les applis en arrière-plan pour économiser la batterie. Cela peut arrêter les annonces et la secousse. Mettez Niko Clock sans restriction.</string>
+    <string name="info_pin">Un code à 4 chiffres évite de changer les réglages par erreur. L\'horloge marche toujours sans lui.</string>
+    <string name="section_support">Aide</string>
+    <string name="help_feedback">Aide et avis</string>
+    <string name="help_feedback_value">Signaler un problème ou poser une question</string>
+    <string name="share_app">Partager Niko Clock</string>
+    <string name="share_app_value">L\'envoyer à la famille et aux amis</string>
+    <string name="share_text">Niko Clock dit l\'heure à voix haute. Gratuit, sans pub, sans internet : %1$s</string>
+    <string name="section_about">À propos</string>
+    <string name="privacy">Confidentialité</string>
+    <string name="privacy_value">Ne collecte rien</string>
+    <string name="privacy_text">Niko Clock n\'a pas accès à internet. Il ne collecte, ne garde et n\'envoie rien sur vous. Les réglages restent sur ce téléphone.</string>
+    <string name="source_code">Code source</string>
+    <string name="source_code_value">Libre et open source</string>
+    <string name="licence">Licence</string>
+    <string name="licence_value">GNU GPL version 3</string>
+    <string name="version">Version</string>
 </resources>

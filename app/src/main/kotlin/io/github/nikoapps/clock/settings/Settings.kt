@@ -9,6 +9,8 @@ enum class SpeechSpeed(val rate: Float) { Slow(0.75f), Normal(0.9f), Fast(1.1f) 
 
 enum class TextSize(val scale: Float) { Small(1.0f), Medium(1.2f), Large(1.4f) }
 
+enum class VoicePitch(val pitch: Float) { Lower(0.85f), Normal(1.0f), Higher(1.15f) }
+
 /** Everything a helper can set. Defaults follow the Clock spec. */
 data class Settings(
     /** Voice language as a BCP 47 tag such as "ne-NP", or null to follow the phone's language. Separate from the screen language. */
@@ -32,6 +34,7 @@ data class Settings(
     val helperPinHash: String? = null,
     /** On top of the phone's own font size. */
     val textSize: TextSize = TextSize.Medium,
+    val voicePitch: VoicePitch = VoicePitch.Normal,
 ) {
     val speechSpeed: SpeechSpeed
         get() = SpeechSpeed.entries.minBy { kotlin.math.abs(it.rate - speechRate) }

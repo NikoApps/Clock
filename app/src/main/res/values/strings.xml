@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name" translatable="false">Niko Clock</string>
     <string name="speak_time">Speak time</string>
-    <string name="status_ready">Tap the time or press the button to hear it.</string>
+    <string name="status_ready">Tap the time to hear it. Tap twice to hear the date.</string>
     <string name="status_no_voice">The phone has no voice for this language yet. A helper can add one in the phone\'s text-to-speech settings.</string>
     <string name="status_no_engine">This phone has no voice to speak with. A helper can install one, such as RHVoice or eSpeak NG.</string>
     <string name="status_language_not_supported">Niko Clock can\'t speak this language yet.</string>
@@ -77,4 +77,33 @@
     <string name="voice_problem">The voice needs help</string>
     <string name="setting_shake_value">Works with the screen off</string>
     <string name="battery_value">Let Niko Clock run in the background</string>
+    <string name="speak_date">Speak the date</string>
+    <string name="setting_voice_pitch">Voice pitch</string>
+    <string name="pitch_lower">Lower</string>
+    <string name="pitch_normal">Normal</string>
+    <string name="pitch_higher">Higher</string>
+    <string name="ok">OK</string>
+    <string name="info_more_about">More about %1$s</string>
+    <string name="info_vibrate">The phone gives a short buzz just before it speaks, so the person is ready to listen. Helpful for people who are hard of hearing.</string>
+    <string name="info_chime">Niko Clock says the time by itself at set times through the day, even when the phone is locked. Pressing the button or shaking the phone always works too.</string>
+    <string name="info_quiet_hours">No regular announcements during these hours, so nobody is woken at night. Tapping the time, the button or shaking the phone still works.</string>
+    <string name="info_dnd">When the phone is on Do Not Disturb, regular announcements stay quiet. Asking for the time still works.</string>
+    <string name="info_shake">Shake the phone quickly a few times to hear the time, even with the screen off and locked. Walking or putting the phone down won\'t set it off. It uses a little more battery.</string>
+    <string name="info_battery">Some phones close apps in the background to save battery. That can stop announcements and shake. Set Niko Clock to No restrictions or Unrestricted.</string>
+    <string name="info_pin">A 4-number PIN stops settings being changed by accident. The clock itself always works without it.</string>
+    <string name="section_support">Support</string>
+    <string name="help_feedback">Help and feedback</string>
+    <string name="help_feedback_value">Report a problem or ask a question</string>
+    <string name="share_app">Share Niko Clock</string>
+    <string name="share_app_value">Send it to family and friends</string>
+    <string name="share_text">Niko Clock says the time out loud. Free, no ads, works without internet: %1$s</string>
+    <string name="section_about">About</string>
+    <string name="privacy">Privacy</string>
+    <string name="privacy_value">Collects nothing</string>
+    <string name="privacy_text">Niko Clock has no internet access. It doesn\'t collect, store or send anything about you. Settings stay on this phone.</string>
+    <string name="source_code">Source code</string>
+    <string name="source_code_value">Free and open source</string>
+    <string name="licence">Licence</string>
+    <string name="licence_value">GNU GPL version 3</string>
+    <string name="version">Version</string>
 </resources>

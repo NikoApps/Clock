@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="speak_time">समय बताओ</string>
-    <string name="status_ready">समय सुनने के लिए समय को छुएँ या बटन दबाएँ।</string>
+    <string name="status_ready">समय सुनने के लिए समय को छुएँ। तारीख़ सुनने के लिए दो बार छुएँ।</string>
     <string name="status_no_voice">फ़ोन में अभी इस भाषा की आवाज़ नहीं है। कोई मददगार फ़ोन की टेक्स्ट-टू-स्पीच सेटिंग में आवाज़ जोड़ सकता है।</string>
     <string name="status_no_engine">इस फ़ोन में बोलने के लिए कोई आवाज़ नहीं है। कोई मददगार RHVoice या eSpeak NG जैसी आवाज़ इंस्टॉल कर सकता है।</string>
     <string name="status_language_not_supported">Niko Clock अभी यह भाषा नहीं बोल सकता।</string>
@@ -72,4 +72,33 @@
     <string name="voice_problem">आवाज़ ठीक करनी है</string>
     <string name="setting_shake_value">स्क्रीन बंद होने पर भी चलता है</string>
     <string name="battery_value">Niko Clock को बैकग्राउंड में चलने दें</string>
+    <string name="speak_date">तारीख़ बताओ</string>
+    <string name="setting_voice_pitch">आवाज़ का सुर</string>
+    <string name="pitch_lower">भारी</string>
+    <string name="pitch_normal">सामान्य</string>
+    <string name="pitch_higher">पतली</string>
+    <string name="ok">ठीक है</string>
+    <string name="info_more_about">%1$s के बारे में और</string>
+    <string name="info_vibrate">बोलने से ठीक पहले फ़ोन हल्का कंपन करता है, ताकि सुनने वाला तैयार रहे। कम सुनने वालों के लिए मददगार।</string>
+    <string name="info_chime">फ़ोन लॉक होने पर भी Niko Clock दिन भर तय समय पर अपने आप समय बताता है। बटन दबाने या फ़ोन हिलाने से भी हमेशा बताता है।</string>
+    <string name="info_quiet_hours">इन घंटों में नियमित घोषणा नहीं होती, ताकि रात में किसी की नींद न टूटे। समय छूने, बटन दबाने या हिलाने पर फिर भी बताता है।</string>
+    <string name="info_dnd">फ़ोन डू नॉट डिस्टर्ब में हो तो नियमित घोषणा नहीं होती। ख़ुद पूछने पर फिर भी बताता है।</string>
+    <string name="info_shake">स्क्रीन बंद और लॉक होने पर भी फ़ोन को जल्दी-जल्दी कुछ बार हिलाकर समय सुनें। चलने या फ़ोन रखने से नहीं चलता। थोड़ी ज़्यादा बैटरी लेता है।</string>
+    <string name="info_battery">कुछ फ़ोन बैटरी बचाने के लिए बैकग्राउंड ऐप बंद कर देते हैं। इससे घोषणा और हिलाना रुक सकता है। Niko Clock को बिना पाबंदी पर रखें।</string>
+    <string name="info_pin">4 अंकों का PIN सेटिंग को गलती से बदलने से बचाता है। घड़ी ख़ुद इसके बिना हमेशा चलती है।</string>
+    <string name="section_support">सहायता</string>
+    <string name="help_feedback">मदद और सुझाव</string>
+    <string name="help_feedback_value">समस्या बताएँ या सवाल पूछें</string>
+    <string name="share_app">Niko Clock शेयर करें</string>
+    <string name="share_app_value">परिवार और दोस्तों को भेजें</string>
+    <string name="share_text">Niko Clock समय बोलकर बताता है। मुफ़्त, बिना विज्ञापन, बिना इंटरनेट: %1$s</string>
+    <string name="section_about">जानकारी</string>
+    <string name="privacy">निजता</string>
+    <string name="privacy_value">कुछ भी इकट्ठा नहीं करता</string>
+    <string name="privacy_text">Niko Clock इंटरनेट से नहीं जुड़ता। यह आपके बारे में कुछ भी इकट्ठा, सेव या नहीं भेजता। सेटिंग इसी फ़ोन में रहती हैं।</string>
+    <string name="source_code">सोर्स कोड</string>
+    <string name="source_code_value">मुफ़्त और ओपन सोर्स</string>
+    <string name="licence">लाइसेंस</string>
+    <string name="licence_value">GNU GPL संस्करण 3</string>
+    <string name="version">संस्करण</string>
 </resources>

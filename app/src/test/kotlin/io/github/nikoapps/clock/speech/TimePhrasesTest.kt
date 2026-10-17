@@ -4,19 +4,26 @@ import com.ibm.icu.text.MessageFormat
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import java.time.LocalDate
 import java.time.LocalTime
 import java.util.Locale
 
 // ICU4J has the same spellout rules as android.icu, so tests run on the JVM.
 // Mirrors IcuNumberWords, which can't run here because android.icu is a stub in unit tests.
-private fun icuWords(locale: Locale) = NumberWords { n ->
-    MessageFormat("{0,spellout}", locale).format(arrayOf(n))
+private fun icuWords(locale: Locale) = object : NumberWords {
+    override fun words(number: Int): String = MessageFormat("{0,spellout}", locale).format(arrayOf(number))
+    override fun ordinal(number: Int): String =
+        MessageFormat("{0,spellout,%spellout-ordinal}", locale).format(arrayOf(number))
 }
+
+private val OCT_17 = LocalDate.of(2026, 10, 17)
 
 class EnglishTimePhrasesTest {
     private val phraser = timePhraserFor(Locale.US, ::icuWords)!!
 
     private fun say(hour: Int, minute: Int) = phraser.phrase(LocalTime.of(hour, minute))
+
+    @Test fun date() = assertEquals("Today is Saturday, the seventeenth of October.", phraser.datePhrase(OCT_17))
 
     @Test fun `on the hour`() = assertEquals("It's seven o'clock in the morning.", say(7, 0))
     @Test fun `quarter past`() = assertEquals("It's quarter past three in the afternoon.", say(15, 15))
@@ -41,6 +48,8 @@ class NepaliTimePhrasesTest {
 
     private fun say(hour: Int, minute: Int) = phraser.phrase(LocalTime.of(hour, minute))
 
+    @Test fun date() = assertEquals("आज शनिबार, अक्टोबर सत्र गते।", phraser.datePhrase(OCT_17))
+
     @Test fun `on the hour`() = assertEquals("अहिले बिहान सात बज्यो।", say(7, 0))
     @Test fun `quarter past`() = assertEquals("अहिले दिउँसो सवा तिन बज्यो।", say(15, 15))
     @Test fun `half past`() = assertEquals("अहिले साँझ साढे छ बज्यो।", say(18, 30))
@@ -62,6 +71,8 @@ class HindiTimePhrasesTest {
 
     private fun say(hour: Int, minute: Int) = phraser.phrase(LocalTime.of(hour, minute))
 
+    @Test fun date() = assertEquals("आज शनिवार, सत्रह अक्तूबर है।", phraser.datePhrase(OCT_17))
+
     @Test fun `on the hour`() = assertEquals("अभी सुबह के सात बजे हैं।", say(7, 0))
     @Test fun `one o'clock is singular`() = assertEquals("अभी दोपहर का एक बजा है।", say(13, 0))
     @Test fun `quarter past`() = assertEquals("अभी दोपहर के सवा तीन बजे हैं।", say(15, 15))
@@ -77,6 +88,8 @@ class SpanishTimePhrasesTest {
     private val phraser = timePhraserFor(Locale.forLanguageTag("es-ES"), ::icuWords)!!
 
     private fun say(hour: Int, minute: Int) = phraser.phrase(LocalTime.of(hour, minute))
+
+    @Test fun date() = assertEquals("Hoy es sábado, diecisiete de octubre.", phraser.datePhrase(OCT_17))
 
     @Test fun `on the hour`() = assertEquals("Son las siete en punto de la mañana.", say(7, 0))
     @Test fun `one o'clock`() = assertEquals("Es la una en punto de la tarde.", say(13, 0))
@@ -95,6 +108,9 @@ class PortugueseTimePhrasesTest {
     private val phraser = timePhraserFor(Locale.forLanguageTag("pt-BR"), ::icuWords)!!
 
     private fun say(hour: Int, minute: Int) = phraser.phrase(LocalTime.of(hour, minute))
+
+    @Test fun date() = assertEquals("Hoje é sábado, dezessete de outubro.", phraser.datePhrase(OCT_17))
+    @Test fun `first of the month`() = assertEquals("Hoje é quinta-feira, primeiro de outubro.", phraser.datePhrase(LocalDate.of(2026, 10, 1)))
 
     @Test fun `on the hour`() = assertEquals("São sete horas da manhã.", say(7, 0))
     @Test fun `one o'clock`() = assertEquals("É uma hora da tarde.", say(13, 0))

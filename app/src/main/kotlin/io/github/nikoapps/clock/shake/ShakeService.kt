@@ -85,6 +85,7 @@ class ShakeService : Service(), SensorEventListener {
                 detector.sensitivity = latest.shakeSensitivity
                 phraser = phraserFor(latest)
                 speaker.setRate(latest.speechRate)
+                speaker.setPitch(latest.voicePitch.pitch)
             }
         }
     }

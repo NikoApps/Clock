@@ -46,6 +46,7 @@ class SettingsRepository(context: Context) {
         val vibrate = booleanPreferencesKey("vibrate_before_speaking")
         val pinHash = stringPreferencesKey("helper_pin_hash")
         val textSize = stringPreferencesKey("text_size")
+        val voicePitch = stringPreferencesKey("voice_pitch")
     }
 
     private fun Preferences.toSettings(): Settings {
@@ -69,6 +70,9 @@ class SettingsRepository(context: Context) {
             textSize = this[Keys.textSize]
                 ?.let { name -> TextSize.entries.firstOrNull { it.name == name } }
                 ?: d.textSize,
+            voicePitch = this[Keys.voicePitch]
+                ?.let { name -> VoicePitch.entries.firstOrNull { it.name == name } }
+                ?: d.voicePitch,
         )
     }
 
@@ -87,6 +91,7 @@ class SettingsRepository(context: Context) {
         this[Keys.vibrate] = s.vibrateBeforeSpeaking
         if (s.helperPinHash == null) remove(Keys.pinHash) else this[Keys.pinHash] = s.helperPinHash
         this[Keys.textSize] = s.textSize.name
+        this[Keys.voicePitch] = s.voicePitch.name
     }
 
     private fun minuteToTime(minute: Int): LocalTime = LocalTime.of(minute / 60, minute % 60)

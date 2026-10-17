@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="speak_time">সময় বলো</string>
-    <string name="status_ready">সময় শুনতে সময়ের উপর ছুঁয়ে দিন বা বোতাম চাপুন।</string>
+    <string name="status_ready">সময় শুনতে সময়ে ছুঁয়ে দিন। তারিখ শুনতে দুবার ছুঁয়ে দিন।</string>
     <string name="status_no_voice">ফোনে এখনও এই ভাষার কণ্ঠ নেই। একজন সাহায্যকারী ফোনের টেক্সট-টু-স্পিচ সেটিংসে কণ্ঠ যোগ করতে পারেন।</string>
     <string name="status_no_engine">এই ফোনে কথা বলার কোনো কণ্ঠ নেই। একজন সাহায্যকারী RHVoice বা eSpeak NG-এর মতো একটি ইনস্টল করতে পারেন।</string>
     <string name="status_language_not_supported">Niko Clock এখনও এই ভাষায় কথা বলতে পারে না।</string>
@@ -72,4 +72,33 @@
     <string name="voice_problem">কণ্ঠ ঠিক করতে হবে</string>
     <string name="setting_shake_value">স্ক্রিন বন্ধ থাকলেও কাজ করে</string>
     <string name="battery_value">Niko Clock-কে পটভূমিতে চলতে দিন</string>
+    <string name="speak_date">তারিখ বলো</string>
+    <string name="setting_voice_pitch">কণ্ঠের সুর</string>
+    <string name="pitch_lower">নিচু</string>
+    <string name="pitch_normal">স্বাভাবিক</string>
+    <string name="pitch_higher">উঁচু</string>
+    <string name="ok">ঠিক আছে</string>
+    <string name="info_more_about">%1$s সম্পর্কে আরও</string>
+    <string name="info_vibrate">বলার ঠিক আগে ফোন একটু কাঁপে, যাতে শোনার মানুষ প্রস্তুত থাকেন। কম শুনতে পান এমন মানুষের কাজে লাগে।</string>
+    <string name="info_chime">ফোন লক থাকলেও Niko Clock সারাদিন নির্দিষ্ট সময়ে নিজে থেকে সময় বলে। বোতাম চাপলে বা ফোন ঝাঁকালেও সবসময় বলে।</string>
+    <string name="info_quiet_hours">এই সময়ে নিয়মিত ঘোষণা হয় না, যাতে রাতে কারও ঘুম না ভাঙে। সময়ে ছুঁলে, বোতাম চাপলে বা ঝাঁকালে তবুও বলে।</string>
+    <string name="info_dnd">ফোন বিরক্ত করবেন না মোডে থাকলে নিয়মিত ঘোষণা হয় না। নিজে জানতে চাইলে তবুও বলে।</string>
+    <string name="info_shake">স্ক্রিন বন্ধ ও লক থাকলেও ফোন দ্রুত কয়েকবার ঝাঁকিয়ে সময় শুনুন। হাঁটলে বা ফোন রাখলে চালু হয় না। একটু বেশি ব্যাটারি লাগে।</string>
+    <string name="info_battery">কিছু ফোন ব্যাটারি বাঁচাতে পটভূমির অ্যাপ বন্ধ করে দেয়। এতে ঘোষণা ও ঝাঁকানো বন্ধ হতে পারে। Niko Clock-কে কোনো বিধিনিষেধ ছাড়া রাখুন।</string>
+    <string name="info_pin">৪ সংখ্যার PIN সেটিংস ভুল করে বদলানো থেকে রক্ষা করে। ঘড়ি নিজে এটি ছাড়াই সবসময় চলে।</string>
+    <string name="section_support">সহায়তা</string>
+    <string name="help_feedback">সাহায্য ও মতামত</string>
+    <string name="help_feedback_value">সমস্যা জানান বা প্রশ্ন করুন</string>
+    <string name="share_app">Niko Clock শেয়ার করুন</string>
+    <string name="share_app_value">পরিবার ও বন্ধুদের পাঠান</string>
+    <string name="share_text">Niko Clock জোরে সময় বলে। বিনামূল্যে, বিজ্ঞাপন নেই, ইন্টারনেট লাগে না: %1$s</string>
+    <string name="section_about">সম্পর্কে</string>
+    <string name="privacy">গোপনীয়তা</string>
+    <string name="privacy_value">কিছুই সংগ্রহ করে না</string>
+    <string name="privacy_text">Niko Clock ইন্টারনেটে যায় না। এটি আপনার সম্পর্কে কিছুই সংগ্রহ, সংরক্ষণ বা পাঠায় না। সেটিংস এই ফোনেই থাকে।</string>
+    <string name="source_code">সোর্স কোড</string>
+    <string name="source_code_value">বিনামূল্যে ও ওপেন সোর্স</string>
+    <string name="licence">লাইসেন্স</string>
+    <string name="licence_value">GNU GPL সংস্করণ ৩</string>
+    <string name="version">সংস্করণ</string>
 </resources>

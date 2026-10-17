@@ -34,6 +34,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -134,12 +135,51 @@ fun SettingsGroup(title: String, content: @Composable () -> Unit) {
     }
 }
 
+/** What settings rows need from the app for their info buttons. */
+data class InfoStrings(val icon: Painter, val moreAbout: (String) -> String, val ok: String)
+
+/** Provided once by a settings screen, so rows can show an info button without passing it around. */
+val LocalInfoStrings = staticCompositionLocalOf<InfoStrings?> { null }
+
 @Composable
-private fun RowText(title: String, value: String?, valueColor: Color, modifier: Modifier) {
+private fun RowText(title: String, value: String?, valueColor: Color, info: String?, modifier: Modifier) {
     Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(2.dp)) {
-        Text(title, style = RowTitleStyle, color = MaterialTheme.colorScheme.onBackground)
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(title, style = RowTitleStyle, color = MaterialTheme.colorScheme.onBackground, modifier = Modifier.weight(1f, fill = false))
+            if (info != null) InfoButton(title, info)
+        }
         if (value != null) Text(value, style = RowValueStyle, color = valueColor)
     }
+}
+
+/**
+ * A small (i) next to a setting's title. Tapping it explains the setting in a few sentences,
+ * so the list itself can stay short.
+ */
+@Composable
+private fun InfoButton(title: String, info: String) {
+    val strings = LocalInfoStrings.current ?: return
+    var open by rememberSaveable { mutableStateOf(false) }
+    IconButton(onClick = { open = true }, modifier = Modifier.size(48.dp)) {
+        Icon(
+            painter = strings.icon,
+            contentDescription = strings.moreAbout(title),
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(24.dp),
+        )
+    }
+    if (!open) return
+    AlertDialog(
+        onDismissRequest = { open = false },
+        title = { Text(title, style = MaterialTheme.typography.titleLarge) },
+        text = { Text(info, style = RowTitleStyle, color = MaterialTheme.colorScheme.onSurface) },
+        confirmButton = {
+            TextButton(onClick = { open = false }, modifier = Modifier.heightIn(min = 56.dp)) {
+                Text(strings.ok, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
+            }
+        },
+        containerColor = MaterialTheme.colorScheme.surface,
+    )
 }
 
 /**
@@ -153,6 +193,7 @@ fun SwitchRow(
     onCheckedChange: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
     value: String? = null,
+    info: String? = null,
 ) {
     Row(
         modifier = modifier
@@ -163,7 +204,7 @@ fun SwitchRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        RowText(title, value, MaterialTheme.colorScheme.onSurfaceVariant, Modifier.weight(1f))
+        RowText(title, value, MaterialTheme.colorScheme.onSurfaceVariant, info, Modifier.weight(1f))
         // The row handles the click; the switch only shows the state.
         Switch(
             checked = checked,
@@ -188,24 +229,30 @@ fun SwitchRow(
 fun ValueRow(
     title: String,
     value: String?,
-    onClick: () -> Unit,
+    onClick: (() -> Unit)?,
     modifier: Modifier = Modifier,
     trailing: Painter? = null,
+    leading: Painter? = null,
     valueIsWarning: Boolean = false,
+    info: String? = null,
 ) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .heightIn(min = 72.dp)
-            .clickable(role = Role.Button, onClick = onClick)
+            .then(if (onClick != null) Modifier.clickable(role = Role.Button, onClick = onClick) else Modifier)
             .then(RowPadding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
     ) {
+        if (leading != null) {
+            Icon(painter = leading, contentDescription = null, tint = MaterialTheme.colorScheme.onBackground)
+        }
         RowText(
             title = title,
             value = value,
             valueColor = if (valueIsWarning) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant,
+            info = info,
             modifier = Modifier.weight(1f),
         )
         if (trailing != null) {
@@ -227,9 +274,10 @@ fun <T> ChoiceRow(
     onSelect: (T) -> Unit,
     cancelLabel: String,
     modifier: Modifier = Modifier,
+    info: String? = null,
 ) {
     var open by rememberSaveable { mutableStateOf(false) }
-    ValueRow(title = title, value = optionLabel(selected), onClick = { open = true }, modifier = modifier)
+    ValueRow(title = title, value = optionLabel(selected), onClick = { open = true }, modifier = modifier, info = info)
     if (!open) return
     AlertDialog(
         onDismissRequest = { open = false },

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="speak_time">Ucapkan waktu</string>
-    <string name="status_ready">Ketuk jam atau tekan tombol untuk mendengarnya.</string>
+    <string name="status_ready">Ketuk jam untuk mendengarnya. Ketuk dua kali untuk mendengar tanggal.</string>
     <string name="status_no_voice">Ponsel belum punya suara untuk bahasa ini. Pendamping bisa menambahkannya di pengaturan teks ke ucapan.</string>
     <string name="status_no_engine">Ponsel ini tidak punya suara untuk berbicara. Pendamping bisa memasangnya, misalnya RHVoice atau eSpeak NG.</string>
     <string name="status_language_not_supported">Niko Clock belum bisa berbicara dalam bahasa ini.</string>
@@ -72,4 +72,33 @@
     <string name="voice_problem">Suara perlu diperbaiki</string>
     <string name="setting_shake_value">Bekerja saat layar mati</string>
     <string name="battery_value">Biarkan Niko Clock berjalan di latar belakang</string>
+    <string name="speak_date">Ucapkan tanggal</string>
+    <string name="setting_voice_pitch">Nada suara</string>
+    <string name="pitch_lower">Lebih rendah</string>
+    <string name="pitch_normal">Normal</string>
+    <string name="pitch_higher">Lebih tinggi</string>
+    <string name="ok">OK</string>
+    <string name="info_more_about">Selengkapnya tentang %1$s</string>
+    <string name="info_vibrate">Ponsel bergetar sebentar tepat sebelum berbicara, supaya orangnya siap mendengar. Berguna bagi yang kurang pendengaran.</string>
+    <string name="info_chime">Niko Clock mengucapkan waktu sendiri pada jam tertentu sepanjang hari, bahkan saat ponsel terkunci. Menekan tombol atau menggoyang ponsel juga selalu bisa.</string>
+    <string name="info_quiet_hours">Tidak ada pengumuman di jam ini, supaya tidak ada yang terbangun malam hari. Mengetuk jam, menekan tombol atau menggoyang tetap bisa.</string>
+    <string name="info_dnd">Saat ponsel dalam mode Jangan Ganggu, pengumuman waktu diam. Menanyakan waktu tetap bisa.</string>
+    <string name="info_shake">Goyang ponsel cepat beberapa kali untuk mendengar waktu, bahkan saat layar mati dan terkunci. Berjalan atau meletakkan ponsel tidak memicunya. Memakai sedikit lebih banyak baterai.</string>
+    <string name="info_battery">Beberapa ponsel menutup aplikasi di latar belakang untuk menghemat baterai. Itu bisa menghentikan pengumuman dan goyang. Atur Niko Clock ke Tanpa batasan.</string>
+    <string name="info_pin">PIN 4 angka mencegah pengaturan berubah tanpa sengaja. Jamnya sendiri selalu berjalan tanpa PIN.</string>
+    <string name="section_support">Dukungan</string>
+    <string name="help_feedback">Bantuan dan masukan</string>
+    <string name="help_feedback_value">Laporkan masalah atau ajukan pertanyaan</string>
+    <string name="share_app">Bagikan Niko Clock</string>
+    <string name="share_app_value">Kirim ke keluarga dan teman</string>
+    <string name="share_text">Niko Clock mengucapkan waktu dengan suara. Gratis, tanpa iklan, tanpa internet: %1$s</string>
+    <string name="section_about">Tentang</string>
+    <string name="privacy">Privasi</string>
+    <string name="privacy_value">Tidak mengumpulkan apa pun</string>
+    <string name="privacy_text">Niko Clock tidak terhubung ke internet. Tidak mengumpulkan, menyimpan atau mengirim apa pun tentang Anda. Pengaturan tetap di ponsel ini.</string>
+    <string name="source_code">Kode sumber</string>
+    <string name="source_code_value">Gratis dan sumber terbuka</string>
+    <string name="licence">Lisensi</string>
+    <string name="licence_value">GNU GPL versi 3</string>
+    <string name="version">Versi</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="speak_time">قل الوقت</string>
-    <string name="status_ready">المس الوقت أو اضغط الزر لسماعه.</string>
+    <string name="status_ready">المس الوقت لسماعه. المسه مرتين لسماع التاريخ.</string>
     <string name="status_no_voice">لا يوجد في الهاتف صوت لهذه اللغة بعد. يمكن لمساعد إضافة صوت من إعدادات تحويل النص إلى كلام.</string>
     <string name="status_no_engine">لا يوجد في هذا الهاتف صوت للكلام. يمكن لمساعد تثبيت صوت مثل RHVoice أو eSpeak NG.</string>
     <string name="status_language_not_supported">لا يستطيع Niko Clock التحدث بهذه اللغة بعد.</string>
@@ -72,4 +72,33 @@
     <string name="voice_problem">الصوت يحتاج إلى إصلاح</string>
     <string name="setting_shake_value">يعمل والشاشة مطفأة</string>
     <string name="battery_value">اسمح لـ Niko Clock بالعمل في الخلفية</string>
+    <string name="speak_date">قل التاريخ</string>
+    <string name="setting_voice_pitch">طبقة الصوت</string>
+    <string name="pitch_lower">منخفضة</string>
+    <string name="pitch_normal">عادية</string>
+    <string name="pitch_higher">مرتفعة</string>
+    <string name="ok">حسنًا</string>
+    <string name="info_more_about">المزيد عن %1$s</string>
+    <string name="info_vibrate">يهتز الهاتف قليلًا قبل الكلام مباشرة ليكون المستمع مستعدًا. مفيد لضعاف السمع.</string>
+    <string name="info_chime">يقول Niko Clock الوقت وحده في أوقات محددة طوال اليوم، حتى والهاتف مقفل. الضغط على الزر أو هز الهاتف يعمل دائمًا أيضًا.</string>
+    <string name="info_quiet_hours">لا إعلانات منتظمة في هذه الساعات حتى لا يستيقظ أحد ليلًا. لمس الوقت أو الضغط على الزر أو الهز يعمل مع ذلك.</string>
+    <string name="info_dnd">عندما يكون الهاتف في وضع عدم الإزعاج تبقى الإعلانات المنتظمة صامتة. السؤال عن الوقت يعمل مع ذلك.</string>
+    <string name="info_shake">هزّ الهاتف بسرعة بضع مرات لسماع الوقت، حتى والشاشة مطفأة ومقفلة. المشي أو وضع الهاتف لا يشغّله. يستهلك بطارية أكثر قليلًا.</string>
+    <string name="info_battery">بعض الهواتف تغلق التطبيقات في الخلفية لتوفير البطارية، وقد يوقف ذلك الإعلانات والهز. اجعل Niko Clock بلا قيود.</string>
+    <string name="info_pin">رمز من 4 أرقام يمنع تغيير الإعدادات بالخطأ. الساعة نفسها تعمل دائمًا بدونه.</string>
+    <string name="section_support">الدعم</string>
+    <string name="help_feedback">المساعدة والملاحظات</string>
+    <string name="help_feedback_value">أبلغ عن مشكلة أو اطرح سؤالًا</string>
+    <string name="share_app">شارك Niko Clock</string>
+    <string name="share_app_value">أرسله إلى العائلة والأصدقاء</string>
+    <string name="share_text">يقول Niko Clock الوقت بصوت عالٍ. مجاني، بلا إعلانات، يعمل دون إنترنت: %1$s</string>
+    <string name="section_about">حول</string>
+    <string name="privacy">الخصوصية</string>
+    <string name="privacy_value">لا يجمع شيئًا</string>
+    <string name="privacy_text">لا يتصل Niko Clock بالإنترنت. لا يجمع أو يحفظ أو يرسل أي شيء عنك. تبقى الإعدادات على هذا الهاتف.</string>
+    <string name="source_code">الشيفرة المصدرية</string>
+    <string name="source_code_value">مجاني ومفتوح المصدر</string>
+    <string name="licence">الترخيص</string>
+    <string name="licence_value">رخصة GNU GPL الإصدار 3</string>
+    <string name="version">الإصدار</string>
 </resources>

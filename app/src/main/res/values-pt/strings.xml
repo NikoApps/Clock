@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="speak_time">Dizer a hora</string>
-    <string name="status_ready">Toque na hora ou aperte o botão para ouvir.</string>
+    <string name="status_ready">Toque na hora para ouvir. Toque duas vezes para ouvir a data.</string>
     <string name="status_no_voice">O celular ainda não tem voz para este idioma. Um ajudante pode adicionar uma nas configurações de texto para fala do celular.</string>
     <string name="status_no_engine">Este celular não tem voz para falar. Um ajudante pode instalar uma, como RHVoice ou eSpeak NG.</string>
     <string name="status_language_not_supported">O Niko Clock ainda não fala este idioma.</string>
@@ -72,4 +72,33 @@
     <string name="voice_problem">A voz precisa de ajuda</string>
     <string name="setting_shake_value">Funciona com a tela apagada</string>
     <string name="battery_value">Deixar o Niko Clock funcionar em segundo plano</string>
+    <string name="speak_date">Dizer a data</string>
+    <string name="setting_voice_pitch">Tom da voz</string>
+    <string name="pitch_lower">Mais grave</string>
+    <string name="pitch_normal">Normal</string>
+    <string name="pitch_higher">Mais agudo</string>
+    <string name="ok">OK</string>
+    <string name="info_more_about">Mais sobre %1$s</string>
+    <string name="info_vibrate">O celular vibra um pouco logo antes de falar, para a pessoa prestar atenção. Útil para quem ouve pouco.</string>
+    <string name="info_chime">O Niko Clock diz a hora sozinho em horários definidos ao longo do dia, mesmo com o celular bloqueado. Apertar o botão ou sacudir o celular também funciona sempre.</string>
+    <string name="info_quiet_hours">Sem avisos nesses horários, para ninguém acordar à noite. Tocar na hora, apertar o botão ou sacudir continua funcionando.</string>
+    <string name="info_dnd">Com o Não perturbe ligado, os avisos de hora ficam em silêncio. Pedir a hora continua funcionando.</string>
+    <string name="info_shake">Sacuda o celular rápido algumas vezes para ouvir a hora, mesmo com a tela apagada e bloqueada. Andar ou pousar o celular não ativa. Gasta um pouco mais de bateria.</string>
+    <string name="info_battery">Alguns celulares fecham apps em segundo plano para economizar bateria. Isso pode parar os avisos e o sacudir. Deixe o Niko Clock sem restrições.</string>
+    <string name="info_pin">Um PIN de 4 números evita que as configurações sejam mudadas sem querer. O relógio sempre funciona sem ele.</string>
+    <string name="section_support">Suporte</string>
+    <string name="help_feedback">Ajuda e opinião</string>
+    <string name="help_feedback_value">Avise de um problema ou faça uma pergunta</string>
+    <string name="share_app">Compartilhar o Niko Clock</string>
+    <string name="share_app_value">Envie para família e amigos</string>
+    <string name="share_text">O Niko Clock diz a hora em voz alta. Grátis, sem anúncios, funciona sem internet: %1$s</string>
+    <string name="section_about">Sobre</string>
+    <string name="privacy">Privacidade</string>
+    <string name="privacy_value">Não coleta nada</string>
+    <string name="privacy_text">O Niko Clock não acessa a internet. Não coleta, guarda nem envia nada sobre você. As configurações ficam neste celular.</string>
+    <string name="source_code">Código-fonte</string>
+    <string name="source_code_value">Livre e de código aberto</string>
+    <string name="licence">Licença</string>
+    <string name="licence_value">GNU GPL versão 3</string>
+    <string name="version">Versão</string>
 </resources>

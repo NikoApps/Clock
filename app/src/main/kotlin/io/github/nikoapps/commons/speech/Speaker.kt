@@ -67,6 +67,11 @@ class Speaker(
         tts.setSpeechRate(rate)
     }
 
+    /** 1.0 is the voice's normal pitch. */
+    fun setPitch(pitch: Float) {
+        tts.setPitch(pitch)
+    }
+
     /** Returns false if the engine has no voice for [locale]. */
     fun setLanguage(locale: Locale): Boolean {
         if (!isReady) return false

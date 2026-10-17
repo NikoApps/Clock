@@ -1,11 +1,16 @@
 package io.github.nikoapps.clock.speech
 
+import java.time.LocalDate
 import java.time.LocalTime
+import java.time.format.TextStyle
 import java.util.Locale
 
 /** Spells a number out as words in one language, for example 45 -> "forty-five". */
 fun interface NumberWords {
     fun words(number: Int): String
+
+    /** "seventeenth". Only languages that say dates with ordinals need it. */
+    fun ordinal(number: Int): String = words(number)
 }
 
 /**
@@ -18,7 +23,15 @@ fun interface NumberWords {
 interface TimePhraser {
     val locale: Locale
     fun phrase(time: LocalTime): String
+
+    /** Today's date as a sentence, such as "Today is Saturday, the seventeenth of October." */
+    fun datePhrase(date: LocalDate): String
 }
+
+private fun LocalDate.dayName(locale: Locale): String = dayOfWeek.getDisplayName(TextStyle.FULL, locale)
+
+// Standalone month names where a language has them ("octubre", not "de octubre").
+private fun LocalDate.monthName(locale: Locale): String = month.getDisplayName(TextStyle.FULL_STANDALONE, locale)
 
 /** The phraser for [locale]'s language, or null when Niko can't say the time in it yet. */
 fun timePhraserFor(locale: Locale, numberWords: (Locale) -> NumberWords): TimePhraser? =
@@ -65,6 +78,9 @@ class EnglishTimePhraser(private val numbers: NumberWords) : TimePhraser {
         return "It's $clock ${period(hour)}."
     }
 
+    override fun datePhrase(date: LocalDate): String =
+        "Today is ${date.dayName(locale)}, the ${numbers.ordinal(date.dayOfMonth)} of ${date.monthName(locale)}."
+
     private fun period(hour: Int): String = when (hour) {
         in 5..11 -> "in the morning"
         in 12..16 -> "in the afternoon"
@@ -96,6 +112,9 @@ class NepaliTimePhraser(private val numbers: NumberWords) : TimePhraser {
         }
         return "अहिले ${period(time.hour)} $clock।"
     }
+
+    override fun datePhrase(date: LocalDate): String =
+        "आज ${date.dayName(locale)}, ${date.monthName(locale)} ${numbers.words(date.dayOfMonth)} गते।"
 
     private fun period(hour: Int): String = when (hour) {
         in 4..11 -> "बिहान"
@@ -130,6 +149,9 @@ class HindiTimePhraser(private val numbers: NumberWords) : TimePhraser {
         val of = if (singular) "का" else "के"
         return "अभी ${period(time.hour)} $of $clock।"
     }
+
+    override fun datePhrase(date: LocalDate): String =
+        "आज ${date.dayName(locale)}, ${numbers.words(date.dayOfMonth)} ${date.monthName(locale)} है।"
 
     private fun period(hour: Int): String = when (hour) {
         in 4..11 -> "सुबह"
@@ -166,6 +188,10 @@ class SpanishTimePhraser(private val numbers: NumberWords) : TimePhraser {
         return "$opening $minutes ${period(time.hour)}."
     }
 
+    // The first of the month is "uno", not "primero", in most of Latin America and Spain.
+    override fun datePhrase(date: LocalDate): String =
+        "Hoy es ${date.dayName(locale)}, ${numbers.words(date.dayOfMonth)} de ${date.monthName(locale)}."
+
     private fun period(hour: Int): String = when (hour) {
         in 5..11 -> "de la mañana"
         in 12..19 -> "de la tarde"
@@ -198,6 +224,12 @@ class PortugueseTimePhraser(private val numbers: NumberWords) : TimePhraser {
             else -> "$opening e ${numbers.words(minute)}"
         }
         return "$clock ${period(time.hour)}."
+    }
+
+    // Brazilian Portuguese says "primeiro" for the first of the month.
+    override fun datePhrase(date: LocalDate): String {
+        val day = if (date.dayOfMonth == 1) "primeiro" else numbers.words(date.dayOfMonth)
+        return "Hoje é ${date.dayName(locale)}, $day de ${date.monthName(locale)}."
     }
 
     private fun period(hour: Int): String = when (hour) {

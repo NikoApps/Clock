@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalTime
 
 enum class VoiceStatus {
@@ -53,16 +54,21 @@ class ClockViewModel(application: Application) : AndroidViewModel(application) {
             SettingsRepository(application).settings.collect { settings ->
                 phraser = phraserFor(settings)
                 speaker.setRate(settings.speechRate)
+                speaker.setPitch(settings.voicePitch.pitch)
                 if (phraser == null) setVoice(VoiceStatus.LanguageNotSupported) else checkVoice()
             }
         }
     }
 
-    fun onSpeak() {
+    fun onSpeak() = speakWith { it.phrase(LocalTime.now()) }
+
+    fun onSpeakDate() = speakWith { it.datePhrase(LocalDate.now()) }
+
+    private fun speakWith(sentence: (TimePhraser) -> String) {
         val phraser = phraser ?: return
         // A helper may have installed a voice since the last check.
         if (_state.value.voice != VoiceStatus.Ready) checkVoice()
-        if (_state.value.voice == VoiceStatus.Ready) speaker.speak(phraser.phrase(LocalTime.now()))
+        if (_state.value.voice == VoiceStatus.Ready) speaker.speak(sentence(phraser))
     }
 
     private fun checkVoice() {

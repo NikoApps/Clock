@@ -54,6 +54,7 @@ class TimeAnnouncer(context: Context) {
         if (!speaker.useVoiceFor(phraser.locale)) return false
 
         speaker.setRate(current.speechRate)
+        speaker.setPitch(current.voicePitch.pitch)
         val usage = when (kind) {
             Announcement.Chime -> AudioAttributes.USAGE_ALARM
             Announcement.Request -> AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY
