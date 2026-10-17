@@ -1,0 +1,8 @@
+First public test release.
+* Tap the clock to hear the time, tap twice for the date
+* Chimes every hour, half hour or quarter hour, quiet at night
+* Shake to hear the time, shake again for the date
+* Quick settings tiles and a home-screen widget
+* Speaks English, Nepali, Hindi, Spanish and Portuguese
+* Screen in 10 languages
+* Settings for helpers with an optional PIN

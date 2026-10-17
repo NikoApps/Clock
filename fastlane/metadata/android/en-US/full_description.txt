@@ -1,13 +1,12 @@
 Niko Clock tells the time out loud. It's made for people who can't read the screen easily: people who can't read, older people, and people with low vision.
 
-What it does now:
-* Shows the time in very large numbers
-* Speaks the time when you press one big button
-* Speaks in your phone's language, using the phone's own voice
-
-Coming soon:
-* Speak the time when you shake the phone
-* Hourly announcements with quiet hours at night
-* The date, including local calendars
+What it does:
+* Shows the time and date in large text
+* Tap the clock or the big button to hear the time. Tap twice for the date
+* Says the time by itself every hour, half hour or quarter hour, quiet at night
+* Shake the phone to hear the time, even with the screen off
+* Quick settings tiles and a home-screen widget
+* Speaks in natural sentences in English, Nepali, Hindi, Spanish and Portuguese, using the phone's own voice
+* Settings for helpers, protected by a PIN
 
 Niko Clock has no ads, no tracking and no internet permission. It is free and open source under the GPLv3.

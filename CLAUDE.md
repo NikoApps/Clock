@@ -55,4 +55,4 @@ scripts/release.sh 0.2.0        # bump version, changelog, commit and tag
 - Releasing: write `changelogs/<next versionCode>.txt`, run `scripts/release.sh <version>` on `main`, then push `main` and the tag. The Release workflow checks the build is reproducible, signs it and publishes the GitHub release.
 - The release key lives outside the repo. Never print, copy or commit it or its password.
 - The package ID `io.github.nikoapps.clock` must never change.
-- This repo is private. Never change its visibility.
+- This repo is public. Never commit secrets, signing keys or private Hub content.
