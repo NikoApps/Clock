@@ -23,5 +23,14 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v6
 
-      - name: Build and lint
-        run: ./gradlew assembleDebug lint --console=plain
+      - name: Build, test and lint
+        run: ./gradlew assembleDebug assembleRelease testDebugUnitTest lint --console=plain
+
+      # F-Droid rejects Google Play Services, Firebase and Play libraries, and they break the no-tracking promise.
+      - name: Check for Google dependencies
+        run: |
+          ./gradlew :app:dependencies --configuration releaseRuntimeClasspath --console=plain > deps.txt
+          if grep -E 'com\.google\.android\.gms|com\.google\.android\.play|com\.google\.firebase' deps.txt; then
+            echo "Found a Google Play Services, Play or Firebase dependency"
+            exit 1
+          fi
