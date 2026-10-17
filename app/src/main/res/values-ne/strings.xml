@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="speak_time">समय सुन्नुहोस्</string>
+    <string name="status_ready">समय सुन्न समयमा छुनुहोस् वा बटन थिच्नुहोस्।</string>
+    <string name="status_no_voice">फोनमा यो भाषाको आवाज अझै छैन। सहयोगीले फोनको टेक्स्ट-टु-स्पिच सेटिङमा आवाज थप्न सक्नुहुन्छ।</string>
+    <string name="status_no_engine">यो फोनमा बोल्ने आवाज छैन। सहयोगीले RHVoice वा eSpeak NG जस्तो आवाज इन्स्टल गर्न सक्नुहुन्छ।</string>
+    <string name="status_language_not_supported">Niko Clock ले यो भाषा अझै बोल्न सक्दैन।</string>
+</resources>
