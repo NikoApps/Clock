@@ -1,0 +1,13 @@
+Niko Clock tells the time out loud. It's made for people who can't read the screen easily: people who can't read, older people, and people with low vision.
+
+What it does now:
+* Shows the time in very large numbers
+* Speaks the time when you press one big button
+* Speaks in your phone's language, using the phone's own voice
+
+Coming soon:
+* Speak the time when you shake the phone
+* Hourly announcements with quiet hours at night
+* The date, including local calendars
+
+Niko Clock has no ads, no tracking and no internet permission. It is free and open source under the GPLv3.

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Clock symbol from Hub: assets/icons/clock.svg (512 grid), scaled into the 66dp adaptive icon safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <group
+        android:scaleX="0.19"
+        android:scaleY="0.19"
+        android:translateX="5.36"
+        android:translateY="5.36">
+        <path
+            android:pathData="M120,256 A136,136 0 1,1 392,256 A136,136 0 1,1 120,256 Z M256,256 L256,168 M256,256 L318,298"
+            android:strokeWidth="36"
+            android:strokeColor="#1F1A14"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round" />
+    </group>
+</vector>

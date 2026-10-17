@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Niko Clock</string>
+    <string name="speak_time">Speak time</string>
+    <!-- %1$s is the time, formatted for the phone's language, for example "10:30 AM". -->
+    <string name="time_announcement">It is %1$s</string>
+    <string name="voice_unavailable">No voice is available for this language. Install one in your phone\'s text-to-speech settings.</string>
+</resources>
