@@ -12,10 +12,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -29,8 +33,11 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.liveRegion
@@ -50,7 +57,6 @@ import io.github.nikoapps.clock.ui.UnlockPinScreen
 import io.github.nikoapps.clock.ui.voiceMessage
 import io.github.nikoapps.commons.theme.NikoTheme
 import io.github.nikoapps.commons.ui.BigButton
-import io.github.nikoapps.commons.ui.SecondaryButton
 import kotlinx.coroutines.delay
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -121,8 +127,10 @@ private fun App(settingsViewModel: SettingsViewModel, clockViewModel: ClockViewM
         Screen.Settings -> SettingsScreen(
             settings = current,
             voice = clock.voice,
+            screenLanguage = settingsViewModel.screenLanguage(),
+            canChooseScreenLanguage = settingsViewModel.canChooseScreenLanguage,
             onUpdate = settingsViewModel::update,
-            onLanguage = settingsViewModel::setLanguage,
+            onScreenLanguage = settingsViewModel::setScreenLanguage,
             onTestVoice = clockViewModel::onSpeak,
             onSetPin = { screen = Screen.SetPin },
             onRemovePin = { settingsViewModel.update { it.copy(helperPinHash = null) } },
@@ -183,9 +191,34 @@ private fun ClockContent(
         modifier = Modifier
             .fillMaxSize()
             .safeDrawingPadding()
-            .padding(24.dp),
+            .padding(horizontal = 24.dp, vertical = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        // Settings sit out of the way in the corner, with a word under the icon so it is never
+        // a picture alone. The person using the clock doesn't need them.
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+            Column(
+                modifier = Modifier
+                    .clip(MaterialTheme.shapes.medium)
+                    .clickable(role = Role.Button, onClick = onOpenSettings)
+                    .sizeIn(minWidth = 64.dp, minHeight = 64.dp)
+                    .padding(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.ic_settings),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.size(32.dp),
+                )
+                Text(
+                    text = stringResource(R.string.settings_open),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+            }
+        }
         // Tapping anywhere on the time speaks it. TalkBack reads time and day as one item.
         Column(
             modifier = Modifier
@@ -223,11 +256,6 @@ private fun ClockContent(
                 .semantics { liveRegion = LiveRegionMode.Polite },
         )
         BigButton(text = speakLabel, onClick = onSpeak)
-        SecondaryButton(
-            text = stringResource(R.string.settings_for_helpers),
-            onClick = onOpenSettings,
-            modifier = Modifier.padding(top = 16.dp),
-        )
     }
 }
 

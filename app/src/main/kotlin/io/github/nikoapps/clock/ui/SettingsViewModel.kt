@@ -28,12 +28,20 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         }
     }
 
-    /** Speech follows the setting; on Android 13+ the screen text follows it too. */
-    fun setLanguage(tag: String?) {
-        update { it.copy(language = tag) }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            getApplication<Application>().getSystemService(LocaleManager::class.java).applicationLocales =
-                if (tag == null) LocaleList.getEmptyLocaleList() else LocaleList.forLanguageTags(tag)
-        }
+    /** Screen text can only follow its own language on Android 13+. */
+    val canChooseScreenLanguage: Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+
+    /** The screen language as a language code ("en", "ne"), or null when it follows the phone. */
+    fun screenLanguage(): String? {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return null
+        val locales = getApplication<Application>().getSystemService(LocaleManager::class.java).applicationLocales
+        return if (locales.isEmpty) null else locales[0].language
+    }
+
+    /** Changes only the screen text. The activity restarts in the new language. */
+    fun setScreenLanguage(tag: String?) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) return
+        getApplication<Application>().getSystemService(LocaleManager::class.java).applicationLocales =
+            if (tag == null) LocaleList.getEmptyLocaleList() else LocaleList.forLanguageTags(tag)
     }
 }

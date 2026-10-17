@@ -6,11 +6,8 @@
     <string name="status_no_voice">The phone has no voice for this language yet. A helper can add one in the phone\'s text-to-speech settings.</string>
     <string name="status_no_engine">This phone has no voice to speak with. A helper can install one, such as RHVoice or eSpeak NG.</string>
     <string name="status_language_not_supported">Niko Clock can\'t speak this language yet.</string>
-    <string name="settings_for_helpers">Settings for helpers</string>
-    <string name="settings_title">Settings for helpers</string>
-    <string name="back_to_clock">Back to the clock</string>
+    <string name="settings_title">Settings</string>
     <string name="section_voice">Voice</string>
-    <string name="setting_language">Language</string>
     <string name="language_phone">Same as the phone</string>
     <string name="test_voice">Test the voice</string>
     <string name="install_voice">Add or update voices</string>
@@ -38,13 +35,10 @@
     <string name="volume_loud">Loud</string>
     <string name="setting_follow_dnd">Stay quiet with Do Not Disturb</string>
     <string name="setting_follow_dnd_explanation">No chimes while the phone is on Do Not Disturb. Pressing the button still works.</string>
-    <string name="section_quiet_hours">Quiet hours</string>
     <string name="setting_quiet_hours">Quiet at night</string>
     <string name="setting_quiet_hours_explanation">No chimes at night. Pressing the button or shaking the phone still works.</string>
     <string name="setting_quiet_start">Quiet from</string>
     <string name="setting_quiet_end">Quiet until</string>
-    <string name="quiet_start_at">%1$d at night</string>
-    <string name="quiet_end_at">%1$d in the morning</string>
     <string name="section_shake">Shake</string>
     <string name="setting_shake">Shake the phone to hear the time</string>
     <string name="setting_shake_explanation">Works with the screen off. Uses a little more battery, and shows a notification while it listens.</string>
@@ -83,4 +77,10 @@
     <string name="notification_speaking">Saying the time</string>
     <string name="widget_description">A big clock. Tap it to hear the time.</string>
     <string name="widget_content_description">Clock. Tap to hear the time.</string>
+    <string name="back">Back</string>
+    <string name="settings_open">Settings</string>
+    <string name="setting_voice_language">Voice language</string>
+    <string name="setting_screen_language">Screen language</string>
+    <string name="install_voice_explanation">Opens the phone\'s text-to-speech settings.</string>
+    <string name="voice_ready">The voice is ready.</string>
 </resources>

@@ -11,7 +11,7 @@ enum class TextSize(val scale: Float) { Small(1.0f), Medium(1.2f), Large(1.4f) }
 
 /** Everything a helper can set. Defaults follow the Clock spec. */
 data class Settings(
-    /** BCP 47 tag such as "ne-NP", or null to follow the phone's language. */
+    /** Voice language as a BCP 47 tag such as "ne-NP", or null to follow the phone's language. Separate from the screen language. */
     val language: String? = null,
     /** 1.0 is the engine's normal speed. */
     val speechRate: Float = 0.9f,

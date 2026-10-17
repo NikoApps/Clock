@@ -5,11 +5,8 @@
     <string name="status_no_voice">फोनमा यो भाषाको आवाज अझै छैन। सहयोगीले फोनको टेक्स्ट-टु-स्पिच सेटिङमा आवाज थप्न सक्नुहुन्छ।</string>
     <string name="status_no_engine">यो फोनमा बोल्ने आवाज छैन। सहयोगीले RHVoice वा eSpeak NG जस्तो आवाज इन्स्टल गर्न सक्नुहुन्छ।</string>
     <string name="status_language_not_supported">Niko Clock ले यो भाषा अझै बोल्न सक्दैन।</string>
-    <string name="settings_for_helpers">सहयोगीका लागि सेटिङ</string>
-    <string name="settings_title">सहयोगीका लागि सेटिङ</string>
-    <string name="back_to_clock">घडीमा फर्कनुहोस्</string>
+    <string name="settings_title">सेटिङ</string>
     <string name="section_voice">आवाज</string>
-    <string name="setting_language">भाषा</string>
     <string name="language_phone">फोनको भाषा जस्तै</string>
     <string name="test_voice">आवाज जाँच्नुहोस्</string>
     <string name="install_voice">आवाज थप्नुहोस् वा अपडेट गर्नुहोस्</string>
@@ -37,13 +34,10 @@
     <string name="volume_loud">ठूलो</string>
     <string name="setting_follow_dnd">डु नट डिस्टर्बमा चुप रहने</string>
     <string name="setting_follow_dnd_explanation">फोन डु नट डिस्टर्बमा हुँदा नियमित समय भनिँदैन। बटन थिच्दा भने भन्छ।</string>
-    <string name="section_quiet_hours">शान्त समय</string>
     <string name="setting_quiet_hours">राति चुप रहने</string>
     <string name="setting_quiet_hours_explanation">राति नियमित समय भनिँदैन। बटन थिच्दा वा फोन हल्लाउँदा भने भन्छ।</string>
     <string name="setting_quiet_start">चुप रहन सुरु</string>
     <string name="setting_quiet_end">चुप रहने अन्त्य</string>
-    <string name="quiet_start_at">राति %1$d बजे</string>
-    <string name="quiet_end_at">बिहान %1$d बजे</string>
     <string name="section_shake">हल्लाउने</string>
     <string name="setting_shake">फोन हल्लाएर समय सुन्ने</string>
     <string name="setting_shake_explanation">स्क्रिन बन्द हुँदा पनि चल्छ। अलि बढी ब्याट्री खान्छ, र सुनिरहेको बेला सूचना देखाउँछ।</string>
@@ -82,4 +76,10 @@
     <string name="notification_speaking">समय भन्दै</string>
     <string name="widget_description">ठूलो घडी। समय सुन्न यसमा छुनुहोस्।</string>
     <string name="widget_content_description">घडी। समय सुन्न छुनुहोस्।</string>
+    <string name="back">पछाडि</string>
+    <string name="settings_open">सेटिङ</string>
+    <string name="setting_voice_language">आवाजको भाषा</string>
+    <string name="setting_screen_language">स्क्रिनको भाषा</string>
+    <string name="install_voice_explanation">फोनको टेक्स्ट-टु-स्पिच सेटिङ खोल्छ।</string>
+    <string name="voice_ready">आवाज तयार छ।</string>
 </resources>

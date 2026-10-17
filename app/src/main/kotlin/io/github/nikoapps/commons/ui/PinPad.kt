@@ -6,12 +6,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
@@ -36,9 +39,15 @@ fun PinDots(entered: Int, description: String, modifier: Modifier = Modifier) {
     )
 }
 
-/** Digits only, 64dp keys, with a labelled delete key. */
+/** Digits only, large keys, with a delete key that TalkBack reads as [deleteLabel]. */
 @Composable
-fun PinPad(onDigit: (Int) -> Unit, onDelete: () -> Unit, deleteLabel: String, modifier: Modifier = Modifier) {
+fun PinPad(
+    onDigit: (Int) -> Unit,
+    onDelete: () -> Unit,
+    deleteIcon: Painter,
+    deleteLabel: String,
+    modifier: Modifier = Modifier,
+) {
     val rows = listOf(listOf(1, 2, 3), listOf(4, 5, 6), listOf(7, 8, 9))
     Column(modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
         rows.forEach { row ->
@@ -49,8 +58,14 @@ fun PinPad(onDigit: (Int) -> Unit, onDelete: () -> Unit, deleteLabel: String, mo
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             Spacer(Modifier.weight(1f))
             DigitKey(0, onDigit, Modifier.weight(1f))
+            // An icon fits at any text size; the backspace shape is the one every phone keyboard uses.
             OutlinedButton(onClick = onDelete, modifier = Modifier.weight(1f).heightIn(min = 72.dp)) {
-                Text(deleteLabel, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onBackground)
+                Icon(
+                    painter = deleteIcon,
+                    contentDescription = deleteLabel,
+                    tint = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.size(32.dp),
+                )
             }
         }
     }
