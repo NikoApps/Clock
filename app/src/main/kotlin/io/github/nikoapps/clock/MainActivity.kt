@@ -3,6 +3,19 @@ package io.github.nikoapps.clock
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
+import android.text.format.DateFormat
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.TextAutoSize
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -163,9 +176,10 @@ private fun TextSizeScale(size: TextSize, content: @Composable () -> Unit) {
 
 @Composable
 private fun ClockScreen(voice: VoiceStatus, onSpeak: () -> Unit, onSpeakDate: () -> Unit, onOpenSettings: () -> Unit) {
+    val context = LocalContext.current
     var now by remember { mutableStateOf(LocalDateTime.now()) }
 
-    // Tick at the start of each second so the minute flips on time.
+    // Tick at the start of each second so the seconds and the minute flip on time.
     LaunchedEffect(Unit) {
         while (true) {
             now = LocalDateTime.now()
@@ -173,9 +187,19 @@ private fun ClockScreen(voice: VoiceStatus, onSpeak: () -> Unit, onSpeakDate: ()
         }
     }
 
+    // Follow the phone's 12 or 24 hour choice and its way of writing dates.
+    val locale = LocalConfiguration.current.locales[0]
+    val timeFormat = remember(locale) {
+        val skeleton = if (DateFormat.is24HourFormat(context)) "Hms" else "hms"
+        DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, skeleton), locale)
+    }
+    val dateFormat = remember(locale) {
+        DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "EEEEdMMMM"), locale)
+    }
+
     ClockContent(
-        timeText = now.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)),
-        dayText = now.format(DateTimeFormatter.ofPattern("EEEE")),
+        timeText = now.format(timeFormat),
+        dateText = now.format(dateFormat),
         voice = voice,
         onSpeak = onSpeak,
         onSpeakDate = onSpeakDate,
@@ -183,10 +207,11 @@ private fun ClockScreen(voice: VoiceStatus, onSpeak: () -> Unit, onSpeakDate: ()
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ClockContent(
     timeText: String,
-    dayText: String,
+    dateText: String,
     voice: VoiceStatus,
     onSpeak: () -> Unit,
     onSpeakDate: () -> Unit,
@@ -194,79 +219,90 @@ private fun ClockContent(
 ) {
     val speakLabel = stringResource(R.string.speak_time)
     val speakDateLabel = stringResource(R.string.speak_date)
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .safeDrawingPadding()
-            .padding(horizontal = 24.dp, vertical = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        // Settings sit out of the way in the corner, with a word under the icon so it is never
-        // a picture alone. The person using the clock doesn't need them.
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            Column(
-                modifier = Modifier
-                    .clip(MaterialTheme.shapes.medium)
-                    .clickable(role = Role.Button, onClick = onOpenSettings)
-                    .sizeIn(minWidth = 64.dp, minHeight = 64.dp)
-                    .padding(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_settings),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground,
-                    modifier = Modifier.size(32.dp),
-                )
-                Text(
-                    text = stringResource(R.string.settings_open),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onBackground,
-                )
-            }
-        }
-        // Tap the time to hear it, tap it twice to hear the date. TalkBack reads time and day
-        // as one item and offers "Speak the date" as an action, since double taps are its own.
+    Column(modifier = Modifier.fillMaxSize().safeDrawingPadding()) {
+        CenterAlignedTopAppBar(
+            title = { Text(stringResource(R.string.app_name), style = MaterialTheme.typography.titleLarge) },
+            actions = {
+                IconButton(onClick = onOpenSettings, modifier = Modifier.size(64.dp)) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_settings),
+                        contentDescription = stringResource(R.string.settings_open),
+                        modifier = Modifier.size(32.dp),
+                    )
+                }
+            },
+            colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.background,
+                titleContentColor = MaterialTheme.colorScheme.onBackground,
+                actionIconContentColor = MaterialTheme.colorScheme.onBackground,
+            ),
+        )
         Column(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .semantics(mergeDescendants = true) {
-                    heading()
-                    customActions = listOf(CustomAccessibilityAction(speakDateLabel) { onSpeakDate(); true })
-                }
-                .combinedClickable(onClickLabel = speakLabel, onClick = onSpeak, onDoubleClick = onSpeakDate),
+                .padding(horizontal = 24.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            // Tap the clock to hear the time, tap it twice to hear the date. TalkBack reads time and
+            // date as one item and offers "Speak the date" as an action, since double taps are its own.
+            Surface(
+                shape = RoundedCornerShape(32.dp),
+                color = MaterialTheme.colorScheme.surface,
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(32.dp))
+                    .semantics(mergeDescendants = true) {
+                        heading()
+                        customActions = listOf(CustomAccessibilityAction(speakDateLabel) { onSpeakDate(); true })
+                    }
+                    .combinedClickable(onClickLabel = speakLabel, onClick = onSpeak, onDoubleClick = onSpeakDate),
+            ) {
+                Column(
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 40.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                ) {
+                    // Shrinks to fit so the seconds never wrap, at any text size or in any language.
+                    BasicText(
+                        text = timeText,
+                        style = MaterialTheme.typography.displayLarge.copy(
+                            color = MaterialTheme.colorScheme.secondary,
+                            textAlign = TextAlign.Center,
+                            fontFeatureSettings = "tnum",
+                        ),
+                        maxLines = 1,
+                        autoSize = TextAutoSize.StepBased(minFontSize = 32.sp, maxFontSize = 96.sp),
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                    Text(
+                        text = dateText,
+                        style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Normal),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        textAlign = TextAlign.Center,
+                    )
+                }
+            }
+            // Always in the same place under the clock. TalkBack reads it out when it changes.
             Text(
-                text = timeText,
-                style = MaterialTheme.typography.displayLarge,
-                color = MaterialTheme.colorScheme.onBackground,
+                text = stringResource(voiceMessage(voice)),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
-            )
-            Text(
-                text = dayText,
-                style = MaterialTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.onBackground,
-                textAlign = TextAlign.Center,
+                minLines = 2,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 20.dp)
+                    .semantics { liveRegion = LiveRegionMode.Polite },
             )
         }
-        // Always shown, in the same place, so nothing on the screen moves when the voice changes.
-        // TalkBack reads it out when it changes.
-        Text(
-            text = stringResource(voiceMessage(voice)),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center,
-            minLines = 3,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp)
-                .semantics { liveRegion = LiveRegionMode.Polite },
+        BigButton(
+            text = speakLabel,
+            onClick = onSpeak,
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp),
         )
-        BigButton(text = speakLabel, onClick = onSpeak)
     }
 }
 
@@ -275,8 +311,8 @@ private fun ClockContent(
 private fun ClockContentPreview() {
     NikoTheme {
         ClockContent(
-            timeText = "10:30 AM",
-            dayText = "Saturday",
+            timeText = "21:34:40",
+            dateText = "Saturday, 17 October",
             voice = VoiceStatus.Ready,
             onSpeak = {},
             onSpeakDate = {},
