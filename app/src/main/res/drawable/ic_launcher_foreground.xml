@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Clock symbol from Hub: assets/icons/clock.svg (512 grid), scaled into the 66dp adaptive icon safe zone. -->
+<!-- Clock wearing cat ears, from Hub: assets/icons/clock.svg (512 grid), scaled into the 66dp adaptive icon safe zone. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
@@ -9,11 +9,17 @@
         android:scaleX="0.19"
         android:scaleY="0.19"
         android:translateX="5.36"
-        android:translateY="5.36">
+        android:translateY="3.56">
         <path
-            android:pathData="M120,256 A136,136 0 1,1 392,256 A136,136 0 1,1 120,256 Z M256,256 L256,168 M256,256 L318,298"
-            android:strokeWidth="36"
-            android:strokeColor="#1F1A14"
+            android:pathData="M155,204 L175,117 L233,156 Z M357,204 L337,117 L279,156 Z"
+            android:fillColor="#232838"
+            android:strokeColor="#232838"
+            android:strokeWidth="18"
+            android:strokeLineJoin="round" />
+        <path
+            android:pathData="M126,276 A130,130 0 1,1 386,276 A130,130 0 1,1 126,276 Z M256,276 L256,200 M256,276 L310,312"
+            android:strokeColor="#232838"
+            android:strokeWidth="34"
             android:strokeLineCap="round"
             android:strokeLineJoin="round" />
     </group>
