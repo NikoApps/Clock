@@ -3,6 +3,13 @@
 
     <!-- No permissions. Niko Clock works fully offline. -->
 
+    <!-- Android 11+ hides text-to-speech engines from apps that don't ask for them. -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
