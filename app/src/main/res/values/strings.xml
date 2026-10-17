@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Niko Clock</string>
+    <string name="app_name" translatable="false">Niko Clock</string>
     <string name="speak_time">Speak time</string>
-    <!-- %1$s is the time, formatted for the phone's language, for example "10:30 AM". -->
-    <string name="time_announcement">It is %1$s</string>
-    <string name="voice_unavailable">No voice is available for this language. Install one in your phone\'s text-to-speech settings.</string>
+    <string name="status_ready">Tap the time or press the button to hear it.</string>
+    <string name="status_no_voice">The phone has no voice for this language yet. A helper can add one in the phone\'s text-to-speech settings.</string>
+    <string name="status_no_engine">This phone has no voice to speak with. A helper can install one, such as RHVoice or eSpeak NG.</string>
+    <string name="status_language_not_supported">Niko Clock can\'t speak this language yet.</string>
 </resources>

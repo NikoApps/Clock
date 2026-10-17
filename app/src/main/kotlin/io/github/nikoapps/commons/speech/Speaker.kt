@@ -3,6 +3,7 @@ package io.github.nikoapps.commons.speech
 import android.content.Context
 import android.media.AudioAttributes
 import android.speech.tts.TextToSpeech
+import android.speech.tts.Voice
 import java.util.Locale
 import java.util.UUID
 
@@ -24,6 +25,8 @@ class Speaker(
         private set
 
     init {
+        // Slightly slower than the engine default, so the time is easy to follow on the first hearing.
+        tts.setSpeechRate(0.9f)
         tts.setAudioAttributes(
             AudioAttributes.Builder()
                 .setUsage(audioUsage)
@@ -43,6 +46,34 @@ class Speaker(
         val result = tts.setLanguage(locale)
         return result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED
     }
+
+    /**
+     * Picks an installed, offline voice for [locale]'s language, preferring the same country
+     * and the best quality. Returns false if there is none: a listed voice can still be
+     * downloading or need the internet, and Android would then fail or quietly use another voice.
+     */
+    fun useVoiceFor(locale: Locale): Boolean {
+        if (!isReady) return false
+        // Some engines return null or throw here instead of an empty set.
+        val voices = runCatching { tts.voices }.getOrNull().orEmpty()
+        if (voices.isEmpty()) {
+            // Engines that don't list voices (older eSpeak builds) only support setLanguage.
+            return setLanguage(locale)
+        }
+        val best = voices
+            .filter { it.locale.language == locale.language && it.isUsableOffline() }
+            .sortedWith(
+                compareByDescending<Voice> { it.locale.country == locale.country }
+                    .thenByDescending { it.quality },
+            )
+            .firstOrNull()
+            ?: return false
+        return tts.setVoice(best) == TextToSpeech.SUCCESS
+    }
+
+    private fun Voice.isUsableOffline(): Boolean =
+        !isNetworkConnectionRequired &&
+            TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED !in features.orEmpty()
 
     fun isLanguageAvailable(locale: Locale): Boolean =
         isReady && tts.isLanguageAvailable(locale) >= TextToSpeech.LANG_AVAILABLE
