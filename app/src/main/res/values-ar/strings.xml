@@ -101,4 +101,6 @@
     <string name="licence">الترخيص</string>
     <string name="licence_value">رخصة GNU GPL الإصدار 3</string>
     <string name="version">الإصدار</string>
+    <string name="setting_shake_date">هزّة ثانية للتاريخ</string>
+    <string name="info_shake_date">بعد قول الوقت، هزّ الهاتف مرة أخرى خلال ثوانٍ لسماع تاريخ اليوم.</string>
 </resources>

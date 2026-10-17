@@ -101,4 +101,6 @@
     <string name="licence">Licença</string>
     <string name="licence_value">GNU GPL versão 3</string>
     <string name="version">Versão</string>
+    <string name="setting_shake_date">Sacudir de novo para a data</string>
+    <string name="info_shake_date">Depois de ouvir a hora, sacuda de novo em poucos segundos para ouvir a data de hoje.</string>
 </resources>

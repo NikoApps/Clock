@@ -101,4 +101,6 @@
     <string name="licence">لائسنس</string>
     <string name="licence_value">GNU GPL ورژن 3</string>
     <string name="version">ورژن</string>
+    <string name="setting_shake_date">دوبارہ ہلا کر تاریخ</string>
+    <string name="info_shake_date">وقت بتانے کے بعد چند سیکنڈ میں دوبارہ ہلائیں تو آج کی تاریخ سنائی دے گی۔</string>
 </resources>

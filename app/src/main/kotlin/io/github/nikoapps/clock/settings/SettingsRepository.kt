@@ -47,6 +47,7 @@ class SettingsRepository(context: Context) {
         val pinHash = stringPreferencesKey("helper_pin_hash")
         val textSize = stringPreferencesKey("text_size")
         val voicePitch = stringPreferencesKey("voice_pitch")
+        val shakeAgainForDate = booleanPreferencesKey("shake_again_for_date")
     }
 
     private fun Preferences.toSettings(): Settings {
@@ -73,6 +74,7 @@ class SettingsRepository(context: Context) {
             voicePitch = this[Keys.voicePitch]
                 ?.let { name -> VoicePitch.entries.firstOrNull { it.name == name } }
                 ?: d.voicePitch,
+            shakeAgainForDate = this[Keys.shakeAgainForDate] ?: d.shakeAgainForDate,
         )
     }
 
@@ -92,6 +94,7 @@ class SettingsRepository(context: Context) {
         if (s.helperPinHash == null) remove(Keys.pinHash) else this[Keys.pinHash] = s.helperPinHash
         this[Keys.textSize] = s.textSize.name
         this[Keys.voicePitch] = s.voicePitch.name
+        this[Keys.shakeAgainForDate] = s.shakeAgainForDate
     }
 
     private fun minuteToTime(minute: Int): LocalTime = LocalTime.of(minute / 60, minute % 60)

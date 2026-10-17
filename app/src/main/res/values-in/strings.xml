@@ -101,4 +101,6 @@
     <string name="licence">Lisensi</string>
     <string name="licence_value">GNU GPL versi 3</string>
     <string name="version">Versi</string>
+    <string name="setting_shake_date">Goyang lagi untuk tanggal</string>
+    <string name="info_shake_date">Setelah waktu diucapkan, goyang lagi dalam beberapa detik untuk mendengar tanggal hari ini.</string>
 </resources>

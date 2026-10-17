@@ -106,4 +106,6 @@
     <string name="licence">Licence</string>
     <string name="licence_value">GNU GPL version 3</string>
     <string name="version">Version</string>
+    <string name="setting_shake_date">Shake again for the date</string>
+    <string name="info_shake_date">After the time is spoken, shake again within a few seconds to hear today\'s date.</string>
 </resources>

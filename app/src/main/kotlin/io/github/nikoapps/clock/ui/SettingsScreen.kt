@@ -275,6 +275,12 @@ fun SettingsScreen(
                     },
                 )
                 if (settings.shakeEnabled) {
+                    SwitchRow(
+                        title = stringResource(R.string.setting_shake_date),
+                        info = stringResource(R.string.info_shake_date),
+                        checked = settings.shakeAgainForDate,
+                        onCheckedChange = { checked -> onUpdate { it.copy(shakeAgainForDate = checked) } },
+                    )
                     ChoiceRow(
                         title = stringResource(R.string.setting_shake_sensitivity),
                         options = listOf(ShakeSensitivity.High, ShakeSensitivity.Medium, ShakeSensitivity.Low),

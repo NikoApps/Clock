@@ -35,6 +35,8 @@ data class Settings(
     /** On top of the phone's own font size. */
     val textSize: TextSize = TextSize.Medium,
     val voicePitch: VoicePitch = VoicePitch.Normal,
+    /** A second shake soon after the time speaks the date. */
+    val shakeAgainForDate: Boolean = true,
 ) {
     val speechSpeed: SpeechSpeed
         get() = SpeechSpeed.entries.minBy { kotlin.math.abs(it.rate - speechRate) }

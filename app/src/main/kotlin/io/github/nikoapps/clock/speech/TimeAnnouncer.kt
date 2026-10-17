@@ -13,17 +13,21 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeoutOrNull
 import java.time.Instant
+import java.time.LocalDate
 import java.time.LocalTime
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 
-/** Why the time is being spoken. Decides the audio stream and volume. */
+/** Why Niko Clock is speaking. Decides what is said, the audio stream and the volume. */
 enum class Announcement {
     /** A scheduled chime: alarm stream, at the app's own chime volume. */
     Chime,
 
     /** Someone asked (tile, widget): accessibility stream, which Do Not Disturb never mutes. */
     Request,
+
+    /** Someone asked for the date (date tile): same stream as [Request]. */
+    Date,
 }
 
 /**
@@ -57,13 +61,17 @@ class TimeAnnouncer(context: Context) {
         speaker.setPitch(current.voicePitch.pitch)
         val usage = when (kind) {
             Announcement.Chime -> AudioAttributes.USAGE_ALARM
-            Announcement.Request -> AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY
+            Announcement.Request, Announcement.Date -> AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY
         }
         speaker.setAudioUsage(usage)
         // Volume is relative to the alarm stream's own volume, so the system volume is never changed.
         val volume = when (kind) {
             Announcement.Chime -> current.chimeVolumePercent.coerceIn(0, 100) / 100f
-            Announcement.Request -> 1f
+            Announcement.Request, Announcement.Date -> 1f
+        }
+        val sentence = when (kind) {
+            Announcement.Date -> phraser.datePhrase(LocalDate.now())
+            else -> phraser.phrase(LocalTime.now())
         }
 
         if (current.vibrateBeforeSpeaking) vibrate()
@@ -73,7 +81,7 @@ class TimeAnnouncer(context: Context) {
             val id = UUID.randomUUID().toString()
             val done = CompletableDeferred<Unit>()
             pending[id] = done
-            if (!speaker.speak(phraser.phrase(LocalTime.now()), volume = volume, utteranceId = id)) {
+            if (!speaker.speak(sentence, volume = volume, utteranceId = id)) {
                 pending.remove(id)
                 return false
             }

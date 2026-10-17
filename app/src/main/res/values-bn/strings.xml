@@ -101,4 +101,6 @@
     <string name="licence">লাইসেন্স</string>
     <string name="licence_value">GNU GPL সংস্করণ ৩</string>
     <string name="version">সংস্করণ</string>
+    <string name="setting_shake_date">আবার ঝাঁকিয়ে তারিখ</string>
+    <string name="info_shake_date">সময় বলার পর কয়েক সেকেন্ডের মধ্যে আবার ঝাঁকালে আজকের তারিখ শুনবেন।</string>
 </resources>

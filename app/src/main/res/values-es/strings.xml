@@ -101,4 +101,6 @@
     <string name="licence">Licencia</string>
     <string name="licence_value">GNU GPL versión 3</string>
     <string name="version">Versión</string>
+    <string name="setting_shake_date">Agitar otra vez para la fecha</string>
+    <string name="info_shake_date">Después de oír la hora, agite otra vez en unos segundos para oír la fecha de hoy.</string>
 </resources>

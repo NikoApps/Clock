@@ -105,4 +105,6 @@
     <string name="licence">इजाजतपत्र</string>
     <string name="licence_value">GNU GPL संस्करण ३</string>
     <string name="version">संस्करण</string>
+    <string name="setting_shake_date">फेरि हल्लाएर मिति</string>
+    <string name="info_shake_date">समय भनेपछि केही सेकेन्डभित्र फेरि हल्लाउँदा आजको मिति सुनिन्छ।</string>
 </resources>

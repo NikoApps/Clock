@@ -149,7 +149,7 @@ class ShakeService : Service(), SensorEventListener {
     private fun onShake() {
         val now = SystemClock.elapsedRealtime()
         val last = lastTimeSpokenAt
-        if (last != null && now - last < DATE_WINDOW_MS) {
+        if (settings.shakeAgainForDate && last != null && now - last < DATE_WINDOW_MS) {
             lastTimeSpokenAt = null
             speak { it.datePhrase(LocalDate.now()) }
         } else {

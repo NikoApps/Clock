@@ -101,4 +101,6 @@
     <string name="licence">Licence</string>
     <string name="licence_value">GNU GPL version 3</string>
     <string name="version">Version</string>
+    <string name="setting_shake_date">Secouer encore pour la date</string>
+    <string name="info_shake_date">Après l\'heure, secouez encore dans les secondes qui suivent pour entendre la date du jour.</string>
 </resources>

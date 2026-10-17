@@ -13,7 +13,13 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 /** Quick settings tile that says the time. Works with the phone locked. */
-class SpeakTimeTileService : TileService() {
+class SpeakTimeTileService : SpeakTileService(Announcement.Request)
+
+/** Quick settings tile that says the date. */
+class SpeakDateTileService : SpeakTileService(Announcement.Date)
+
+/** A one-tap tile that speaks [kind]. */
+abstract class SpeakTileService(private val kind: Announcement) : TileService() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var fallback: TimeAnnouncer? = null
@@ -28,12 +34,12 @@ class SpeakTimeTileService : TileService() {
 
     override fun onClick() {
         try {
-            SpeakService.start(this, Announcement.Request)
+            SpeakService.start(this, kind)
         } catch (e: IllegalStateException) {
             // If Android doesn't let the tile start the service, speak from here while the panel is open.
             Log.w(TAG, "Speaking from the tile instead of the service", e)
             val announcer = fallback ?: TimeAnnouncer(this).also { fallback = it }
-            scope.launch { announcer.announce(Announcement.Request) }
+            scope.launch { announcer.announce(kind) }
         }
     }
 
