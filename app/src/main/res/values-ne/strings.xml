@@ -6,8 +6,10 @@
     <string name="status_no_engine">यो फोनमा बोल्ने आवाज छैन। सहयोगीले RHVoice वा eSpeak NG जस्तो आवाज इन्स्टल गर्न सक्नुहुन्छ।</string>
     <string name="status_language_not_supported">Niko Clock ले यो भाषा अझै बोल्न सक्दैन।</string>
 
-    <!-- Chimes -->
+    <!-- Chimes, quick settings tile and widget -->
     <string name="notification_channel_speaking">समय भन्दै</string>
     <string name="notification_channel_speaking_description">Niko Clock ले समय भन्दा केही बेर देखिन्छ।</string>
     <string name="notification_speaking">समय भन्दै</string>
+    <string name="widget_description">ठूलो घडी। समय सुन्न यसमा छुनुहोस्।</string>
+    <string name="widget_content_description">घडी। समय सुन्न छुनुहोस्।</string>
 </resources>

@@ -2,4 +2,8 @@
 <resources>
     <color name="paper">#FFF9EE</color>
     <color name="night">#14110D</color>
+
+    <!-- Home-screen widget, light: Paper background, Ink text. Dark values in values-night. -->
+    <color name="widget_paper">#FFF9EE</color>
+    <color name="widget_ink">#1F1A14</color>
 </resources>

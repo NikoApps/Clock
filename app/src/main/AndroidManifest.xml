@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Chimes -->
+        <!-- Chimes, quick settings tile and widget -->
         <service
             android:name=".speech.SpeakService"
             android:exported="false"
@@ -58,6 +58,33 @@
                 <action android:name="android.intent.action.TIMEZONE_CHANGED" />
                 <action android:name="android.app.action.SCHEDULE_EXACT_ALARM_PERMISSION_STATE_CHANGED" />
             </intent-filter>
+        </receiver>
+
+        <service
+            android:name=".tile.SpeakTimeTileService"
+            android:exported="true"
+            android:icon="@drawable/ic_notification_clock"
+            android:label="@string/speak_time"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+            <!-- A one-tap action, so TalkBack doesn't call it on or off. -->
+            <meta-data
+                android:name="android.service.quicksettings.TOGGLEABLE_TILE"
+                android:value="false" />
+        </service>
+
+        <receiver
+            android:name=".widget.ClockWidgetProvider"
+            android:exported="false"
+            android:label="@string/speak_time">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/clock_widget_info" />
         </receiver>
     </application>
 
