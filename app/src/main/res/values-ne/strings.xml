@@ -5,4 +5,10 @@
     <string name="status_no_voice">फोनमा यो भाषाको आवाज अझै छैन। सहयोगीले फोनको टेक्स्ट-टु-स्पिच सेटिङमा आवाज थप्न सक्नुहुन्छ।</string>
     <string name="status_no_engine">यो फोनमा बोल्ने आवाज छैन। सहयोगीले RHVoice वा eSpeak NG जस्तो आवाज इन्स्टल गर्न सक्नुहुन्छ।</string>
     <string name="status_language_not_supported">Niko Clock ले यो भाषा अझै बोल्न सक्दैन।</string>
+
+    <!-- Speak on shake -->
+    <string name="shake_channel_name">हल्लाउँदा समय सुन्नुहोस्</string>
+    <string name="shake_channel_description">Niko Clock ले फोन हल्लाएको सुनिरहेको बेला देखिन्छ।</string>
+    <string name="shake_notification_title">समय सुन्न फोन हल्लाउनुहोस्</string>
+    <string name="shake_notification_text">Niko Clock ले फोन हल्लाएको सुनिरहेको छ। बन्द गर्न, Niko Clock को सेटिङमा \"हल्लाउँदा समय सुन्नुहोस्\" बन्द गर्नुहोस्।</string>
 </resources>
