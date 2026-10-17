@@ -83,7 +83,7 @@
     <string name="info_chime">Niko Clock dit l\'heure tout seul à heures fixes dans la journée, même téléphone verrouillé. Le bouton et la secousse marchent toujours aussi.</string>
     <string name="info_quiet_hours">Pas d\'annonces pendant ces heures, pour ne réveiller personne la nuit. Toucher l\'heure, le bouton ou secouer marche quand même.</string>
     <string name="info_dnd">En mode Ne pas déranger, les annonces se taisent. Demander l\'heure marche quand même.</string>
-    <string name="info_shake">Secouez vite le téléphone quelques fois pour entendre l\'heure, même écran éteint et verrouillé. Marcher ou poser le téléphone ne le déclenche pas. Consomme un peu plus de batterie.</string>
+    <string name="info_shake">Secouez vite le téléphone quelques fois pour entendre l\'heure, même écran éteint et verrouillé. Secouez encore juste après pour entendre la date. Marcher ou poser le téléphone ne le déclenche pas. Consomme un peu plus de batterie.</string>
     <string name="info_battery">Certains téléphones ferment les applis en arrière-plan pour économiser la batterie. Cela peut arrêter les annonces et la secousse. Mettez Niko Clock sans restriction.</string>
     <string name="info_pin">Un code à 4 chiffres évite de changer les réglages par erreur. L\'horloge marche toujours sans lui.</string>
     <string name="section_support">Aide</string>

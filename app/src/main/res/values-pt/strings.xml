@@ -83,7 +83,7 @@
     <string name="info_chime">O Niko Clock diz a hora sozinho em horários definidos ao longo do dia, mesmo com o celular bloqueado. Apertar o botão ou sacudir o celular também funciona sempre.</string>
     <string name="info_quiet_hours">Sem avisos nesses horários, para ninguém acordar à noite. Tocar na hora, apertar o botão ou sacudir continua funcionando.</string>
     <string name="info_dnd">Com o Não perturbe ligado, os avisos de hora ficam em silêncio. Pedir a hora continua funcionando.</string>
-    <string name="info_shake">Sacuda o celular rápido algumas vezes para ouvir a hora, mesmo com a tela apagada e bloqueada. Andar ou pousar o celular não ativa. Gasta um pouco mais de bateria.</string>
+    <string name="info_shake">Sacuda o celular rápido algumas vezes para ouvir a hora, mesmo com a tela apagada e bloqueada. Sacuda de novo logo depois para ouvir a data. Andar ou pousar o celular não ativa. Gasta um pouco mais de bateria.</string>
     <string name="info_battery">Alguns celulares fecham apps em segundo plano para economizar bateria. Isso pode parar os avisos e o sacudir. Deixe o Niko Clock sem restrições.</string>
     <string name="info_pin">Um PIN de 4 números evita que as configurações sejam mudadas sem querer. O relógio sempre funciona sem ele.</string>
     <string name="section_support">Suporte</string>

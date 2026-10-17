@@ -88,7 +88,7 @@
     <string name="info_chime">Niko Clock says the time by itself at set times through the day, even when the phone is locked. Pressing the button or shaking the phone always works too.</string>
     <string name="info_quiet_hours">No regular announcements during these hours, so nobody is woken at night. Tapping the time, the button or shaking the phone still works.</string>
     <string name="info_dnd">When the phone is on Do Not Disturb, regular announcements stay quiet. Asking for the time still works.</string>
-    <string name="info_shake">Shake the phone quickly a few times to hear the time, even with the screen off and locked. Walking or putting the phone down won\'t set it off. It uses a little more battery.</string>
+    <string name="info_shake">Shake the phone quickly a few times to hear the time, even with the screen off and locked. Shake again right after to hear the date. Walking or putting the phone down won\'t set it off. It uses a little more battery.</string>
     <string name="info_battery">Some phones close apps in the background to save battery. That can stop announcements and shake. Set Niko Clock to No restrictions or Unrestricted.</string>
     <string name="info_pin">A 4-number PIN stops settings being changed by accident. The clock itself always works without it.</string>
     <string name="section_support">Support</string>

@@ -83,7 +83,7 @@
     <string name="info_chime">Niko Clock mengucapkan waktu sendiri pada jam tertentu sepanjang hari, bahkan saat ponsel terkunci. Menekan tombol atau menggoyang ponsel juga selalu bisa.</string>
     <string name="info_quiet_hours">Tidak ada pengumuman di jam ini, supaya tidak ada yang terbangun malam hari. Mengetuk jam, menekan tombol atau menggoyang tetap bisa.</string>
     <string name="info_dnd">Saat ponsel dalam mode Jangan Ganggu, pengumuman waktu diam. Menanyakan waktu tetap bisa.</string>
-    <string name="info_shake">Goyang ponsel cepat beberapa kali untuk mendengar waktu, bahkan saat layar mati dan terkunci. Berjalan atau meletakkan ponsel tidak memicunya. Memakai sedikit lebih banyak baterai.</string>
+    <string name="info_shake">Goyang ponsel cepat beberapa kali untuk mendengar waktu, bahkan saat layar mati dan terkunci. Goyang lagi segera setelahnya untuk mendengar tanggal. Berjalan atau meletakkan ponsel tidak memicunya. Memakai sedikit lebih banyak baterai.</string>
     <string name="info_battery">Beberapa ponsel menutup aplikasi di latar belakang untuk menghemat baterai. Itu bisa menghentikan pengumuman dan goyang. Atur Niko Clock ke Tanpa batasan.</string>
     <string name="info_pin">PIN 4 angka mencegah pengaturan berubah tanpa sengaja. Jamnya sendiri selalu berjalan tanpa PIN.</string>
     <string name="section_support">Dukungan</string>

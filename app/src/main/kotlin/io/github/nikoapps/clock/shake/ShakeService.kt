@@ -19,6 +19,7 @@ import android.media.AudioAttributes
 import android.os.Build
 import android.os.IBinder
 import android.os.PowerManager
+import android.os.SystemClock
 import android.os.VibrationAttributes
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -40,6 +41,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalTime
 
 /**
@@ -62,6 +64,9 @@ class ShakeService : Service(), SensorEventListener {
     private var settings = Settings()
     private var phraser: TimePhraser? = null
     private var listening = false
+
+    /** When the last shake spoke the time, so a second shake soon after can speak the date. */
+    private var lastTimeSpokenAt: Long? = null
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -135,12 +140,25 @@ class ShakeService : Service(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent) {
         val v = event.values
-        if (detector.onSample(v[0], v[1], v[2], event.timestamp)) speakTime()
+        if (detector.onSample(v[0], v[1], v[2], event.timestamp)) onShake()
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) = Unit
 
-    private fun speakTime() {
+    /** Shake once for the time. Shake again within a few seconds for the date. */
+    private fun onShake() {
+        val now = SystemClock.elapsedRealtime()
+        val last = lastTimeSpokenAt
+        if (last != null && now - last < DATE_WINDOW_MS) {
+            lastTimeSpokenAt = null
+            speak { it.datePhrase(LocalDate.now()) }
+        } else {
+            lastTimeSpokenAt = now
+            speak { it.phrase(LocalTime.now()) }
+        }
+    }
+
+    private fun speak(sentence: (TimePhraser) -> String) {
         val phraser = phraser ?: return
         // Never fall back to a voice in another language.
         if (!speaker.useVoiceFor(phraser.locale)) {
@@ -153,7 +171,7 @@ class ShakeService : Service(), SensorEventListener {
                 delay(VIBRATION_MS + 150)
             }
             // Quiet hours don't apply: the person asked for the time.
-            speaker.speak(phraser.phrase(LocalTime.now()))
+            speaker.speak(sentence(phraser))
         }
     }
 
@@ -219,6 +237,9 @@ class ShakeService : Service(), SensorEventListener {
         private const val CHANNEL_ID = "shake"
         private const val NOTIFICATION_ID = 2001
         private const val VIBRATION_MS = 150L
+
+        // A shake can't fire again for 3 s, so this leaves about 7 s to shake again for the date.
+        private const val DATE_WINDOW_MS = 10_000L
 
         /** Starts or stops shake listening to match [settings]. Registered with BackgroundSync. */
         fun sync(context: Context, settings: Settings) {

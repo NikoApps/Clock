@@ -83,7 +83,7 @@
     <string name="info_chime">Niko Clock dice la hora solo a ciertas horas del día, incluso con el teléfono bloqueado. Pulsar el botón o agitar el teléfono también funciona siempre.</string>
     <string name="info_quiet_hours">Sin avisos a esas horas, para no despertar a nadie por la noche. Tocar la hora, pulsar el botón o agitar sigue funcionando.</string>
     <string name="info_dnd">Con el modo No molestar activado, los avisos de hora se callan. Pedir la hora sigue funcionando.</string>
-    <string name="info_shake">Agite el teléfono rápido unas veces para oír la hora, incluso con la pantalla apagada y bloqueada. Caminar o dejar el teléfono no lo activa. Gasta un poco más de batería.</string>
+    <string name="info_shake">Agite el teléfono rápido unas veces para oír la hora, incluso con la pantalla apagada y bloqueada. Agite otra vez justo después para oír la fecha. Caminar o dejar el teléfono no lo activa. Gasta un poco más de batería.</string>
     <string name="info_battery">Algunos teléfonos cierran apps en segundo plano para ahorrar batería. Eso puede parar los avisos y el agitar. Ponga Niko Clock en Sin restricciones.</string>
     <string name="info_pin">Un PIN de 4 números evita cambiar los ajustes por error. El reloj funciona siempre sin él.</string>
     <string name="section_support">Ayuda</string>
