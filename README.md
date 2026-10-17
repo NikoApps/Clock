@@ -4,6 +4,8 @@
 
 Hear the time out loud. Niko Clock is for people who can't easily read a screen: people who can't read, older people and people with low vision. Part of [Niko](https://nikoapps.github.io): simple, free Android apps with no ads and no tracking.
 
+More about the app, in plain words: **[nikoapps.github.io/clock](https://nikoapps.github.io/clock/)**
+
 **Status:** first public test release. Not on F-Droid yet.
 
 ## Download
