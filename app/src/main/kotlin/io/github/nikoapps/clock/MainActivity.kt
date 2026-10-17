@@ -1,4 +1,4 @@
-package org.nikoapps.clock
+package io.github.nikoapps.clock
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -32,8 +32,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import org.nikoapps.commons.speech.Speaker
-import org.nikoapps.commons.theme.NikoTheme
+import io.github.nikoapps.commons.speech.Speaker
+import io.github.nikoapps.commons.theme.NikoTheme
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle

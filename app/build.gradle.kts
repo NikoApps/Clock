@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "org.nikoapps.clock"
+    namespace = "io.github.nikoapps.clock"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "org.nikoapps.clock"
+        applicationId = "io.github.nikoapps.clock"
         minSdk = 26
         targetSdk = 37
         versionCode = 1
