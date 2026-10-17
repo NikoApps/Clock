@@ -2,28 +2,25 @@
 
 <img src="fastlane/metadata/android/en-US/images/icon.png" width="96" alt="Niko Clock icon">
 
-Hear the time out loud. Niko Clock is for people who can't easily read a screen: people who can't read, older people and people with low vision. Part of [Niko](https://github.com/NikoApps): simple, free Android apps with no ads and no tracking.
+Hear the time out loud. Niko Clock is for people who can't easily read a screen: people who can't read, older people and people with low vision. Part of [Niko](https://nikoapps.github.io): simple, free Android apps with no ads and no tracking.
 
-**Status:** early development. Not on F-Droid yet.
+**Status:** first public test release. Not on F-Droid yet.
+
+## Download
+
+Get the latest APK from [Releases](https://github.com/NikoApps/Clock/releases), or add this repo to [Obtainium](https://github.com/ImranR98/Obtainium) to get updates. Android 8.0 or newer.
 
 ## What it does
 
-- Shows the time in very large numbers
-- Speaks the time when you press one big button, in the phone's language and voice
-
-## Planned for the first release
-
-- Speak the time when the phone is shaken
-- Hourly announcements with quiet hours at night
-- Its own volume, so it isn't silenced with media
-- The date, including local calendars such as Bikram Sambat and Hijri
-- Keeps working through battery savers and reboots
-
-The full spec lives in the project hub.
-
-## Screenshots
-
-Coming soon.
+- Shows the time with seconds and the date in large text
+- Speaks the time when you tap the clock or press the big button. Tap twice for the date
+- Says the time by itself every hour, half hour or quarter hour, with quiet hours at night and a volume of its own
+- Shake the phone to hear the time, even with the screen off. Shake again for the date
+- Quick settings tiles for the time and the date, and a home-screen widget
+- Speaks English, Nepali, Hindi, Spanish and Portuguese in natural sentences, using the phone's own voice
+- Screen text in English, Nepali, Hindi, Bengali, Urdu, Arabic, Spanish, Portuguese, French and Indonesian
+- Settings for helpers behind an optional PIN: languages, speed, pitch, text size and more
+- No internet permission, no ads, no tracking
 
 ## Building
 
@@ -33,11 +30,13 @@ Requires JDK 17 and the Android SDK.
 ./gradlew assembleDebug
 ```
 
-The theme and speech code in `app/src/main/kotlin/io/github/nikoapps/commons` will move into a shared Niko Commons library when the second Niko app starts.
+Release builds are reproducible and signed in CI from version tags.
 
 ## Contributing
 
-See the [contributing guide](https://github.com/NikoApps/.github/blob/main/CONTRIBUTING.md). Testing with someone who would actually use the app is the most useful help right now.
+See the [contributing guide](https://github.com/NikoApps/.github/blob/main/CONTRIBUTING.md). Report problems in [Issues](https://github.com/NikoApps/Clock/issues). Testing with someone who would actually use the app is the most useful help right now.
+
+Much of the code is written with AI assistance and reviewed and tested on real phones by the maintainer.
 
 ## Licence
 

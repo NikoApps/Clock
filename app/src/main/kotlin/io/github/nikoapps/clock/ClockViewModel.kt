@@ -3,15 +3,18 @@ package io.github.nikoapps.clock
 import android.app.Application
 import android.media.AudioAttributes
 import androidx.lifecycle.AndroidViewModel
-import io.github.nikoapps.clock.speech.IcuNumberWords
-import io.github.nikoapps.clock.speech.timePhraserFor
+import androidx.lifecycle.viewModelScope
+import io.github.nikoapps.clock.settings.SettingsRepository
+import io.github.nikoapps.clock.speech.TimePhraser
+import io.github.nikoapps.clock.speech.phraserFor
 import io.github.nikoapps.commons.speech.Speaker
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import java.time.LocalDate
 import java.time.LocalTime
-import java.util.Locale
 
 enum class VoiceStatus {
     /** The speech engine is still starting. */
@@ -32,11 +35,9 @@ data class ClockState(val voice: VoiceStatus = VoiceStatus.Starting)
 
 class ClockViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val phraser = timePhraserFor(Locale.getDefault()) { IcuNumberWords(it) }
+    private var phraser: TimePhraser? = null
 
-    private val _state = MutableStateFlow(
-        ClockState(voice = if (phraser == null) VoiceStatus.LanguageNotSupported else VoiceStatus.Starting),
-    )
+    private val _state = MutableStateFlow(ClockState())
     val state: StateFlow<ClockState> = _state.asStateFlow()
 
     // Someone pressing the button wants an answer now, so speak on the accessibility
@@ -47,11 +48,27 @@ class ClockViewModel(application: Application) : AndroidViewModel(application) {
         onReady = { ready -> if (ready) checkVoice() else setVoice(VoiceStatus.NoEngine) },
     )
 
-    fun onSpeak() {
+    init {
+        // Language and speed come from helper settings and can change while the screen is open.
+        viewModelScope.launch {
+            SettingsRepository(application).settings.collect { settings ->
+                phraser = phraserFor(settings)
+                speaker.setRate(settings.speechRate)
+                speaker.setPitch(settings.voicePitch.pitch)
+                if (phraser == null) setVoice(VoiceStatus.LanguageNotSupported) else checkVoice()
+            }
+        }
+    }
+
+    fun onSpeak() = speakWith { it.phrase(LocalTime.now()) }
+
+    fun onSpeakDate() = speakWith { it.datePhrase(LocalDate.now()) }
+
+    private fun speakWith(sentence: (TimePhraser) -> String) {
         val phraser = phraser ?: return
         // A helper may have installed a voice since the last check.
         if (_state.value.voice != VoiceStatus.Ready) checkVoice()
-        if (_state.value.voice == VoiceStatus.Ready) speaker.speak(phraser.phrase(LocalTime.now()))
+        if (_state.value.voice == VoiceStatus.Ready) speaker.speak(sentence(phraser))
     }
 
     private fun checkVoice() {
