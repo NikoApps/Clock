@@ -69,4 +69,10 @@
     <string name="pin_mismatch">अङ्क मिलेनन्। फेरि सुरु गर्नुहोस्।</string>
     <string name="pin_progress">%2$d मध्ये %1$d अङ्क हालियो</string>
     <string name="pin_delete">मेटाउनुहोस्</string>
+
+    <!-- Speak on shake -->
+    <string name="shake_channel_name">हल्लाउँदा समय सुन्नुहोस्</string>
+    <string name="shake_channel_description">Niko Clock ले फोन हल्लाएको सुनिरहेको बेला देखिन्छ।</string>
+    <string name="shake_notification_title">समय सुन्न फोन हल्लाउनुहोस्</string>
+    <string name="shake_notification_text">Niko Clock ले फोन हल्लाएको सुनिरहेको छ। बन्द गर्न, Niko Clock को सेटिङमा \"हल्लाउँदा समय सुन्नुहोस्\" बन्द गर्नुहोस्।</string>
 </resources>

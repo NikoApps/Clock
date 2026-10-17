@@ -70,4 +70,10 @@
     <string name="pin_mismatch">The numbers didn\'t match. Start again.</string>
     <string name="pin_progress">%1$d of %2$d numbers entered</string>
     <string name="pin_delete">Delete</string>
+
+    <!-- Speak on shake -->
+    <string name="shake_channel_name">Speak on shake</string>
+    <string name="shake_channel_description">Shows while Niko Clock is listening for a shake.</string>
+    <string name="shake_notification_title">Shake the phone to hear the time</string>
+    <string name="shake_notification_text">Niko Clock is listening for a shake. To stop, turn off Speak on shake in Niko Clock settings.</string>
 </resources>
