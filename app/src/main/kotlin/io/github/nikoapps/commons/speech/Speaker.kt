@@ -1,4 +1,4 @@
-package org.nikoapps.commons.speech
+package io.github.nikoapps.commons.speech
 
 import android.content.Context
 import android.media.AudioAttributes

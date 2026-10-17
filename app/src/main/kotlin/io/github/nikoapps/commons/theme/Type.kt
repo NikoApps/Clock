@@ -1,4 +1,4 @@
-package org.nikoapps.commons.theme
+package io.github.nikoapps.commons.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
