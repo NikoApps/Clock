@@ -45,6 +45,11 @@ android {
         compose = true
     }
 
+    lint {
+        // Accessibility issues fail the build.
+        error += listOf("ContentDescription", "ClickableViewAccessibility", "KeyboardInaccessibleWidget", "LabelFor")
+    }
+
     // F-Droid: don't embed Google's dependency metadata blob in the APK.
     dependenciesInfo {
         includeInApk = false
