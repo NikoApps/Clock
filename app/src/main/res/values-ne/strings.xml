@@ -55,10 +55,10 @@
     <string name="pin_delete">मेटाउनुहोस्</string>
 
     <!-- Speak on shake -->
-    <string name="shake_channel_name">हल्लाउँदा समय सुन्नुहोस्</string>
+    <string name="shake_channel_name">हल्लाएर समय सुन्ने</string>
     <string name="shake_channel_description">Niko Clock ले फोन हल्लाएको सुनिरहेको बेला देखिन्छ।</string>
     <string name="shake_notification_title">समय सुन्न फोन हल्लाउनुहोस्</string>
-    <string name="shake_notification_text">Niko Clock ले फोन हल्लाएको सुनिरहेको छ। बन्द गर्न, Niko Clock को सेटिङमा \"हल्लाउँदा समय सुन्नुहोस्\" बन्द गर्नुहोस्।</string>
+    <string name="shake_notification_text">Niko Clock ले फोन हल्लाएको सुनिरहेको छ। बन्द गर्न, Niko Clock को सेटिङमा \"हल्लाएर समय सुन्ने\" बन्द गर्नुहोस्।</string>
 
     <!-- Chimes, quick settings tile and widget -->
     <string name="notification_channel_speaking">समय भन्दै</string>

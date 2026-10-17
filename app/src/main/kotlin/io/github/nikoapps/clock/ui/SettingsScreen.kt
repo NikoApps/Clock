@@ -31,9 +31,27 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-/** Language choices: the phone's own language, or one Niko Clock has. */
-private val VOICE_LANGUAGES: List<String?> = listOf(null, "en", "ne-NP")
-private val SCREEN_LANGUAGES: List<String?> = listOf(null, "en", "ne")
+/** Languages Niko Clock can speak the time in. Each has hand-written phrases. */
+private val VOICE_LANGUAGES: List<String?> = listOf(null, "en", "ne-NP", "hi-IN", "es", "pt-BR")
+
+/** Languages the screen text is translated into. */
+private val SCREEN_LANGUAGES: List<String?> = listOf(null, "en", "ne", "hi", "bn", "ur", "ar", "es", "pt", "fr", "in")
+
+/** Each language in its own words, so people can find theirs without reading another. */
+private val LANGUAGE_NAMES = mapOf(
+    "en" to "English",
+    "ne" to "नेपाली",
+    "hi" to "हिन्दी",
+    "bn" to "বাংলা",
+    "ur" to "اردو",
+    "ar" to "العربية",
+    "es" to "Español",
+    "pt" to "Português",
+    "fr" to "Français",
+    // Android still calls Indonesian "in"; newer code says "id".
+    "in" to "Bahasa Indonesia",
+    "id" to "Bahasa Indonesia",
+)
 private val CHIME_INTERVALS = listOf(60, 30, 15)
 private val CHIME_VOLUMES = listOf(50, 80, 100)
 private val QUIET_STARTS = listOf(LocalTime.of(21, 0), LocalTime.of(22, 0), LocalTime.of(23, 0))
@@ -69,11 +87,8 @@ fun SettingsScreen(
     }
 
     @Composable
-    fun languageName(tag: String?): String = when (tag?.substringBefore('-')) {
-        null -> stringResource(R.string.language_phone)
-        "en" -> "English"
-        else -> "नेपाली"
-    }
+    fun languageName(tag: String?): String =
+        tag?.let { LANGUAGE_NAMES[it.substringBefore('-')] } ?: stringResource(R.string.language_phone)
 
     val cancel = stringResource(R.string.cancel)
     val on = stringResource(R.string.value_on)
@@ -239,7 +254,7 @@ fun SettingsScreen(
                     ChoiceRow(
                         title = stringResource(R.string.setting_screen_language),
                         options = SCREEN_LANGUAGES,
-                        selected = SCREEN_LANGUAGES.firstOrNull { it == screenLanguage },
+                        selected = SCREEN_LANGUAGES.firstOrNull { it == screenLanguage?.replace("id", "in") },
                         optionLabel = { languageName(it) },
                         onSelect = onScreenLanguage,
                         cancelLabel = cancel,
