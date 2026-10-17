@@ -11,13 +11,28 @@ android {
         applicationId = "io.github.nikoapps.clock"
         minSdk = 26
         targetSdk = 37
-        versionCode = 1
-        versionName = "0.1.0"
+        versionCode = providers.gradleProperty("VERSION_CODE").get().toInt()
+        versionName = providers.gradleProperty("VERSION_NAME").get()
+    }
+
+    // Release signing only applies when the keystore is provided, so F-Droid
+    // and local builds still produce an unsigned release APK.
+    val keystoreFile = providers.environmentVariable("NIKO_KEYSTORE_FILE").orNull
+    if (keystoreFile != null) {
+        signingConfigs {
+            create("release") {
+                storeFile = file(keystoreFile)
+                storePassword = providers.environmentVariable("NIKO_KEYSTORE_PASSWORD").get()
+                keyAlias = providers.environmentVariable("NIKO_KEY_ALIAS").get()
+                keyPassword = providers.environmentVariable("NIKO_KEY_PASSWORD").get()
+            }
+        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = false
+            if (keystoreFile != null) signingConfig = signingConfigs.getByName("release")
         }
     }
 
@@ -35,6 +50,11 @@ android {
         includeInApk = false
         includeInBundle = false
     }
+}
+
+// Reproducible builds: baseline profiles change with the build machine's CPU count.
+tasks.configureEach {
+    if (name.contains("ArtProfile")) enabled = false
 }
 
 dependencies {
