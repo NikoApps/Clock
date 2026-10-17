@@ -33,7 +33,7 @@ Requires JDK 17 and the Android SDK.
 ./gradlew assembleDebug
 ```
 
-The theme and speech code in `app/src/main/kotlin/org/nikoapps/commons` is a temporary copy of [Niko Commons](https://github.com/NikoApps/Commons) until that library is published.
+The theme and speech code in `app/src/main/kotlin/io/github/nikoapps/commons` will move into a shared Niko Commons library when the second Niko app starts.
 
 ## Contributing
 
