@@ -1,2 +1,1 @@
-Temporary copy of Niko Commons (theme, colours, Speaker) until the library is published.
-Make changes in https://github.com/NikoApps/Commons first, then copy them here.
+Shared theme, colours and speech code. It lives here while Niko Clock is the only app, and moves into the Commons library when the second app starts. Package name already matches the future library, so the move is a copy.
