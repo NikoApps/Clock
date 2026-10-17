@@ -6,4 +6,9 @@
     <string name="status_no_voice">The phone has no voice for this language yet. A helper can add one in the phone\'s text-to-speech settings.</string>
     <string name="status_no_engine">This phone has no voice to speak with. A helper can install one, such as RHVoice or eSpeak NG.</string>
     <string name="status_language_not_supported">Niko Clock can\'t speak this language yet.</string>
+
+    <!-- Chimes -->
+    <string name="notification_channel_speaking">Saying the time</string>
+    <string name="notification_channel_speaking_description">Shows for a moment while Niko Clock says the time.</string>
+    <string name="notification_speaking">Saying the time</string>
 </resources>
