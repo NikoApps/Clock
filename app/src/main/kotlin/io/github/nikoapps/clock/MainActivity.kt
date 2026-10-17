@@ -38,6 +38,10 @@ import io.github.nikoapps.commons.theme.NikoTheme
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import androidx.lifecycle.lifecycleScope
+import io.github.nikoapps.clock.settings.BackgroundSync
+import io.github.nikoapps.clock.settings.SettingsRepository
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +53,14 @@ class MainActivity : ComponentActivity() {
                     ClockScreen()
                 }
             }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Opening the app brings background work back if Android or a battery saver stopped it.
+        lifecycleScope.launch {
+            BackgroundSync.sync(this@MainActivity, SettingsRepository(this@MainActivity).current())
         }
     }
 }
