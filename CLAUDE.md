@@ -37,11 +37,12 @@ Project skills in `.claude/skills/`: `compose-patterns` and `kotlin-coroutines-f
 
 ## Commands
 
-JDK 17 and the Android SDK are needed. They aren't installed on the founder's machine yet, so CI is the build check for now.
+JDK 17 (Temurin, in `~/.jdks`) and the Android SDK (`~/Android/Sdk`) are installed on the founder's machine; `JAVA_HOME` and `ANDROID_HOME` are set in `~/.zshrc`.
 
 ```sh
 ./gradlew assembleDebug assembleRelease testDebugUnitTest lint
 uvx git-cliff -o CHANGELOG.md   # regenerate the internal changelog
+scripts/release.sh 0.2.0        # bump version, changelog, commit and tag
 ```
 
 ## Git and releases
@@ -51,5 +52,7 @@ uvx git-cliff -o CHANGELOG.md   # regenerate the internal changelog
 - No AI attribution in commits, pull requests or changelogs.
 - Version lives in `gradle.properties` (`VERSION_NAME`, `VERSION_CODE`). Tags are the bare version name, no `v`.
 - User-facing release notes are written by hand in `fastlane/metadata/android/en-US/changelogs/<versionCode>.txt`: plain words, 500 bytes max. They are not generated from commits.
+- Releasing: write `changelogs/<next versionCode>.txt`, run `scripts/release.sh <version>` on `main`, then push `main` and the tag. The Release workflow checks the build is reproducible, signs it and publishes the GitHub release.
+- The release key lives outside the repo. Never print, copy or commit it or its password.
 - The package ID `io.github.nikoapps.clock` must never change.
 - This repo is private. Never change its visibility.
