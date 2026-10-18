@@ -5,8 +5,11 @@ What it does:
 * Tap the clock or the big button to hear the time. Tap twice for the date
 * Says the time by itself every hour, half hour or quarter hour, quiet at night
 * Shake the phone to hear the time, even with the screen off
-* Quick settings tiles and a home-screen widget
+* Quick settings tiles, and time, date, or time and date widgets
 * Speaks in natural sentences in English, Nepali, Hindi, Spanish and Portuguese, using the phone's own voice
-* Settings for helpers, protected by a PIN
+* A short setup for helpers, and settings protected by a PIN
+* Warns when a phone setting may stop it speaking
 
 Niko Clock has no ads, no tracking and no internet permission. It is free and open source under the GPLv3.
+
+Niko Clock is a one-person side project. Much of the code is written with AI assistance, then reviewed and tested on real phones.
