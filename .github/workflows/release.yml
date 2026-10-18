@@ -38,7 +38,6 @@ jobs:
             echo "Missing release notes: $notes"
             exit 1
           fi
-          echo "VERSION_CODE=$code" >> "$GITHUB_ENV"
           echo "NOTES=$notes" >> "$GITHUB_ENV"
 
       # Two unsigned builds from a clean tree must match byte for byte, or F-Droid can't reproduce them.
@@ -63,19 +62,19 @@ jobs:
           git clean -fdx
           ./gradlew assembleRelease --no-build-cache --console=plain
           rm "$NIKO_KEYSTORE_FILE"
-          cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/niko-clock-$VERSION_CODE-release.apk"
+          cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/niko-clock.apk"
 
       # The signed APK must be the unsigned build plus a signature, which is what F-Droid checks.
       - name: Compare signed and unsigned
         run: |
           pip install --quiet apksigcopier==1.1.1
           export PATH="$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1):$PATH"
-          apksigcopier compare "$RUNNER_TEMP/niko-clock-$VERSION_CODE-release.apk" --unsigned "$RUNNER_TEMP/unsigned-1.apk"
+          apksigcopier compare "$RUNNER_TEMP/niko-clock.apk" --unsigned "$RUNNER_TEMP/unsigned-1.apk"
 
       - name: Publish GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "$GITHUB_REF_NAME" "$RUNNER_TEMP/niko-clock-$VERSION_CODE-release.apk" \
+          gh release create "$GITHUB_REF_NAME" "$RUNNER_TEMP/niko-clock.apk" \
             --title "Niko Clock $GITHUB_REF_NAME" \
             --notes-file "$NOTES"
