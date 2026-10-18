@@ -140,4 +140,22 @@
     <string name="part_afternoon">दोपहर</string>
     <string name="part_evening">शाम</string>
     <string name="part_night">रात</string>
+
+    <!-- Day and date -->
+    <string name="section_day_and_date">दिन और तारीख़</string>
+    <string name="section_day_clock">दिन घड़ी</string>
+    <string name="setting_bikram_sambat">नेपाली तारीख़ (विक्रम संवत्)</string>
+    <string name="setting_bikram_sambat_value">तारीख़ के नीचे दिखती है</string>
+    <string name="info_bikram_sambat">घड़ी पर तारीख़ के नीचे विक्रम संवत् की तारीख़ जोड़ता है, जैसे १ कात्तिक २०८३। जब आवाज़ अंग्रेज़ी या नेपाली बोलती है, तो तारीख़ के बाद यह भी बताती है।</string>
+    <string name="setting_note">घड़ी पर नोट</string>
+    <string name="note_none">कोई नोट नहीं</string>
+    <string name="info_note">उस व्यक्ति के लिए एक छोटी लाइन, जैसे \"आज राम मिलने आएँगे\"। यह घड़ी पर दिखती है और तारीख़ के बाद पढ़कर सुनाई जाती है। पुरानी हो जाए तो बदलें या हटाएँ।</string>
+    <string name="note_label">नोट</string>
+    <string name="note_save">सेव करें</string>
+    <string name="note_remove">नोट हटाएँ</string>
+    <string name="setting_greeting">सुप्रभात संदेश</string>
+    <string name="setting_greeting_time">सुबह के संदेश का समय</string>
+    <string name="info_greeting">हर सुबह चुने हुए समय पर Niko Clock सुप्रभात कहता है और तारीख़ बताता है, साथ में नेपाली तारीख़ और नोट, अगर वे चालू हों। यह रात में चुप रहने के समय भी बोलता है, पर अगर समय की घोषणा डू नॉट डिस्टर्ब में चुप रहती है तो यह भी चुप रहता है।</string>
+    <string name="setting_lock_screen">चार्ज होते समय लॉक स्क्रीन पर दिखाएँ</string>
+    <string name="info_lock_screen">फ़ोन चार्ज होते समय दिन घड़ी लॉक स्क्रीन के ऊपर रहती है, ताकि बिना अनलॉक किए पढ़ी जा सके। सेटिंग खोलने के लिए फिर भी फ़ोन अनलॉक करना होगा।</string>
 </resources>

@@ -50,6 +50,11 @@ class SettingsRepository(context: Context) {
         val shakeAgainForDate = booleanPreferencesKey("shake_again_for_date")
         val setupDone = booleanPreferencesKey("setup_done")
         val dayClock = booleanPreferencesKey("day_clock")
+        val dayClockOnLockScreen = booleanPreferencesKey("day_clock_on_lock_screen")
+        val bikramSambat = booleanPreferencesKey("bikram_sambat")
+        val helperNote = stringPreferencesKey("helper_note")
+        val greetingEnabled = booleanPreferencesKey("greeting_enabled")
+        val greetingTime = intPreferencesKey("greeting_minute")
     }
 
     private fun Preferences.toSettings(): Settings {
@@ -79,6 +84,11 @@ class SettingsRepository(context: Context) {
             shakeAgainForDate = this[Keys.shakeAgainForDate] ?: d.shakeAgainForDate,
             setupDone = this[Keys.setupDone] ?: d.setupDone,
             dayClock = this[Keys.dayClock] ?: d.dayClock,
+            dayClockOnLockScreen = this[Keys.dayClockOnLockScreen] ?: d.dayClockOnLockScreen,
+            bikramSambat = this[Keys.bikramSambat] ?: d.bikramSambat,
+            helperNote = this[Keys.helperNote],
+            greetingEnabled = this[Keys.greetingEnabled] ?: d.greetingEnabled,
+            greetingTime = this[Keys.greetingTime]?.let(::minuteToTime) ?: d.greetingTime,
         )
     }
 
@@ -101,6 +111,12 @@ class SettingsRepository(context: Context) {
         this[Keys.shakeAgainForDate] = s.shakeAgainForDate
         this[Keys.setupDone] = s.setupDone
         this[Keys.dayClock] = s.dayClock
+        this[Keys.dayClockOnLockScreen] = s.dayClockOnLockScreen
+        this[Keys.bikramSambat] = s.bikramSambat
+        val note = s.helperNote?.trim()
+        if (note.isNullOrEmpty()) remove(Keys.helperNote) else this[Keys.helperNote] = note
+        this[Keys.greetingEnabled] = s.greetingEnabled
+        this[Keys.greetingTime] = s.greetingTime.toSecondOfDay() / 60
     }
 
     private fun minuteToTime(minute: Int): LocalTime = LocalTime.of(minute / 60, minute % 60)

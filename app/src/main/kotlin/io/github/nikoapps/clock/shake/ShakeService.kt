@@ -33,6 +33,7 @@ import io.github.nikoapps.clock.R
 import io.github.nikoapps.clock.settings.Settings
 import io.github.nikoapps.clock.settings.SettingsRepository
 import io.github.nikoapps.clock.speech.TimePhraser
+import io.github.nikoapps.clock.speech.spokenDate
 import io.github.nikoapps.clock.speech.phraserFor
 import io.github.nikoapps.commons.speech.Speaker
 import kotlinx.coroutines.CoroutineScope
@@ -151,7 +152,7 @@ class ShakeService : Service(), SensorEventListener {
         val last = lastTimeSpokenAt
         if (settings.shakeAgainForDate && last != null && now - last < DATE_WINDOW_MS) {
             lastTimeSpokenAt = null
-            speak { it.datePhrase(LocalDate.now()) }
+            speak { spokenDate(it, settings, LocalDate.now()) }
         } else {
             lastTimeSpokenAt = now
             speak { it.phrase(LocalTime.now()) }

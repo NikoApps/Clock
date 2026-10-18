@@ -137,14 +137,16 @@ fun SettingsScreen(
                 ShakeRows(settings, onUpdate, onNeedNotifications)
             }
 
+            SettingsGroup(stringResource(R.string.section_day_and_date)) {
+                DayAndDateRows(settings, onUpdate, onNeedNotifications)
+            }
+
+            SettingsGroup(stringResource(R.string.section_day_clock)) {
+                DayClockRows(settings, onUpdate)
+            }
+
+            // Screen language and text size apply to the whole app, in both clock layouts.
             SettingsGroup(stringResource(R.string.section_screen)) {
-                SwitchRow(
-                    title = stringResource(R.string.setting_day_clock),
-                    info = stringResource(R.string.info_day_clock),
-                    value = stringResource(R.string.setting_day_clock_value),
-                    checked = settings.dayClock,
-                    onCheckedChange = { checked -> onUpdate { it.copy(dayClock = checked) } },
-                )
                 if (canChooseScreenLanguage) {
                     ChoiceRow(
                         title = stringResource(R.string.setting_screen_language),

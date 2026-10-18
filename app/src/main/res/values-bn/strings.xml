@@ -140,4 +140,22 @@
     <string name="part_afternoon">দুপুর</string>
     <string name="part_evening">সন্ধ্যা</string>
     <string name="part_night">রাত</string>
+
+    <!-- Day and date -->
+    <string name="section_day_and_date">বার ও তারিখ</string>
+    <string name="section_day_clock">দিনের ঘড়ি</string>
+    <string name="setting_bikram_sambat">নেপালি তারিখ (বিক্রম সংবৎ)</string>
+    <string name="setting_bikram_sambat_value">তারিখের নিচে দেখায়</string>
+    <string name="info_bikram_sambat">ঘড়িতে তারিখের নিচে বিক্রম সংবতের তারিখ যোগ করে, যেমন 1 Kartik 2083। কণ্ঠ ইংরেজি বা নেপালিতে বললে তারিখের পরে এটিও বলে।</string>
+    <string name="setting_note">ঘড়িতে নোট</string>
+    <string name="note_none">কোনো নোট নেই</string>
+    <string name="info_note">মানুষটির জন্য ছোট একটি লাইন, যেমন \"আজ রাম দেখা করতে আসবেন\"। এটি ঘড়িতে দেখায় আর তারিখের পরে পড়ে শোনায়। পুরোনো হয়ে গেলে বদলে দিন বা সরিয়ে দিন।</string>
+    <string name="note_label">নোট</string>
+    <string name="note_save">সেভ করুন</string>
+    <string name="note_remove">নোট সরান</string>
+    <string name="setting_greeting">সুপ্রভাত বার্তা</string>
+    <string name="setting_greeting_time">সকালের বার্তার সময়</string>
+    <string name="info_greeting">প্রতিদিন সকালে বেছে নেওয়া সময়ে Niko Clock সুপ্রভাত জানায় আর তারিখ বলে, নেপালি তারিখ আর নোট চালু থাকলে সেগুলোও। রাতে চুপ থাকার সময়েও বলে, তবে সময় ঘোষণা বিরক্ত করবেন না-তে চুপ থাকলে এটিও চুপ থাকে।</string>
+    <string name="setting_lock_screen">চার্জের সময় লক স্ক্রিনে দেখান</string>
+    <string name="info_lock_screen">ফোন চার্জ হওয়ার সময় দিনের ঘড়ি লক স্ক্রিনের সামনে থাকে, তাই আনলক না করেই পড়া যায়। সেটিংস খুলতে তবুও ফোন আনলক করতে হবে।</string>
 </resources>

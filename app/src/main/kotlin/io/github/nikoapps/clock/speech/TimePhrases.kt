@@ -1,5 +1,8 @@
 package io.github.nikoapps.clock.speech
 
+import io.github.nikoapps.clock.calendar.BsDate
+import io.github.nikoapps.clock.calendar.LATIN_MONTHS
+import io.github.nikoapps.clock.calendar.NEPALI_MONTHS
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.TextStyle
@@ -26,6 +29,12 @@ interface TimePhraser {
 
     /** Today's date as a sentence, such as "Today is Saturday, the seventeenth of October." */
     fun datePhrase(date: LocalDate): String
+
+    /** Opens the morning greeting, before the date. */
+    val goodMorning: String
+
+    /** The Bikram Sambat date as a sentence, or null in languages whose speakers don't use it. */
+    fun bikramSambatPhrase(date: BsDate): String? = null
 }
 
 private fun LocalDate.dayName(locale: Locale): String = dayOfWeek.getDisplayName(TextStyle.FULL, locale)
@@ -68,6 +77,10 @@ private fun clockHour(hour: Int): Int = (hour + 11) % 12 + 1
  */
 class EnglishTimePhraser(private val numbers: NumberWords) : TimePhraser {
     override val locale: Locale = Locale.ENGLISH
+    override val goodMorning: String = "Good morning."
+
+    override fun bikramSambatPhrase(date: BsDate): String =
+        "In the Nepali calendar, it is the ${numbers.ordinal(date.day)} of ${LATIN_MONTHS[date.month - 1]}, ${numbers.words(date.year)}."
 
     override fun phrase(time: LocalTime): String {
         val hour = time.hour
@@ -106,6 +119,10 @@ class EnglishTimePhraser(private val numbers: NumberWords) : TimePhraser {
  */
 class NepaliTimePhraser(private val numbers: NumberWords) : TimePhraser {
     override val locale: Locale = NEPALI
+    override val goodMorning: String = "शुभ प्रभात।"
+
+    override fun bikramSambatPhrase(date: BsDate): String =
+        "विक्रम संवत् ${numbers.words(date.year)}, ${NEPALI_MONTHS[date.month - 1]} ${numbers.words(date.day)} गते।"
 
     override fun phrase(time: LocalTime): String {
         val hour = clockHour(time.hour)
@@ -141,6 +158,7 @@ class NepaliTimePhraser(private val numbers: NumberWords) : TimePhraser {
  */
 class HindiTimePhraser(private val numbers: NumberWords) : TimePhraser {
     override val locale: Locale = HINDI
+    override val goodMorning: String = "सुप्रभात।"
 
     override fun phrase(time: LocalTime): String {
         val hour = clockHour(time.hour)
@@ -177,6 +195,7 @@ class HindiTimePhraser(private val numbers: NumberWords) : TimePhraser {
  */
 class SpanishTimePhraser(private val numbers: NumberWords) : TimePhraser {
     override val locale: Locale = SPANISH
+    override val goodMorning: String = "Buenos días."
 
     override fun phrase(time: LocalTime): String {
         val minute = time.minute
@@ -215,6 +234,7 @@ class SpanishTimePhraser(private val numbers: NumberWords) : TimePhraser {
  */
 class PortugueseTimePhraser(private val numbers: NumberWords) : TimePhraser {
     override val locale: Locale = PORTUGUESE
+    override val goodMorning: String = "Bom dia."
 
     override fun phrase(time: LocalTime): String {
         val minute = time.minute
@@ -257,6 +277,7 @@ class PortugueseTimePhraser(private val numbers: NumberWords) : TimePhraser {
  */
 class FrenchTimePhraser(private val numbers: NumberWords) : TimePhraser {
     override val locale: Locale = FRENCH
+    override val goodMorning: String = "Bonjour."
 
     override fun phrase(time: LocalTime): String {
         val minute = time.minute
@@ -301,6 +322,7 @@ class FrenchTimePhraser(private val numbers: NumberWords) : TimePhraser {
  */
 class IndonesianTimePhraser(private val numbers: NumberWords) : TimePhraser {
     override val locale: Locale = INDONESIAN
+    override val goodMorning: String = "Selamat pagi."
 
     override fun phrase(time: LocalTime): String {
         val minute = time.minute
@@ -335,6 +357,7 @@ class IndonesianTimePhraser(private val numbers: NumberWords) : TimePhraser {
  */
 class BengaliTimePhraser : TimePhraser {
     override val locale: Locale = BENGALI
+    override val goodMorning: String = "সুপ্রভাত।"
 
     override fun phrase(time: LocalTime): String {
         val hour = clockHour(time.hour)
@@ -371,6 +394,7 @@ class BengaliTimePhraser : TimePhraser {
  */
 class UrduTimePhraser : TimePhraser {
     override val locale: Locale = URDU
+    override val goodMorning: String = "صبح بخیر۔"
 
     override fun phrase(time: LocalTime): String {
         val hour = clockHour(time.hour)

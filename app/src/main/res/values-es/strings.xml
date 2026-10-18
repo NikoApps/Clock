@@ -140,4 +140,22 @@
     <string name="part_afternoon">Tarde</string>
     <string name="part_evening">Atardecer</string>
     <string name="part_night">Noche</string>
+
+    <!-- Day and date -->
+    <string name="section_day_and_date">Día y fecha</string>
+    <string name="section_day_clock">Reloj del día</string>
+    <string name="setting_bikram_sambat">Fecha nepalí (Bikram Sambat)</string>
+    <string name="setting_bikram_sambat_value">Se muestra debajo de la fecha</string>
+    <string name="info_bikram_sambat">Añade la fecha Bikram Sambat, como 1 Kartik 2083, debajo de la fecha en el reloj. Cuando la voz habla inglés o nepalí, también la dice después de la fecha.</string>
+    <string name="setting_note">Nota en el reloj</string>
+    <string name="note_none">Sin nota</string>
+    <string name="info_note">Una frase corta para la persona, como \"Hoy viene Carmen\". Se muestra en el reloj y se lee después de la fecha. Cámbiela o quítela cuando ya no valga.</string>
+    <string name="note_label">Nota</string>
+    <string name="note_save">Guardar</string>
+    <string name="note_remove">Quitar la nota</string>
+    <string name="setting_greeting">Mensaje de buenos días</string>
+    <string name="setting_greeting_time">Hora del mensaje de la mañana</string>
+    <string name="info_greeting">Cada mañana a la hora elegida, Niko Clock da los buenos días y dice la fecha, con la fecha nepalí y la nota si están activadas. Habla también en las horas de silencio, pero se calla con No molestar si los avisos de hora también se callan.</string>
+    <string name="setting_lock_screen">Mostrar en la pantalla de bloqueo al cargar</string>
+    <string name="info_lock_screen">Mientras el teléfono se carga, el reloj del día queda delante de la pantalla de bloqueo, así se puede leer sin desbloquear. Para abrir los ajustes hay que desbloquear el teléfono igualmente.</string>
 </resources>

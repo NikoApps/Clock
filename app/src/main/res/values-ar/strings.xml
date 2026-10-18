@@ -140,4 +140,22 @@
     <string name="part_afternoon">ظهر</string>
     <string name="part_evening">مساء</string>
     <string name="part_night">ليل</string>
+
+    <!-- Day and date -->
+    <string name="section_day_and_date">اليوم والتاريخ</string>
+    <string name="section_day_clock">ساعة اليوم</string>
+    <string name="setting_bikram_sambat">التاريخ النيبالي (بكرم سمبت)</string>
+    <string name="setting_bikram_sambat_value">يظهر تحت التاريخ</string>
+    <string name="info_bikram_sambat">يضيف تاريخ بكرم سمبت، مثل 1 Kartik 2083، تحت التاريخ على الساعة. عندما يتكلم الصوت بالإنجليزية أو النيبالية، يقوله أيضًا بعد التاريخ.</string>
+    <string name="setting_note">ملاحظة على الساعة</string>
+    <string name="note_none">لا توجد ملاحظة</string>
+    <string name="info_note">سطر قصير للشخص، مثل \"أحمد يزورك اليوم\". يظهر على الساعة ويُقرأ بعد التاريخ. غيّره أو احذفه عندما يصبح قديمًا.</string>
+    <string name="note_label">ملاحظة</string>
+    <string name="note_save">حفظ</string>
+    <string name="note_remove">إزالة الملاحظة</string>
+    <string name="setting_greeting">رسالة صباح الخير</string>
+    <string name="setting_greeting_time">وقت رسالة الصباح</string>
+    <string name="info_greeting">كل صباح في الوقت المختار، يقول Niko Clock صباح الخير والتاريخ، مع التاريخ النيبالي والملاحظة إن كانا مفعّلين. يتكلم حتى في ساعات الصمت ليلًا، لكنه يبقى صامتًا في وضع عدم الإزعاج إذا كان إعلان الوقت صامتًا فيه.</string>
+    <string name="setting_lock_screen">العرض على شاشة القفل أثناء الشحن</string>
+    <string name="info_lock_screen">أثناء شحن الهاتف، تبقى ساعة اليوم أمام شاشة القفل، فيمكن قراءتها دون فتح القفل. فتح الإعدادات ما زال يحتاج إلى فتح قفل الهاتف.</string>
 </resources>

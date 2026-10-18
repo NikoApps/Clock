@@ -39,6 +39,16 @@ data class Settings(
     val shakeAgainForDate: Boolean = true,
     /** The main screen shows the day, part of day and date in large words, for people who lose track of the day. */
     val dayClock: Boolean = false,
+    /** The day clock shows over the lock screen while the phone is charging. */
+    val dayClockOnLockScreen: Boolean = false,
+    /** Show and say the Bikram Sambat date next to the Gregorian one. */
+    val bikramSambat: Boolean = false,
+    /** A short line from the helper, such as "Ram visits today". Shown on the clock and said with the date. */
+    val helperNote: String? = null,
+    /** Says good morning and the date at [greetingTime] each day. */
+    val greetingEnabled: Boolean = false,
+    /** 6:00, 7:00 or 8:00. */
+    val greetingTime: LocalTime = LocalTime.of(7, 0),
     /** The helper finished or skipped first-run setup. */
     val setupDone: Boolean = false,
 ) {

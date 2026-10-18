@@ -28,6 +28,9 @@ enum class Announcement {
 
     /** Someone asked for the date (date tile): same stream as [Request]. */
     Date,
+
+    /** The morning greeting with the date: alarm stream at the chime volume, like [Chime]. */
+    Greeting,
 }
 
 /**
@@ -60,18 +63,19 @@ class TimeAnnouncer(context: Context) {
         speaker.setRate(current.speechRate)
         speaker.setPitch(current.voicePitch.pitch)
         val usage = when (kind) {
-            Announcement.Chime -> AudioAttributes.USAGE_ALARM
+            Announcement.Chime, Announcement.Greeting -> AudioAttributes.USAGE_ALARM
             Announcement.Request, Announcement.Date -> AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY
         }
         speaker.setAudioUsage(usage)
         // Volume is relative to the alarm stream's own volume, so the system volume is never changed.
         val volume = when (kind) {
-            Announcement.Chime -> current.chimeVolumePercent.coerceIn(0, 100) / 100f
+            Announcement.Chime, Announcement.Greeting -> current.chimeVolumePercent.coerceIn(0, 100) / 100f
             Announcement.Request, Announcement.Date -> 1f
         }
         val sentence = when (kind) {
-            Announcement.Date -> phraser.datePhrase(LocalDate.now())
-            else -> phraser.phrase(LocalTime.now())
+            Announcement.Date -> spokenDate(phraser, current, LocalDate.now())
+            Announcement.Greeting -> morningGreeting(phraser, current, LocalDate.now())
+            Announcement.Chime, Announcement.Request -> phraser.phrase(LocalTime.now())
         }
 
         if (current.vibrateBeforeSpeaking) vibrate()
