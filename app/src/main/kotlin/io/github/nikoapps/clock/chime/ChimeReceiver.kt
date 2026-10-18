@@ -19,7 +19,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 /**
- * Fires each chime and schedules the next one. Also puts the chime back after a restart,
+ * Fires each chime and the morning greeting, and schedules the next one. Also puts the chime back after a restart,
  * an app update, a clock or time zone change, and when the exact alarm permission changes.
  *
  * Doesn't speak itself: Android may stop audio from a receiver, so it starts [SpeakService].
@@ -32,7 +32,14 @@ class ChimeReceiver : BroadcastReceiver() {
         CoroutineScope(Dispatchers.Default).launch {
             try {
                 val settings = SettingsRepository(appContext).current()
-                if (intent.action == ACTION_CHIME) chime(appContext, intent, settings) else ChimeScheduler.sync(appContext, settings)
+                when (intent.action) {
+                    ACTION_CHIME -> chime(appContext, intent, settings)
+                    ACTION_GREETING -> greet(appContext, intent, settings)
+                    else -> {
+                        ChimeScheduler.sync(appContext, settings)
+                        GreetingScheduler.sync(appContext, settings)
+                    }
+                }
             } finally {
                 pending.finish()
             }
@@ -44,12 +51,7 @@ class ChimeReceiver : BroadcastReceiver() {
             ChimeScheduler.cancel(context)
             return
         }
-        // Schedule from the planned time if the alarm fired a moment early, so it doesn't repeat.
-        val now = ZonedDateTime.now()
-        val planned = intent.getLongExtra(EXTRA_AT, 0L)
-            .takeIf { it > 0L }
-            ?.let { ZonedDateTime.ofInstant(Instant.ofEpochMilli(it), ZoneId.systemDefault()) }
-        ChimeScheduler.scheduleNext(context, settings, if (planned != null && planned > now) planned else now)
+        ChimeScheduler.scheduleNext(context, settings, plannedOrNow(intent))
 
         if (settings.isQuiet(LocalTime.now())) return
         if (settings.chimeFollowsDoNotDisturb && isDoNotDisturbOn(context)) return
@@ -61,6 +63,30 @@ class ChimeReceiver : BroadcastReceiver() {
         }
     }
 
+    /** The morning greeting. Quiet hours don't apply: the helper chose this time. Do Not Disturb does. */
+    private fun greet(context: Context, intent: Intent, settings: Settings) {
+        if (!settings.greetingEnabled) {
+            GreetingScheduler.cancel(context)
+            return
+        }
+        GreetingScheduler.scheduleNext(context, settings, plannedOrNow(intent))
+        if (settings.chimeFollowsDoNotDisturb && isDoNotDisturbOn(context)) return
+        try {
+            SpeakService.start(context, Announcement.Greeting)
+        } catch (e: IllegalStateException) {
+            Log.w(TAG, "Couldn't start the greeting", e)
+        }
+    }
+
+    /** The alarm's planned time if it fired a moment early, so it doesn't schedule itself again. */
+    private fun plannedOrNow(intent: Intent): ZonedDateTime {
+        val now = ZonedDateTime.now()
+        val planned = intent.getLongExtra(EXTRA_AT, 0L)
+            .takeIf { it > 0L }
+            ?.let { ZonedDateTime.ofInstant(Instant.ofEpochMilli(it), ZoneId.systemDefault()) }
+        return if (planned != null && planned > now) planned else now
+    }
+
     private fun isDoNotDisturbOn(context: Context): Boolean {
         val filter = context.getSystemService<NotificationManager>()?.currentInterruptionFilter
         return filter != null &&
@@ -70,6 +96,7 @@ class ChimeReceiver : BroadcastReceiver() {
 
     companion object {
         const val ACTION_CHIME = "io.github.nikoapps.clock.action.CHIME"
+        const val ACTION_GREETING = "io.github.nikoapps.clock.action.GREETING"
         const val EXTRA_AT = "at"
         private const val TAG = "ChimeReceiver"
     }

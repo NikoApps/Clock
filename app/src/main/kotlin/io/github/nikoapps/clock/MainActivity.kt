@@ -69,6 +69,11 @@ import io.github.nikoapps.clock.settings.HelperPin
 import io.github.nikoapps.clock.settings.TextSize
 import io.github.nikoapps.clock.ui.SetPinScreen
 import io.github.nikoapps.clock.ui.SetupScreen
+import io.github.nikoapps.clock.calendar.BikramSambat
+import io.github.nikoapps.clock.calendar.display
+import android.app.KeyguardManager
+import androidx.activity.compose.LocalActivity
+import androidx.core.content.getSystemService
 import io.github.nikoapps.clock.health.PhoneHealth
 import androidx.annotation.StringRes
 import androidx.compose.runtime.mutableIntStateOf
@@ -143,6 +148,7 @@ private fun App(settingsViewModel: SettingsViewModel, clockViewModel: ClockViewM
 
     // Checked again each time the app comes back, such as after fixing a setting in the phone's settings.
     val context = LocalContext.current
+    val activity = LocalActivity.current
     val lifecycle by LocalLifecycleOwner.current.lifecycle.currentStateAsState()
     val problems = remember(current, lifecycle) { PhoneHealth.problems(context, current) }
 
@@ -162,9 +168,26 @@ private fun App(settingsViewModel: SettingsViewModel, clockViewModel: ClockViewM
             voice = clock.voice,
             needsAttention = problems.isNotEmpty(),
             dayClock = current.dayClock,
+            dayClockOnLockScreen = current.dayClockOnLockScreen,
+            bikramSambat = current.bikramSambat,
+            note = current.helperNote,
             onSpeak = clockViewModel::onSpeak,
             onSpeakDate = clockViewModel::onSpeakDate,
-            onOpenSettings = { screen = if (current.helperPinHash == null) Screen.Settings else Screen.Unlock },
+            onOpenSettings = {
+                val open = { screen = if (current.helperPinHash == null) Screen.Settings else Screen.Unlock }
+                // Over the lock screen, settings wait until the phone is unlocked.
+                val keyguard = context.getSystemService<KeyguardManager>()
+                if (activity != null && keyguard?.isKeyguardLocked == true) {
+                    keyguard.requestDismissKeyguard(
+                        activity,
+                        object : KeyguardManager.KeyguardDismissCallback() {
+                            override fun onDismissSucceeded() = open()
+                        },
+                    )
+                } else {
+                    open()
+                }
+            },
         )
         Screen.Unlock -> UnlockPinScreen(
             pinHash = current.helperPinHash ?: "",
@@ -227,6 +250,9 @@ private fun ClockScreen(
     voice: VoiceStatus,
     needsAttention: Boolean,
     dayClock: Boolean,
+    dayClockOnLockScreen: Boolean,
+    bikramSambat: Boolean,
+    note: String?,
     onSpeak: () -> Unit,
     onSpeakDate: () -> Unit,
     onOpenSettings: () -> Unit,
@@ -258,12 +284,50 @@ private fun ClockScreen(
         else -> R.string.status_ready
     }
 
+    val nepaliDate = if (bikramSambat) {
+        BikramSambat.fromGregorian(now.toLocalDate())?.display(nepali = locale.language == "ne")
+    } else {
+        null
+    }
+
     if (dayClock) {
-        DayClockScreen(now = now, hint = hint, onSpeak = onSpeak, onSpeakDate = onSpeakDate, onOpenSettings = onOpenSettings)
+        DayClockScreen(
+            now = now,
+            nepaliDate = nepaliDate,
+            note = note,
+            showOnLockScreen = dayClockOnLockScreen,
+            hint = hint,
+            onSpeak = onSpeak,
+            onSpeakDate = onSpeakDate,
+            onOpenSettings = onOpenSettings,
+        )
         return
     }
     ClockContent(hint = hint, onSpeak = onSpeak, onSpeakDate = onSpeakDate, onOpenSettings = onOpenSettings) {
         TimeAndDate(timeText = now.format(timeFormat), dateText = now.format(dateFormat))
+        ExtraDateLines(nepaliDate = nepaliDate, note = note)
+    }
+}
+
+/** The Bikram Sambat date and the helper's note, under the date. Both only when the helper set them. */
+@Composable
+internal fun ExtraDateLines(nepaliDate: String?, note: String?) {
+    if (nepaliDate != null) {
+        Text(
+            text = nepaliDate,
+            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Normal),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+        )
+    }
+    if (!note.isNullOrBlank()) {
+        Text(
+            text = note,
+            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Medium),
+            color = MaterialTheme.colorScheme.secondary,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(top = 4.dp),
+        )
     }
 }
 

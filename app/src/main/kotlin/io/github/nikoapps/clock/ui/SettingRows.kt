@@ -6,6 +6,23 @@ import android.content.Intent
 import android.provider.Settings as AndroidSettings
 import android.speech.tts.TextToSpeech
 import androidx.compose.runtime.Composable
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.unit.dp
+import io.github.nikoapps.clock.chime.GREETING_TIMES
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
@@ -255,6 +272,122 @@ fun PinRows(settings: Settings, onSetPin: () -> Unit, onRemovePin: () -> Unit) {
     if (settings.helperPinHash != null) {
         ValueRow(title = stringResource(R.string.pin_remove), value = null, onClick = onRemovePin)
     }
+}
+
+/** Bikram Sambat, the helper's note and the morning greeting: what the person hears and sees about today. */
+@Composable
+fun DayAndDateRows(settings: Settings, onUpdate: ((Settings) -> Settings) -> Unit, onNeedNotifications: () -> Unit) {
+    SwitchRow(
+        title = stringResource(R.string.setting_bikram_sambat),
+        info = stringResource(R.string.info_bikram_sambat),
+        value = stringResource(R.string.setting_bikram_sambat_value),
+        checked = settings.bikramSambat,
+        onCheckedChange = { checked -> onUpdate { it.copy(bikramSambat = checked) } },
+    )
+    NoteRow(note = settings.helperNote, onNote = { note -> onUpdate { it.copy(helperNote = note) } })
+    SwitchRow(
+        title = stringResource(R.string.setting_greeting),
+        info = stringResource(R.string.info_greeting),
+        value = if (settings.greetingEnabled) clockTime(settings.greetingTime) else stringResource(R.string.value_off),
+        checked = settings.greetingEnabled,
+        onCheckedChange = { checked ->
+            if (checked) onNeedNotifications()
+            onUpdate { it.copy(greetingEnabled = checked) }
+        },
+    )
+    if (settings.greetingEnabled) {
+        ChoiceRow(
+            title = stringResource(R.string.setting_greeting_time),
+            options = GREETING_TIMES,
+            selected = GREETING_TIMES.firstOrNull { it == settings.greetingTime } ?: GREETING_TIMES[1],
+            optionLabel = { clockTime(it) },
+            onSelect = { time -> onUpdate { it.copy(greetingTime = time) } },
+            cancelLabel = stringResource(R.string.cancel),
+        )
+    }
+}
+
+/** The day clock switch, and showing it over the lock screen while it's on. */
+@Composable
+fun DayClockRows(settings: Settings, onUpdate: ((Settings) -> Settings) -> Unit) {
+    SwitchRow(
+        title = stringResource(R.string.setting_day_clock),
+        info = stringResource(R.string.info_day_clock),
+        value = stringResource(R.string.setting_day_clock_value),
+        checked = settings.dayClock,
+        onCheckedChange = { checked -> onUpdate { it.copy(dayClock = checked) } },
+    )
+    if (settings.dayClock) {
+        SwitchRow(
+            title = stringResource(R.string.setting_lock_screen),
+            info = stringResource(R.string.info_lock_screen),
+            checked = settings.dayClockOnLockScreen,
+            onCheckedChange = { checked -> onUpdate { it.copy(dayClockOnLockScreen = checked) } },
+        )
+    }
+}
+
+/** Longest note, so it fits on the clock in large text. */
+private const val NOTE_MAX_LENGTH = 80
+
+/** The helper's note: the row shows it, tapping opens a dialog to write, change or remove it. */
+@Composable
+private fun NoteRow(note: String?, onNote: (String?) -> Unit) {
+    var open by rememberSaveable { mutableStateOf(false) }
+    ValueRow(
+        title = stringResource(R.string.setting_note),
+        info = stringResource(R.string.info_note),
+        value = note ?: stringResource(R.string.note_none),
+        trailing = painterResource(R.drawable.ic_chevron_right),
+        onClick = { open = true },
+    )
+    if (!open) return
+    var text by rememberSaveable { mutableStateOf(note.orEmpty()) }
+    val buttonText = @Composable { label: String ->
+        Text(label, style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
+    }
+    AlertDialog(
+        onDismissRequest = { open = false },
+        title = { Text(stringResource(R.string.setting_note), style = MaterialTheme.typography.titleLarge) },
+        text = {
+            OutlinedTextField(
+                value = text,
+                onValueChange = { text = it.take(NOTE_MAX_LENGTH) },
+                label = { Text(stringResource(R.string.note_label)) },
+                textStyle = MaterialTheme.typography.bodyLarge,
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+                minLines = 2,
+                maxLines = 3,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onNote(text.trim().ifEmpty { null })
+                    open = false
+                },
+                modifier = Modifier.heightIn(min = 56.dp),
+            ) { buttonText(stringResource(R.string.note_save)) }
+        },
+        dismissButton = {
+            Row {
+                if (note != null) {
+                    TextButton(
+                        onClick = {
+                            onNote(null)
+                            open = false
+                        },
+                        modifier = Modifier.heightIn(min = 56.dp),
+                    ) { buttonText(stringResource(R.string.note_remove)) }
+                }
+                TextButton(onClick = { open = false }, modifier = Modifier.heightIn(min = 56.dp)) {
+                    buttonText(stringResource(R.string.cancel))
+                }
+            }
+        },
+        containerColor = MaterialTheme.colorScheme.surface,
+    )
 }
 
 /** One row per phone setting that can silence Niko Clock, each opening the page that fixes it. */

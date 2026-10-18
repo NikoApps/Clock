@@ -144,4 +144,22 @@
     <string name="part_afternoon">दिउँसो</string>
     <string name="part_evening">साँझ</string>
     <string name="part_night">राति</string>
+
+    <!-- Day and date -->
+    <string name="section_day_and_date">बार र मिति</string>
+    <string name="section_day_clock">दिन घडी</string>
+    <string name="setting_bikram_sambat">नेपाली मिति (विक्रम संवत्)</string>
+    <string name="setting_bikram_sambat_value">मितिमुनि देखिन्छ</string>
+    <string name="info_bikram_sambat">घडीमा मितिमुनि १ कात्तिक २०८३ जस्तो विक्रम संवत् मिति थप्छ। आवाज अङ्ग्रेजी वा नेपालीमा बोल्दा मितिपछि यो पनि भन्छ।</string>
+    <string name="setting_note">घडीमा टिपोट</string>
+    <string name="note_none">टिपोट छैन</string>
+    <string name="info_note">व्यक्तिका लागि छोटो लाइन, जस्तै \"आज राम भेट्न आउनुहुन्छ\"। यो घडीमा देखिन्छ र मितिपछि पढेर सुनाइन्छ। पुरानो भएपछि बदल्नुहोस् वा हटाउनुहोस्।</string>
+    <string name="note_label">टिपोट</string>
+    <string name="note_save">सेभ गर्नुहोस्</string>
+    <string name="note_remove">टिपोट हटाउनुहोस्</string>
+    <string name="setting_greeting">शुभ प्रभात सन्देश</string>
+    <string name="setting_greeting_time">बिहानको सन्देशको समय</string>
+    <string name="info_greeting">हरेक बिहान रोजेको समयमा Niko Clock ले शुभ प्रभात र मिति भन्छ, नेपाली मिति र टिपोट खुला भए ती पनि। राति चुप रहने समयमा पनि बोल्छ, तर नियमित समय डु नट डिस्टर्बमा चुप रहन्छ भने यो पनि चुप रहन्छ।</string>
+    <string name="setting_lock_screen">चार्ज हुँदा लक स्क्रिनमा देखाउने</string>
+    <string name="info_lock_screen">फोन चार्ज हुँदा दिन घडी लक स्क्रिनभन्दा अगाडि रहन्छ, त्यसैले अनलक नगरी पढ्न सकिन्छ। सेटिङ खोल्न भने फोन अनलक गर्नुपर्छ।</string>
 </resources>

@@ -140,4 +140,22 @@
     <string name="part_afternoon">Siang</string>
     <string name="part_evening">Sore</string>
     <string name="part_night">Malam</string>
+
+    <!-- Day and date -->
+    <string name="section_day_and_date">Hari dan tanggal</string>
+    <string name="section_day_clock">Jam hari</string>
+    <string name="setting_bikram_sambat">Tanggal Nepal (Bikram Sambat)</string>
+    <string name="setting_bikram_sambat_value">Ditampilkan di bawah tanggal</string>
+    <string name="info_bikram_sambat">Menambahkan tanggal Bikram Sambat, misalnya 1 Kartik 2083, di bawah tanggal pada jam. Saat suara berbicara dalam bahasa Inggris atau Nepal, tanggal ini juga diucapkan setelah tanggal biasa.</string>
+    <string name="setting_note">Catatan di jam</string>
+    <string name="note_none">Tidak ada catatan</string>
+    <string name="info_note">Satu kalimat pendek untuk orangnya, misalnya \"Hari ini Budi datang\". Ditampilkan di jam dan dibacakan setelah tanggal. Ubah atau hapus kalau sudah tidak berlaku.</string>
+    <string name="note_label">Catatan</string>
+    <string name="note_save">Simpan</string>
+    <string name="note_remove">Hapus catatan</string>
+    <string name="setting_greeting">Pesan selamat pagi</string>
+    <string name="setting_greeting_time">Jam pesan pagi</string>
+    <string name="info_greeting">Setiap pagi pada jam yang dipilih, Niko Clock mengucapkan selamat pagi dan tanggal, beserta tanggal Nepal dan catatan jika diaktifkan. Pesan ini tetap diucapkan saat diam di malam hari, tapi ikut diam saat Jangan Ganggu jika pengumuman waktu juga diam.</string>
+    <string name="setting_lock_screen">Tampilkan di layar kunci saat mengisi daya</string>
+    <string name="info_lock_screen">Saat ponsel diisi daya, jam hari tetap tampil di depan layar kunci, jadi bisa dibaca tanpa membuka kunci. Membuka pengaturan tetap perlu membuka kunci ponsel.</string>
 </resources>

@@ -152,4 +152,22 @@
     <string name="part_afternoon">Afternoon</string>
     <string name="part_evening">Evening</string>
     <string name="part_night">Night</string>
+
+    <!-- Day and date -->
+    <string name="section_day_and_date">Day and date</string>
+    <string name="section_day_clock">Day clock</string>
+    <string name="setting_bikram_sambat">Nepali date (Bikram Sambat)</string>
+    <string name="setting_bikram_sambat_value">Shown under the date</string>
+    <string name="info_bikram_sambat">Adds the Bikram Sambat date, such as 1 Kartik 2083, under the date on the clock. When the voice speaks English or Nepali, it also says it after the date.</string>
+    <string name="setting_note">Note on the clock</string>
+    <string name="note_none">No note</string>
+    <string name="info_note">A short line for the person, such as \"Ram visits today\". It shows on the clock and is read out after the date. Change or remove it when it\'s out of date.</string>
+    <string name="note_label">Note</string>
+    <string name="note_save">Save</string>
+    <string name="note_remove">Remove note</string>
+    <string name="setting_greeting">Good morning message</string>
+    <string name="setting_greeting_time">Morning message time</string>
+    <string name="info_greeting">Each morning at the chosen time, Niko Clock says good morning and the date, with the Nepali date and the note if they are on. It speaks during quiet hours, but stays quiet during Do Not Disturb if chimes do.</string>
+    <string name="setting_lock_screen">Show on the lock screen while charging</string>
+    <string name="info_lock_screen">While the phone is charging, the day clock stays in front of the lock screen, so it can be read without unlocking. Opening settings still needs the phone to be unlocked.</string>
 </resources>

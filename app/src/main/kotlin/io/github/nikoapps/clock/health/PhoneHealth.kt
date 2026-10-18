@@ -26,11 +26,12 @@ enum class HealthProblem {
 /** Checks the settings that silence talking clocks, and opens the page that fixes each one. */
 object PhoneHealth {
 
-    /** Problems that matter for what's turned on. Nothing runs in the background without chimes or shake. */
+    /** Problems that matter for what's turned on. Nothing runs in the background without chimes, the greeting or shake. */
     fun problems(context: Context, settings: ClockSettings): List<HealthProblem> {
-        if (!settings.chimeEnabled && !settings.shakeEnabled) return emptyList()
+        val alarms = settings.chimeEnabled || settings.greetingEnabled
+        if (!alarms && !settings.shakeEnabled) return emptyList()
         return buildList {
-            if (settings.chimeEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
+            if (alarms && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S &&
                 context.getSystemService<AlarmManager>()?.canScheduleExactAlarms() == false
             ) {
                 add(HealthProblem.ExactAlarms)

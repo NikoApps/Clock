@@ -140,4 +140,22 @@
     <string name="part_afternoon">دوپہر</string>
     <string name="part_evening">شام</string>
     <string name="part_night">رات</string>
+
+    <!-- Day and date -->
+    <string name="section_day_and_date">دن اور تاریخ</string>
+    <string name="section_day_clock">دن کی گھڑی</string>
+    <string name="setting_bikram_sambat">نیپالی تاریخ (بکرم سموت)</string>
+    <string name="setting_bikram_sambat_value">تاریخ کے نیچے دکھائی دیتی ہے</string>
+    <string name="info_bikram_sambat">گھڑی پر تاریخ کے نیچے بکرم سموت کی تاریخ لگاتا ہے، جیسے 1 Kartik 2083۔ جب آواز انگریزی یا نیپالی بولتی ہے تو تاریخ کے بعد یہ بھی بتاتی ہے۔</string>
+    <string name="setting_note">گھڑی پر نوٹ</string>
+    <string name="note_none">کوئی نوٹ نہیں</string>
+    <string name="info_note">اس شخص کے لیے ایک چھوٹی سی بات، جیسے \"آج علی ملنے آئیں گے\"۔ یہ گھڑی پر نظر آتی ہے اور تاریخ کے بعد پڑھ کر سنائی جاتی ہے۔ پرانی ہو جائے تو بدل دیں یا ہٹا دیں۔</string>
+    <string name="note_label">نوٹ</string>
+    <string name="note_save">محفوظ کریں</string>
+    <string name="note_remove">نوٹ ہٹائیں</string>
+    <string name="setting_greeting">صبح بخیر کا پیغام</string>
+    <string name="setting_greeting_time">صبح کے پیغام کا وقت</string>
+    <string name="info_greeting">ہر صبح چنے ہوئے وقت پر Niko Clock صبح بخیر کہتا ہے اور تاریخ بتاتا ہے، ساتھ میں نیپالی تاریخ اور نوٹ بھی اگر وہ آن ہوں۔ رات کو خاموش رہنے کے وقت میں بھی بولتا ہے، لیکن اگر وقت کا اعلان ڈو ناٹ ڈسٹرب میں خاموش رہتا ہے تو یہ بھی خاموش رہتا ہے۔</string>
+    <string name="setting_lock_screen">چارج ہوتے وقت لاک اسکرین پر دکھائیں</string>
+    <string name="info_lock_screen">فون چارج ہوتے وقت دن کی گھڑی لاک اسکرین کے سامنے رہتی ہے، تاکہ ان لاک کیے بغیر پڑھی جا سکے۔ سیٹنگز کھولنے کے لیے پھر بھی فون ان لاک کرنا ہوگا۔</string>
 </resources>

@@ -4,7 +4,9 @@ import android.app.Application
 import android.media.AudioAttributes
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import io.github.nikoapps.clock.settings.Settings
 import io.github.nikoapps.clock.settings.SettingsRepository
+import io.github.nikoapps.clock.speech.spokenDate
 import io.github.nikoapps.clock.speech.TimePhraser
 import io.github.nikoapps.clock.speech.phraserFor
 import io.github.nikoapps.commons.speech.Speaker
@@ -37,6 +39,7 @@ data class ClockState(val voice: VoiceStatus = VoiceStatus.Starting, val engine:
 class ClockViewModel(application: Application) : AndroidViewModel(application) {
 
     private var phraser: TimePhraser? = null
+    private var settings = Settings()
 
     private val _state = MutableStateFlow(ClockState())
     val state: StateFlow<ClockState> = _state.asStateFlow()
@@ -53,6 +56,7 @@ class ClockViewModel(application: Application) : AndroidViewModel(application) {
         // Language and speed come from helper settings and can change while the screen is open.
         viewModelScope.launch {
             SettingsRepository(application).settings.collect { settings ->
+                this@ClockViewModel.settings = settings
                 phraser = phraserFor(settings)
                 speaker.setRate(settings.speechRate)
                 speaker.setPitch(settings.voicePitch.pitch)
@@ -63,7 +67,7 @@ class ClockViewModel(application: Application) : AndroidViewModel(application) {
 
     fun onSpeak() = speakWith { it.phrase(LocalTime.now()) }
 
-    fun onSpeakDate() = speakWith { it.datePhrase(LocalDate.now()) }
+    fun onSpeakDate() = speakWith { spokenDate(it, settings, LocalDate.now()) }
 
     private fun speakWith(sentence: (TimePhraser) -> String) {
         val phraser = phraser ?: return

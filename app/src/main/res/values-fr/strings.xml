@@ -140,4 +140,22 @@
     <string name="part_afternoon">Après-midi</string>
     <string name="part_evening">Soir</string>
     <string name="part_night">Nuit</string>
+
+    <!-- Day and date -->
+    <string name="section_day_and_date">Jour et date</string>
+    <string name="section_day_clock">Horloge du jour</string>
+    <string name="setting_bikram_sambat">Date népalaise (Bikram Sambat)</string>
+    <string name="setting_bikram_sambat_value">Affichée sous la date</string>
+    <string name="info_bikram_sambat">Ajoute la date Bikram Sambat, par exemple 1 Kartik 2083, sous la date sur l\'horloge. Quand la voix parle anglais ou népalais, elle la dit aussi après la date.</string>
+    <string name="setting_note">Note sur l\'horloge</string>
+    <string name="note_none">Aucune note</string>
+    <string name="info_note">Une courte phrase pour la personne, par exemple \"Marie passe aujourd\'hui\". Elle s\'affiche sur l\'horloge et est lue après la date. Changez-la ou supprimez-la quand elle n\'est plus à jour.</string>
+    <string name="note_label">Note</string>
+    <string name="note_save">Enregistrer</string>
+    <string name="note_remove">Supprimer la note</string>
+    <string name="setting_greeting">Message du matin</string>
+    <string name="setting_greeting_time">Heure du message du matin</string>
+    <string name="info_greeting">Chaque matin à l\'heure choisie, Niko Clock dit bonjour et la date, avec la date népalaise et la note si elles sont activées. Il parle même pendant le silence de la nuit, mais se tait en mode Ne pas déranger si les annonces se taisent aussi.</string>
+    <string name="setting_lock_screen">Afficher sur l\'écran verrouillé pendant la charge</string>
+    <string name="info_lock_screen">Pendant la charge, l\'horloge du jour reste devant l\'écran verrouillé, pour qu\'on puisse la lire sans déverrouiller. Pour ouvrir les réglages, il faut quand même déverrouiller le téléphone.</string>
 </resources>

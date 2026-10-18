@@ -2,6 +2,7 @@ package io.github.nikoapps.clock
 
 import android.app.Application
 import io.github.nikoapps.clock.chime.ChimeScheduler
+import io.github.nikoapps.clock.chime.GreetingScheduler
 import io.github.nikoapps.clock.settings.BackgroundSync
 import io.github.nikoapps.clock.shake.ShakeService
 
@@ -13,5 +14,7 @@ class ClockApplication : Application() {
         BackgroundSync.register(ShakeService::sync)
         // Chimes: schedules or cancels the next exact alarm.
         BackgroundSync.register(ChimeScheduler::sync)
+        // Morning greeting: its own daily exact alarm.
+        BackgroundSync.register(GreetingScheduler::sync)
     }
 }
