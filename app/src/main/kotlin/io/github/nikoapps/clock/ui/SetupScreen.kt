@@ -17,6 +17,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import io.github.nikoapps.clock.R
 import io.github.nikoapps.clock.VoiceStatus
@@ -80,7 +83,10 @@ fun SetupScreen(
                     text = stringResource(R.string.setup_step, current.ordinal + 1, SetupStep.entries.size),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(horizontal = 24.dp),
+                    // Read out when Next or Back changes the step, since the title stays the same.
+                    modifier = Modifier
+                        .padding(horizontal = 24.dp)
+                        .semantics { liveRegion = LiveRegionMode.Polite },
                 )
                 SettingsGroup(stringResource(current.title)) {
                     when (current) {
