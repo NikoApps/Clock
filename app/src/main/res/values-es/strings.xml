@@ -133,4 +133,11 @@
     <string name="widget_date_description">La fecha de hoy. Tóquela para oír la fecha.</string>
     <string name="widget_both_description">La hora y la fecha. Toque cualquiera para oírla.</string>
     <string name="widget_date_content_description">Fecha. Toque para oír la fecha.</string>
+    <string name="setting_day_clock">Reloj del día</string>
+    <string name="setting_day_clock_value">Muestra el día, el momento del día y la fecha en letras grandes</string>
+    <string name="info_day_clock">Para personas que pierden la noción del día. La pantalla principal muestra el día de la semana, si es mañana, tarde, atardecer o noche, y la fecha completa. Mientras el teléfono se carga, la pantalla sigue encendida. De noche se oscurece.</string>
+    <string name="part_morning">Mañana</string>
+    <string name="part_afternoon">Tarde</string>
+    <string name="part_evening">Atardecer</string>
+    <string name="part_night">Noche</string>
 </resources>

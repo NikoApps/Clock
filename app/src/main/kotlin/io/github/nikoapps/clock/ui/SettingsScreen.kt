@@ -138,6 +138,13 @@ fun SettingsScreen(
             }
 
             SettingsGroup(stringResource(R.string.section_screen)) {
+                SwitchRow(
+                    title = stringResource(R.string.setting_day_clock),
+                    info = stringResource(R.string.info_day_clock),
+                    value = stringResource(R.string.setting_day_clock_value),
+                    checked = settings.dayClock,
+                    onCheckedChange = { checked -> onUpdate { it.copy(dayClock = checked) } },
+                )
                 if (canChooseScreenLanguage) {
                     ChoiceRow(
                         title = stringResource(R.string.setting_screen_language),

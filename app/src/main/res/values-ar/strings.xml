@@ -133,4 +133,11 @@
     <string name="widget_date_description">تاريخ اليوم. المسه لسماع التاريخ.</string>
     <string name="widget_both_description">الوقت والتاريخ. المس أيًّا منهما لسماعه.</string>
     <string name="widget_date_content_description">التاريخ. المس لسماع التاريخ.</string>
+    <string name="setting_day_clock">ساعة اليوم</string>
+    <string name="setting_day_clock_value">تعرض اليوم وجزء اليوم والتاريخ بكلمات كبيرة</string>
+    <string name="info_day_clock">لمن ينسون أي يوم هو. تعرض الشاشة الرئيسية يوم الأسبوع، وهل الوقت صباح أو ظهر أو مساء أو ليل، والتاريخ كاملًا. تبقى الشاشة مضاءة أثناء شحن الهاتف، وتصبح داكنة في الليل.</string>
+    <string name="part_morning">صباح</string>
+    <string name="part_afternoon">ظهر</string>
+    <string name="part_evening">مساء</string>
+    <string name="part_night">ليل</string>
 </resources>

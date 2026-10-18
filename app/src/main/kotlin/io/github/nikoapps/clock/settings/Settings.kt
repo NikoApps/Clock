@@ -37,6 +37,8 @@ data class Settings(
     val voicePitch: VoicePitch = VoicePitch.Normal,
     /** A second shake soon after the time speaks the date. */
     val shakeAgainForDate: Boolean = true,
+    /** The main screen shows the day, part of day and date in large words, for people who lose track of the day. */
+    val dayClock: Boolean = false,
     /** The helper finished or skipped first-run setup. */
     val setupDone: Boolean = false,
 ) {

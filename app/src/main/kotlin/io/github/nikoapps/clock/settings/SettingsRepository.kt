@@ -49,6 +49,7 @@ class SettingsRepository(context: Context) {
         val voicePitch = stringPreferencesKey("voice_pitch")
         val shakeAgainForDate = booleanPreferencesKey("shake_again_for_date")
         val setupDone = booleanPreferencesKey("setup_done")
+        val dayClock = booleanPreferencesKey("day_clock")
     }
 
     private fun Preferences.toSettings(): Settings {
@@ -77,6 +78,7 @@ class SettingsRepository(context: Context) {
                 ?: d.voicePitch,
             shakeAgainForDate = this[Keys.shakeAgainForDate] ?: d.shakeAgainForDate,
             setupDone = this[Keys.setupDone] ?: d.setupDone,
+            dayClock = this[Keys.dayClock] ?: d.dayClock,
         )
     }
 
@@ -98,6 +100,7 @@ class SettingsRepository(context: Context) {
         this[Keys.voicePitch] = s.voicePitch.name
         this[Keys.shakeAgainForDate] = s.shakeAgainForDate
         this[Keys.setupDone] = s.setupDone
+        this[Keys.dayClock] = s.dayClock
     }
 
     private fun minuteToTime(minute: Int): LocalTime = LocalTime.of(minute / 60, minute % 60)
