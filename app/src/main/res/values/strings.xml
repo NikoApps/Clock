@@ -143,4 +143,13 @@
     <string name="widget_date_description">Today\'s date. Tap it to hear the date.</string>
     <string name="widget_both_description">The time and date. Tap either one to hear it.</string>
     <string name="widget_date_content_description">Date. Tap to hear the date.</string>
+
+    <!-- Day clock -->
+    <string name="setting_day_clock">Day clock</string>
+    <string name="setting_day_clock_value">Shows the day, the part of day and the date in large words</string>
+    <string name="info_day_clock">For people who lose track of the day. The main screen shows the day of the week, whether it is morning, afternoon, evening or night, and the full date. While the phone is charging, the screen stays on. At night it turns dark.</string>
+    <string name="part_morning">Morning</string>
+    <string name="part_afternoon">Afternoon</string>
+    <string name="part_evening">Evening</string>
+    <string name="part_night">Night</string>
 </resources>

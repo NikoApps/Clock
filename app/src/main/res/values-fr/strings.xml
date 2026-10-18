@@ -133,4 +133,11 @@
     <string name="widget_date_description">La date du jour. Touchez-la pour entendre la date.</string>
     <string name="widget_both_description">L\'heure et la date. Touchez l\'une ou l\'autre pour l\'entendre.</string>
     <string name="widget_date_content_description">Date. Touchez pour entendre la date.</string>
+    <string name="setting_day_clock">Horloge du jour</string>
+    <string name="setting_day_clock_value">Affiche le jour, le moment de la journée et la date en grands caractères</string>
+    <string name="info_day_clock">Pour les personnes qui perdent la notion du jour. L\'écran principal affiche le jour de la semaine, s\'il est matin, après-midi, soir ou nuit, et la date complète. Pendant la charge, l\'écran reste allumé. La nuit, il devient sombre.</string>
+    <string name="part_morning">Matin</string>
+    <string name="part_afternoon">Après-midi</string>
+    <string name="part_evening">Soir</string>
+    <string name="part_night">Nuit</string>
 </resources>

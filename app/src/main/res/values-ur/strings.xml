@@ -133,4 +133,11 @@
     <string name="widget_date_description">آج کی تاریخ۔ تاریخ سننے کے لیے چھوئیں۔</string>
     <string name="widget_both_description">وقت اور تاریخ۔ سننے کے لیے کسی کو بھی چھوئیں۔</string>
     <string name="widget_date_content_description">تاریخ۔ تاریخ سننے کے لیے چھوئیں۔</string>
+    <string name="setting_day_clock">دن کی گھڑی</string>
+    <string name="setting_day_clock_value">دن، دن کا حصہ اور تاریخ بڑے حروف میں دکھاتی ہے</string>
+    <string name="info_day_clock">ان لوگوں کے لیے جو دن بھول جاتے ہیں۔ مرکزی اسکرین پر آج کا دن، صبح، دوپہر، شام یا رات، اور پوری تاریخ نظر آتی ہے۔ فون چارج ہوتے وقت اسکرین روشن رہتی ہے۔ رات کو اسکرین گہری ہو جاتی ہے۔</string>
+    <string name="part_morning">صبح</string>
+    <string name="part_afternoon">دوپہر</string>
+    <string name="part_evening">شام</string>
+    <string name="part_night">رات</string>
 </resources>

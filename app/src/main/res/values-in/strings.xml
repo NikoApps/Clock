@@ -133,4 +133,11 @@
     <string name="widget_date_description">Tanggal hari ini. Sentuh untuk mendengar tanggal.</string>
     <string name="widget_both_description">Waktu dan tanggal. Sentuh salah satunya untuk mendengarnya.</string>
     <string name="widget_date_content_description">Tanggal. Sentuh untuk mendengar tanggal.</string>
+    <string name="setting_day_clock">Jam hari</string>
+    <string name="setting_day_clock_value">Menampilkan hari, waktu dalam hari, dan tanggal dengan huruf besar</string>
+    <string name="info_day_clock">Untuk orang yang sering lupa hari. Layar utama menampilkan hari, apakah pagi, siang, sore, atau malam, dan tanggal lengkap. Saat ponsel diisi daya, layar tetap menyala. Pada malam hari layar menjadi gelap.</string>
+    <string name="part_morning">Pagi</string>
+    <string name="part_afternoon">Siang</string>
+    <string name="part_evening">Sore</string>
+    <string name="part_night">Malam</string>
 </resources>

@@ -160,6 +160,7 @@ private fun App(settingsViewModel: SettingsViewModel, clockViewModel: ClockViewM
         Screen.Clock -> ClockScreen(
             voice = clock.voice,
             needsAttention = problems.isNotEmpty(),
+            dayClock = current.dayClock,
             onSpeak = clockViewModel::onSpeak,
             onSpeakDate = clockViewModel::onSpeakDate,
             onOpenSettings = { screen = if (current.helperPinHash == null) Screen.Settings else Screen.Unlock },
@@ -221,7 +222,14 @@ private fun TextSizeScale(size: TextSize, content: @Composable () -> Unit) {
 }
 
 @Composable
-private fun ClockScreen(voice: VoiceStatus, needsAttention: Boolean, onSpeak: () -> Unit, onSpeakDate: () -> Unit, onOpenSettings: () -> Unit) {
+private fun ClockScreen(
+    voice: VoiceStatus,
+    needsAttention: Boolean,
+    dayClock: Boolean,
+    onSpeak: () -> Unit,
+    onSpeakDate: () -> Unit,
+    onOpenSettings: () -> Unit,
+) {
     val context = LocalContext.current
     var now by remember { mutableStateOf(LocalDateTime.now()) }
 
@@ -243,29 +251,55 @@ private fun ClockScreen(voice: VoiceStatus, needsAttention: Boolean, onSpeak: ()
         DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "EEEEdMMMM"), locale)
     }
 
-    ClockContent(
-        timeText = now.format(timeFormat),
-        dateText = now.format(dateFormat),
-        hint = when {
-            voice != VoiceStatus.Ready && voice != VoiceStatus.Starting -> voiceMessage(voice)
-            needsAttention -> R.string.health_hint
-            else -> R.string.status_ready
-        },
-        onSpeak = onSpeak,
-        onSpeakDate = onSpeakDate,
-        onOpenSettings = onOpenSettings,
+    val hint = when {
+        voice != VoiceStatus.Ready && voice != VoiceStatus.Starting -> voiceMessage(voice)
+        needsAttention -> R.string.health_hint
+        else -> R.string.status_ready
+    }
+
+    if (dayClock) {
+        DayClockScreen(now = now, hint = hint, onSpeak = onSpeak, onSpeakDate = onSpeakDate, onOpenSettings = onOpenSettings)
+        return
+    }
+    ClockContent(hint = hint, onSpeak = onSpeak, onSpeakDate = onSpeakDate, onOpenSettings = onOpenSettings) {
+        TimeAndDate(timeText = now.format(timeFormat), dateText = now.format(dateFormat))
+    }
+}
+
+@Composable
+private fun TimeAndDate(timeText: String, dateText: String) {
+    // Shrinks to fit so the seconds never wrap, at any text size or in any language.
+    BasicText(
+        text = timeText,
+        style = MaterialTheme.typography.displayLarge.copy(
+            color = MaterialTheme.colorScheme.secondary,
+            textAlign = TextAlign.Center,
+            fontFeatureSettings = "tnum",
+        ),
+        maxLines = 1,
+        autoSize = TextAutoSize.StepBased(minFontSize = 32.sp, maxFontSize = 96.sp),
+        modifier = Modifier.fillMaxWidth(),
+    )
+    Text(
+        text = dateText,
+        style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Normal),
+        color = MaterialTheme.colorScheme.onSurface,
+        textAlign = TextAlign.Center,
     )
 }
 
+/**
+ * The main screen's fixed frame: title bar, the card that speaks on tap, the hint line and the
+ * big button. [card] fills the card: the time and date, or the day clock.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun ClockContent(
-    timeText: String,
-    dateText: String,
+internal fun ClockContent(
     @StringRes hint: Int,
     onSpeak: () -> Unit,
     onSpeakDate: () -> Unit,
     onOpenSettings: () -> Unit,
+    card: @Composable () -> Unit,
 ) {
     val speakLabel = stringResource(R.string.speak_time)
     val speakDateLabel = stringResource(R.string.speak_date)
@@ -315,24 +349,7 @@ private fun ClockContent(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
-                    // Shrinks to fit so the seconds never wrap, at any text size or in any language.
-                    BasicText(
-                        text = timeText,
-                        style = MaterialTheme.typography.displayLarge.copy(
-                            color = MaterialTheme.colorScheme.secondary,
-                            textAlign = TextAlign.Center,
-                            fontFeatureSettings = "tnum",
-                        ),
-                        maxLines = 1,
-                        autoSize = TextAutoSize.StepBased(minFontSize = 32.sp, maxFontSize = 96.sp),
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-                    Text(
-                        text = dateText,
-                        style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Normal),
-                        color = MaterialTheme.colorScheme.onSurface,
-                        textAlign = TextAlign.Center,
-                    )
+                    card()
                 }
             }
             // Always in the same place under the clock: how to use it, or what a helper needs to fix.
@@ -361,13 +378,8 @@ private fun ClockContent(
 @Composable
 private fun ClockContentPreview() {
     NikoTheme {
-        ClockContent(
-            timeText = "21:34:40",
-            dateText = "Saturday, 17 October",
-            hint = R.string.status_ready,
-            onSpeak = {},
-            onSpeakDate = {},
-            onOpenSettings = {},
-        )
+        ClockContent(hint = R.string.status_ready, onSpeak = {}, onSpeakDate = {}, onOpenSettings = {}) {
+            TimeAndDate(timeText = "21:34:40", dateText = "Saturday, 17 October")
+        }
     }
 }

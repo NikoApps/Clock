@@ -133,4 +133,11 @@
     <string name="widget_date_description">आज की तारीख़। तारीख़ सुनने के लिए छुएँ।</string>
     <string name="widget_both_description">समय और तारीख़। सुनने के लिए किसी को भी छुएँ।</string>
     <string name="widget_date_content_description">तारीख़। तारीख़ सुनने के लिए छुएँ।</string>
+    <string name="setting_day_clock">दिन घड़ी</string>
+    <string name="setting_day_clock_value">दिन, दिन का समय और तारीख़ बड़े अक्षरों में दिखाती है</string>
+    <string name="info_day_clock">उन लोगों के लिए जो दिन भूल जाते हैं। मुख्य स्क्रीन पर आज का दिन, सुबह, दोपहर, शाम या रात, और पूरी तारीख़ दिखती है। फ़ोन चार्ज होते समय स्क्रीन चालू रहती है। रात में स्क्रीन गहरी हो जाती है।</string>
+    <string name="part_morning">सुबह</string>
+    <string name="part_afternoon">दोपहर</string>
+    <string name="part_evening">शाम</string>
+    <string name="part_night">रात</string>
 </resources>

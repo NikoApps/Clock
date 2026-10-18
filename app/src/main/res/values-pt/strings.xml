@@ -133,4 +133,11 @@
     <string name="widget_date_description">A data de hoje. Toque para ouvir a data.</string>
     <string name="widget_both_description">A hora e a data. Toque em qualquer uma para ouvir.</string>
     <string name="widget_date_content_description">Data. Toque para ouvir a data.</string>
+    <string name="setting_day_clock">Relógio do dia</string>
+    <string name="setting_day_clock_value">Mostra o dia, a parte do dia e a data em letras grandes</string>
+    <string name="info_day_clock">Para pessoas que perdem a noção do dia. A tela principal mostra o dia da semana, se é manhã, tarde, fim de tarde ou noite, e a data completa. Enquanto o celular carrega, a tela fica acesa. À noite ela escurece.</string>
+    <string name="part_morning">Manhã</string>
+    <string name="part_afternoon">Tarde</string>
+    <string name="part_evening">Fim de tarde</string>
+    <string name="part_night">Noite</string>
 </resources>

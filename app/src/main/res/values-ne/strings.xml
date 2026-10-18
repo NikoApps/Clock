@@ -137,4 +137,11 @@
     <string name="widget_date_description">आजको मिति। मिति सुन्न यसमा छुनुहोस्।</string>
     <string name="widget_both_description">समय र मिति। सुन्न जुनसुकैमा छुनुहोस्।</string>
     <string name="widget_date_content_description">मिति। मिति सुन्न छुनुहोस्।</string>
+    <string name="setting_day_clock">दिन घडी</string>
+    <string name="setting_day_clock_value">बार, दिनको समय र मिति ठूला अक्षरमा देखाउँछ</string>
+    <string name="info_day_clock">दिन बिर्सने मानिसहरूका लागि। मुख्य स्क्रिनमा आजको बार, बिहान, दिउँसो, साँझ वा राति, र पूरा मिति देखिन्छ। फोन चार्ज हुँदा स्क्रिन बलिरहन्छ। राति स्क्रिन अँध्यारो हुन्छ।</string>
+    <string name="part_morning">बिहान</string>
+    <string name="part_afternoon">दिउँसो</string>
+    <string name="part_evening">साँझ</string>
+    <string name="part_night">राति</string>
 </resources>

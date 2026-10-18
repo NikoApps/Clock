@@ -133,4 +133,11 @@
     <string name="widget_date_description">আজকের তারিখ। তারিখ শুনতে ছুঁয়ে দিন।</string>
     <string name="widget_both_description">সময় ও তারিখ। শুনতে যেকোনোটি ছুঁয়ে দিন।</string>
     <string name="widget_date_content_description">তারিখ। তারিখ শুনতে ছুঁয়ে দিন।</string>
+    <string name="setting_day_clock">দিনের ঘড়ি</string>
+    <string name="setting_day_clock_value">বার, দিনের সময় আর তারিখ বড় অক্ষরে দেখায়</string>
+    <string name="info_day_clock">যাঁরা দিন ভুলে যান তাঁদের জন্য। মূল স্ক্রিনে আজকের বার, সকাল, দুপুর, সন্ধ্যা না রাত, আর পুরো তারিখ দেখায়। ফোন চার্জ হওয়ার সময় স্ক্রিন জ্বলে থাকে। রাতে স্ক্রিন অন্ধকার হয়ে যায়।</string>
+    <string name="part_morning">সকাল</string>
+    <string name="part_afternoon">দুপুর</string>
+    <string name="part_evening">সন্ধ্যা</string>
+    <string name="part_night">রাত</string>
 </resources>
