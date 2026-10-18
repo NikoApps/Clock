@@ -132,12 +132,15 @@
     <string name="setup_next">Next</string>
     <string name="setup_done">Done</string>
     <string name="setup_skip">Skip setup</string>
-    <string name="setup_voice_intro">Choose the language Niko Clock speaks in, then test the voice.</string>
-    <string name="setup_chimes_intro">Niko Clock can say the time by itself through the day. It stays quiet at night.</string>
-    <string name="setup_shake_intro">Shaking the phone can say the time, even with the screen off. It uses a little more battery.</string>
-    <string name="setup_pin_intro">A PIN stops the settings being changed by accident. You can skip this.</string>
-    <string name="setup_phone_intro">Some phones stop apps in the background to save battery. Check these so Niko Clock keeps speaking.</string>
     <string name="setup_phone_ok">These settings are fine.</string>
     <string name="setup_again">Set up step by step</string>
     <string name="setup_again_value">Go through the main settings again</string>
+
+    <!-- Widgets -->
+    <string name="widget_time_name">Time</string>
+    <string name="widget_date_name">Date</string>
+    <string name="widget_both_name">Time and date</string>
+    <string name="widget_date_description">Today\'s date. Tap it to hear the date.</string>
+    <string name="widget_both_description">The time and date. Tap either one to hear it.</string>
+    <string name="widget_date_content_description">Date. Tap to hear the date.</string>
 </resources>

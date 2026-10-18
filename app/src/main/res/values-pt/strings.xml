@@ -124,12 +124,13 @@
     <string name="setup_next">Próximo</string>
     <string name="setup_done">Pronto</string>
     <string name="setup_skip">Pular configuração</string>
-    <string name="setup_voice_intro">Escolha o idioma em que o Niko Clock fala e depois teste a voz.</string>
-    <string name="setup_chimes_intro">O Niko Clock pode dizer a hora sozinho ao longo do dia. À noite ele fica em silêncio.</string>
-    <string name="setup_shake_intro">Sacudir o celular pode dizer a hora, mesmo com a tela apagada. Gasta um pouco mais de bateria.</string>
-    <string name="setup_pin_intro">Um PIN evita que as configurações sejam mudadas sem querer. Você pode pular esta etapa.</string>
-    <string name="setup_phone_intro">Alguns celulares param apps em segundo plano para economizar bateria. Confira isto para o Niko Clock continuar falando.</string>
     <string name="setup_phone_ok">Estas configurações estão certas.</string>
     <string name="setup_again">Configurar passo a passo</string>
     <string name="setup_again_value">Rever as configurações principais</string>
+    <string name="widget_time_name">Hora</string>
+    <string name="widget_date_name">Data</string>
+    <string name="widget_both_name">Hora e data</string>
+    <string name="widget_date_description">A data de hoje. Toque para ouvir a data.</string>
+    <string name="widget_both_description">A hora e a data. Toque em qualquer uma para ouvir.</string>
+    <string name="widget_date_content_description">Data. Toque para ouvir a data.</string>
 </resources>

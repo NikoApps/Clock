@@ -111,13 +111,37 @@
         <receiver
             android:name=".widget.ClockWidgetProvider"
             android:exported="false"
-            android:label="@string/speak_time">
+            android:label="@string/widget_time_name">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/clock_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.DateWidgetProvider"
+            android:exported="false"
+            android:label="@string/widget_date_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/date_widget_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widget.TimeDateWidgetProvider"
+            android:exported="false"
+            android:label="@string/widget_both_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/time_date_widget_info" />
         </receiver>
     </application>
 

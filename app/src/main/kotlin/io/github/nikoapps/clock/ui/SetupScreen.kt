@@ -3,6 +3,7 @@ package io.github.nikoapps.clock.ui
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -20,22 +22,23 @@ import io.github.nikoapps.clock.R
 import io.github.nikoapps.clock.VoiceStatus
 import io.github.nikoapps.clock.health.HealthProblem
 import io.github.nikoapps.clock.settings.Settings
-import io.github.nikoapps.commons.ui.BigButton
 import io.github.nikoapps.commons.ui.ScreenTopBar
 import io.github.nikoapps.commons.ui.SecondaryButton
+import io.github.nikoapps.commons.ui.SolidButton
 import io.github.nikoapps.commons.ui.SettingsGroup
 
-private enum class SetupStep(val title: Int, val intro: Int) {
-    Voice(R.string.section_voice, R.string.setup_voice_intro),
-    Chimes(R.string.section_chimes, R.string.setup_chimes_intro),
-    Shake(R.string.section_shake, R.string.setup_shake_intro),
-    Pin(R.string.section_pin, R.string.setup_pin_intro),
-    Phone(R.string.section_phone_setup, R.string.setup_phone_intro),
+private enum class SetupStep(val title: Int) {
+    Voice(R.string.section_voice),
+    Chimes(R.string.section_chimes),
+    Shake(R.string.section_shake),
+    Pin(R.string.section_pin),
+    Phone(R.string.section_phone_setup),
 }
 
 /**
  * First-run setup for the helper, one short step at a time, using the same rows as settings.
  * Nothing is required: Next moves on whatever is chosen, and Skip setup leaves at any point.
+ * Next and Skip sit side by side in calm colours; the big accent button belongs to the main screen.
  * [step] is kept by the caller so it survives a trip to the PIN screen.
  */
 @Composable
@@ -72,21 +75,13 @@ fun SetupScreen(
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState()),
             ) {
-                Column(
-                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                ) {
-                    Text(
-                        text = stringResource(R.string.setup_step, current.ordinal + 1, SetupStep.entries.size),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    Text(
-                        text = stringResource(current.intro),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
-                }
+                // The rows explain themselves through their (i) buttons, so the step needs no intro text.
+                Text(
+                    text = stringResource(R.string.setup_step, current.ordinal + 1, SetupStep.entries.size),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                )
                 SettingsGroup(stringResource(current.title)) {
                     when (current) {
                         SetupStep.Voice -> {
@@ -114,15 +109,23 @@ fun SetupScreen(
                     }
                 }
             }
-            Column(
+            Row(
                 modifier = Modifier.padding(24.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                BigButton(
+                if (!last) {
+                    SecondaryButton(
+                        text = stringResource(R.string.setup_skip),
+                        onClick = onFinish,
+                        modifier = Modifier.weight(1f),
+                    )
+                }
+                SolidButton(
                     text = stringResource(if (last) R.string.setup_done else R.string.setup_next),
                     onClick = { if (last) onFinish() else onStep(step + 1) },
+                    modifier = Modifier.weight(1f),
                 )
-                if (!last) SecondaryButton(text = stringResource(R.string.setup_skip), onClick = onFinish)
             }
         }
     }
