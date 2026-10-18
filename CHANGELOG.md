@@ -2,6 +2,17 @@
 
 Internal changelog for developers, generated from commit messages with git-cliff. The user-facing notes are in `fastlane/metadata/android/en-US/changelogs/`.
 
+## 0.3.0 - 2026-10-18
+
+### Added
+
+- health warnings, last announcement and first-run setup
+- date and time-and-date widgets, calmer setup buttons
+
+### Docs
+
+- link the Niko Clock page on the website
+
 ## 0.2.0 - 2026-10-17
 
 ### Added
@@ -50,4 +61,5 @@ Internal changelog for developers, generated from commit messages with git-cliff
 - update launcher icon to Niko Clock v2
 - rename package to io.github.nikoapps
 - ignore local agent worktrees
+- release 0.2.0
 

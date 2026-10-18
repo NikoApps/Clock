@@ -1,0 +1,5 @@
+* A short setup for helpers on first open: voice, chimes, shake, PIN and phone settings
+* The line under the clock warns when a phone setting may stop it speaking
+* Settings show when the clock last spoke by itself, and how to keep it running on Xiaomi, Samsung and other phones
+* New Date and Time and date widgets
+* Settings name the voice in use
