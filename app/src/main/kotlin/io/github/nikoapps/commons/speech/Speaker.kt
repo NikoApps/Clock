@@ -107,6 +107,13 @@ class Speaker(
         !isNetworkConnectionRequired &&
             TextToSpeech.Engine.KEY_FEATURE_NOT_INSTALLED !in features.orEmpty()
 
+    /** The speech engine's name as the phone shows it, such as "Speech Services by Google". */
+    fun engineName(): String? {
+        if (!isReady) return null
+        val default = tts.defaultEngine ?: return null
+        return runCatching { tts.engines.firstOrNull { it.name == default }?.label }.getOrNull()
+    }
+
     fun isLanguageAvailable(locale: Locale): Boolean =
         isReady && tts.isLanguageAvailable(locale) >= TextToSpeech.LANG_AVAILABLE
 

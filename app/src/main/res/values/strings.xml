@@ -42,7 +42,6 @@
     <string name="sensitivity_medium">Medium shake</string>
     <string name="sensitivity_high">Gentle shake</string>
     <string name="section_phone_setup">Phone</string>
-    <string name="open_battery_settings">Battery</string>
     <string name="section_pin">Helper PIN</string>
     <string name="pin_remove">Remove the PIN</string>
     <string name="pin_enter_title">Enter the helper PIN</string>
@@ -76,7 +75,6 @@
     <string name="value_off">Off</string>
     <string name="voice_problem">The voice needs help</string>
     <string name="setting_shake_value">Works with the screen off</string>
-    <string name="battery_value">Let Niko Clock run in the background</string>
     <string name="speak_date">Speak the date</string>
     <string name="setting_voice_pitch">Voice pitch</string>
     <string name="pitch_lower">Lower</string>
@@ -108,4 +106,38 @@
     <string name="version">Version</string>
     <string name="setting_shake_date">Shake again for the date</string>
     <string name="info_shake_date">After the time is spoken, shake again within a few seconds to hear today\'s date.</string>
+    <!-- Health check -->
+    <string name="health_hint">Niko Clock may stop speaking by itself. A helper can fix this in settings.</string>
+    <string name="section_needs_attention">Needs attention</string>
+    <string name="health_exact_alarms">Allow alarms</string>
+    <string name="health_exact_alarms_value">Needed to say the time on the minute</string>
+    <string name="health_battery">Battery use</string>
+    <string name="health_battery_value">Set to Unrestricted or No restrictions so the phone doesn\'t stop Niko Clock</string>
+    <string name="health_hibernation">Unused app settings</string>
+    <string name="health_hibernation_value">Turn off Pause app activity if unused</string>
+    <string name="last_chime">Last announcement</string>
+    <string name="last_chime_none">None yet</string>
+    <string name="last_chime_today">Today, %1$s</string>
+    <string name="last_chime_yesterday">Yesterday, %1$s</string>
+    <string name="info_last_chime">When Niko Clock last said the time by itself. If this is much older than it should be, the phone may be stopping Niko Clock. Check the phone settings below.</string>
+    <string name="phone_maker">Phone maker settings</string>
+    <string name="phone_maker_xiaomi">Turn on Autostart for Niko Clock, and set Battery saver to No restrictions.</string>
+    <string name="phone_maker_samsung">Set Battery to Unrestricted, and keep Niko Clock out of Sleeping apps and Deep sleeping apps.</string>
+    <string name="phone_maker_other">If the phone has Autostart or Auto-launch, turn it on for Niko Clock, and set battery use to No restrictions.</string>
+    <string name="voice_engine">Voice from %1$s</string>
+
+    <!-- First-run setup -->
+    <string name="setup_title">Set up</string>
+    <string name="setup_step">Step %1$d of %2$d</string>
+    <string name="setup_next">Next</string>
+    <string name="setup_done">Done</string>
+    <string name="setup_skip">Skip setup</string>
+    <string name="setup_voice_intro">Choose the language Niko Clock speaks in, then test the voice.</string>
+    <string name="setup_chimes_intro">Niko Clock can say the time by itself through the day. It stays quiet at night.</string>
+    <string name="setup_shake_intro">Shaking the phone can say the time, even with the screen off. It uses a little more battery.</string>
+    <string name="setup_pin_intro">A PIN stops the settings being changed by accident. You can skip this.</string>
+    <string name="setup_phone_intro">Some phones stop apps in the background to save battery. Check these so Niko Clock keeps speaking.</string>
+    <string name="setup_phone_ok">These settings are fine.</string>
+    <string name="setup_again">Set up step by step</string>
+    <string name="setup_again_value">Go through the main settings again</string>
 </resources>

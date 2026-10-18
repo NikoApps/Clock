@@ -37,6 +37,8 @@ data class Settings(
     val voicePitch: VoicePitch = VoicePitch.Normal,
     /** A second shake soon after the time speaks the date. */
     val shakeAgainForDate: Boolean = true,
+    /** The helper finished or skipped first-run setup. */
+    val setupDone: Boolean = false,
 ) {
     val speechSpeed: SpeechSpeed
         get() = SpeechSpeed.entries.minBy { kotlin.math.abs(it.rate - speechRate) }
