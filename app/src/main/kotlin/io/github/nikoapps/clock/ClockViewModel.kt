@@ -31,7 +31,8 @@ enum class VoiceStatus {
     LanguageNotSupported,
 }
 
-data class ClockState(val voice: VoiceStatus = VoiceStatus.Starting)
+/** [engine] is the speech engine's name, shown to helpers so they know which voice is in use. */
+data class ClockState(val voice: VoiceStatus = VoiceStatus.Starting, val engine: String? = null)
 
 class ClockViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -74,6 +75,7 @@ class ClockViewModel(application: Application) : AndroidViewModel(application) {
     private fun checkVoice() {
         val phraser = phraser ?: return
         if (!speaker.isReady) return
+        _state.update { it.copy(engine = speaker.engineName()) }
         setVoice(if (speaker.useVoiceFor(phraser.locale)) VoiceStatus.Ready else VoiceStatus.NoVoice)
     }
 

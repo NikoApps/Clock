@@ -67,6 +67,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.nikoapps.clock.settings.HelperPin
 import io.github.nikoapps.clock.settings.TextSize
 import io.github.nikoapps.clock.ui.SetPinScreen
+import io.github.nikoapps.clock.ui.SetupScreen
+import io.github.nikoapps.clock.health.PhoneHealth
+import androidx.annotation.StringRes
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.currentStateAsState
 import io.github.nikoapps.clock.ui.SettingsScreen
 import io.github.nikoapps.clock.ui.SettingsViewModel
 import io.github.nikoapps.clock.ui.UnlockPinScreen
@@ -108,13 +114,17 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-private enum class Screen { Clock, Unlock, Settings, SetPin }
+private enum class Screen { Clock, Unlock, Settings, SetPin, Setup }
 
 @Composable
 private fun App(settingsViewModel: SettingsViewModel, clockViewModel: ClockViewModel = viewModel()) {
     val settings by settingsViewModel.settings.collectAsStateWithLifecycle()
     val clock by clockViewModel.state.collectAsStateWithLifecycle()
+    val lastChimeAt by settingsViewModel.lastChimeAt.collectAsStateWithLifecycle()
     var screen by rememberSaveable { mutableStateOf(Screen.Clock) }
+    var setupStep by rememberSaveable { mutableIntStateOf(0) }
+    // The PIN screen opens from settings or from setup, and goes back to where it came from.
+    var pinReturn by rememberSaveable { mutableStateOf(Screen.Settings) }
 
     // Chimes and shake show a notification while they run; Android 13+ asks first.
     val notificationPermission = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) {}
@@ -125,13 +135,31 @@ private fun App(settingsViewModel: SettingsViewModel, clockViewModel: ClockViewM
     }
 
     BackHandler(enabled = screen != Screen.Clock) {
-        screen = if (screen == Screen.SetPin) Screen.Settings else Screen.Clock
+        screen = if (screen == Screen.SetPin) pinReturn else Screen.Clock
     }
 
     val current = settings ?: return
+
+    // Checked again each time the app comes back, such as after fixing a setting in the phone's settings.
+    val context = LocalContext.current
+    val lifecycle by LocalLifecycleOwner.current.lifecycle.currentStateAsState()
+    val problems = remember(current, lifecycle) { PhoneHealth.problems(context, current) }
+
+    // First run is for the helper. A phone that already has a PIN is past that, and skipping the
+    // PIN for setup would let anyone into settings.
+    LaunchedEffect(Unit) {
+        if (!current.setupDone && current.helperPinHash == null && screen == Screen.Clock) screen = Screen.Setup
+    }
+    val finishSetup = {
+        settingsViewModel.update { it.copy(setupDone = true) }
+        setupStep = 0
+        screen = Screen.Clock
+    }
+
     when (screen) {
         Screen.Clock -> ClockScreen(
             voice = clock.voice,
+            needsAttention = problems.isNotEmpty(),
             onSpeak = clockViewModel::onSpeak,
             onSpeakDate = clockViewModel::onSpeakDate,
             onOpenSettings = { screen = if (current.helperPinHash == null) Screen.Settings else Screen.Unlock },
@@ -144,22 +172,40 @@ private fun App(settingsViewModel: SettingsViewModel, clockViewModel: ClockViewM
         Screen.Settings -> SettingsScreen(
             settings = current,
             voice = clock.voice,
+            engine = clock.engine,
+            problems = problems,
+            lastChimeAt = lastChimeAt,
             screenLanguage = settingsViewModel.screenLanguage(),
             canChooseScreenLanguage = settingsViewModel.canChooseScreenLanguage,
             onUpdate = settingsViewModel::update,
             onScreenLanguage = settingsViewModel::setScreenLanguage,
             onTestVoice = clockViewModel::onSpeak,
-            onSetPin = { screen = Screen.SetPin },
+            onSetPin = { pinReturn = Screen.Settings; screen = Screen.SetPin },
             onRemovePin = { settingsViewModel.update { it.copy(helperPinHash = null) } },
             onNeedNotifications = askForNotifications,
+            onStartSetup = { setupStep = 0; screen = Screen.Setup },
             onBack = { screen = Screen.Clock },
+        )
+        Screen.Setup -> SetupScreen(
+            step = setupStep,
+            onStep = { setupStep = it },
+            settings = current,
+            voice = clock.voice,
+            engine = clock.engine,
+            problems = problems,
+            onUpdate = settingsViewModel::update,
+            onTestVoice = clockViewModel::onSpeak,
+            onSetPin = { pinReturn = Screen.Setup; screen = Screen.SetPin },
+            onRemovePin = { settingsViewModel.update { it.copy(helperPinHash = null) } },
+            onNeedNotifications = askForNotifications,
+            onFinish = finishSetup,
         )
         Screen.SetPin -> SetPinScreen(
             onPinSet = { pin ->
                 settingsViewModel.update { it.copy(helperPinHash = HelperPin.hash(pin)) }
-                screen = Screen.Settings
+                screen = pinReturn
             },
-            onCancel = { screen = Screen.Settings },
+            onCancel = { screen = pinReturn },
         )
     }
 }
@@ -175,7 +221,7 @@ private fun TextSizeScale(size: TextSize, content: @Composable () -> Unit) {
 }
 
 @Composable
-private fun ClockScreen(voice: VoiceStatus, onSpeak: () -> Unit, onSpeakDate: () -> Unit, onOpenSettings: () -> Unit) {
+private fun ClockScreen(voice: VoiceStatus, needsAttention: Boolean, onSpeak: () -> Unit, onSpeakDate: () -> Unit, onOpenSettings: () -> Unit) {
     val context = LocalContext.current
     var now by remember { mutableStateOf(LocalDateTime.now()) }
 
@@ -200,7 +246,11 @@ private fun ClockScreen(voice: VoiceStatus, onSpeak: () -> Unit, onSpeakDate: ()
     ClockContent(
         timeText = now.format(timeFormat),
         dateText = now.format(dateFormat),
-        voice = voice,
+        hint = when {
+            voice != VoiceStatus.Ready && voice != VoiceStatus.Starting -> voiceMessage(voice)
+            needsAttention -> R.string.health_hint
+            else -> R.string.status_ready
+        },
         onSpeak = onSpeak,
         onSpeakDate = onSpeakDate,
         onOpenSettings = onOpenSettings,
@@ -212,7 +262,7 @@ private fun ClockScreen(voice: VoiceStatus, onSpeak: () -> Unit, onSpeakDate: ()
 private fun ClockContent(
     timeText: String,
     dateText: String,
-    voice: VoiceStatus,
+    @StringRes hint: Int,
     onSpeak: () -> Unit,
     onSpeakDate: () -> Unit,
     onOpenSettings: () -> Unit,
@@ -285,9 +335,10 @@ private fun ClockContent(
                     )
                 }
             }
-            // Always in the same place under the clock. TalkBack reads it out when it changes.
+            // Always in the same place under the clock: how to use it, or what a helper needs to fix.
+            // TalkBack reads it out when it changes.
             Text(
-                text = stringResource(voiceMessage(voice)),
+                text = stringResource(hint),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
@@ -313,7 +364,7 @@ private fun ClockContentPreview() {
         ClockContent(
             timeText = "21:34:40",
             dateText = "Saturday, 17 October",
-            voice = VoiceStatus.Ready,
+            hint = R.string.status_ready,
             onSpeak = {},
             onSpeakDate = {},
             onOpenSettings = {},

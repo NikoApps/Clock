@@ -13,7 +13,7 @@ import java.time.Instant
 private val Context.speechLogStore: DataStore<Preferences> by preferencesDataStore(name = "speech_log")
 
 /**
- * When Niko Clock last spoke, so the main screen can show "Last spoke at 14:00" and a
+ * When Niko Clock last spoke, so settings can show the last announcement and a
  * family member can check chimes are still working.
  */
 class SpeechLog(context: Context) {

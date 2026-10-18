@@ -1,8 +1,6 @@
 package io.github.nikoapps.clock.ui
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.provider.Settings as AndroidSettings
 import android.speech.tts.TextToSpeech
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,61 +14,35 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalResources
 import androidx.core.net.toUri
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.github.nikoapps.clock.R
 import io.github.nikoapps.clock.VoiceStatus
+import io.github.nikoapps.clock.health.HealthProblem
 import io.github.nikoapps.clock.settings.Settings
-import io.github.nikoapps.clock.settings.ShakeSensitivity
-import io.github.nikoapps.clock.settings.SpeechSpeed
 import io.github.nikoapps.clock.settings.TextSize
 import io.github.nikoapps.clock.settings.VoicePitch
 import io.github.nikoapps.commons.ui.ChoiceRow
-import io.github.nikoapps.commons.ui.InfoStrings
-import io.github.nikoapps.commons.ui.LocalInfoStrings
 import io.github.nikoapps.commons.ui.ScreenTopBar
 import io.github.nikoapps.commons.ui.SettingsGroup
 import io.github.nikoapps.commons.ui.SwitchRow
 import io.github.nikoapps.commons.ui.ValueRow
-import java.time.LocalTime
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-/** Languages Niko Clock can speak the time in. Each has hand-written phrases. */
-private val VOICE_LANGUAGES: List<String?> = listOf(null, "en", "ne-NP", "hi-IN", "es", "pt-BR")
-
 /** Languages the screen text is translated into. */
 private val SCREEN_LANGUAGES: List<String?> = listOf(null, "en", "ne", "hi", "bn", "ur", "ar", "es", "pt", "fr", "in")
-
-/** Each language in its own words, so people can find theirs without reading another. */
-private val LANGUAGE_NAMES = mapOf(
-    "en" to "English",
-    "ne" to "नेपाली",
-    "hi" to "हिन्दी",
-    "bn" to "বাংলা",
-    "ur" to "اردو",
-    "ar" to "العربية",
-    "es" to "Español",
-    "pt" to "Português",
-    "fr" to "Français",
-    // Android still calls Indonesian "in"; newer code says "id".
-    "in" to "Bahasa Indonesia",
-    "id" to "Bahasa Indonesia",
-)
-private val CHIME_INTERVALS = listOf(60, 30, 15)
-private val CHIME_VOLUMES = listOf(50, 80, 100)
-private val QUIET_STARTS = listOf(LocalTime.of(21, 0), LocalTime.of(22, 0), LocalTime.of(23, 0))
-private val QUIET_ENDS = listOf(LocalTime.of(6, 0), LocalTime.of(7, 0), LocalTime.of(8, 0))
 
 /**
  * Settings for helpers, as a plain list like Android's own settings. The title bar stays put
@@ -81,6 +53,9 @@ private val QUIET_ENDS = listOf(LocalTime.of(6, 0), LocalTime.of(7, 0), LocalTim
 fun SettingsScreen(
     settings: Settings,
     voice: VoiceStatus,
+    engine: String?,
+    problems: List<HealthProblem>,
+    lastChimeAt: Instant?,
     screenLanguage: String?,
     canChooseScreenLanguage: Boolean,
     onUpdate: ((Settings) -> Settings) -> Unit,
@@ -89,35 +64,17 @@ fun SettingsScreen(
     onSetPin: () -> Unit,
     onRemovePin: () -> Unit,
     onNeedNotifications: () -> Unit,
+    onStartSetup: () -> Unit,
     onBack: () -> Unit,
 ) {
     val context = LocalContext.current
     val chevron = painterResource(R.drawable.ic_chevron_right)
     val external = painterResource(R.drawable.ic_open_external)
-    fun open(intent: Intent) {
-        try {
-            context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-        } catch (_: ActivityNotFoundException) {
-            context.startActivity(Intent(AndroidSettings.ACTION_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-        }
-    }
-
-    @Composable
-    fun languageName(tag: String?): String =
-        tag?.let { LANGUAGE_NAMES[it.substringBefore('-')] } ?: stringResource(R.string.language_phone)
+    fun open(intent: Intent) = openPage(context, intent)
 
     val cancel = stringResource(R.string.cancel)
-    val on = stringResource(R.string.value_on)
-    val off = stringResource(R.string.value_off)
 
-    val resources = LocalResources.current
-    val infoStrings = InfoStrings(
-        icon = painterResource(R.drawable.ic_info),
-        moreAbout = { title -> resources.getString(R.string.info_more_about, title) },
-        ok = stringResource(R.string.ok),
-    )
-
-    CompositionLocalProvider(LocalInfoStrings provides infoStrings) {
+    ProvideInfoStrings {
     Column(modifier = Modifier.fillMaxSize().safeDrawingPadding()) {
         ScreenTopBar(
             title = stringResource(R.string.settings_title),
@@ -131,34 +88,16 @@ fun SettingsScreen(
                 .verticalScroll(rememberScrollState())
                 .padding(bottom = 32.dp),
         ) {
-            SettingsGroup(stringResource(R.string.section_voice)) {
-                val voiceProblem = voice != VoiceStatus.Ready && voice != VoiceStatus.Starting
-                ChoiceRow(
-                    title = stringResource(R.string.setting_voice_language),
-                    options = VOICE_LANGUAGES,
-                    selected = VOICE_LANGUAGES.firstOrNull { it == settings.language },
-                    optionLabel = { languageName(it) },
-                    onSelect = { tag -> onUpdate { it.copy(language = tag) } },
-                    cancelLabel = cancel,
-                )
-                if (voiceProblem) {
-                    // Only shown when something is wrong, and it says how to fix it.
-                    ValueRow(
-                        title = stringResource(R.string.voice_problem),
-                        value = stringResource(voiceMessage(voice)),
-                        valueIsWarning = true,
-                        trailing = chevron,
-                        onClick = { open(Intent(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA)) },
-                    )
+            if (problems.isNotEmpty()) {
+                SettingsGroup(stringResource(R.string.section_needs_attention)) {
+                    HealthRows(problems)
                 }
-                ChoiceRow(
-                    title = stringResource(R.string.setting_speech_speed),
-                    options = SpeechSpeed.entries,
-                    selected = settings.speechSpeed,
-                    optionLabel = { stringResource(it.label()) },
-                    onSelect = { speed -> onUpdate { it.copy(speechRate = speed.rate) } },
-                    cancelLabel = cancel,
-                )
+            }
+
+            SettingsGroup(stringResource(R.string.section_voice)) {
+                VoiceLanguageRow(settings, onUpdate)
+                VoiceProblemRow(voice)
+                SpeechSpeedRow(settings, onUpdate)
                 ChoiceRow(
                     title = stringResource(R.string.setting_voice_pitch),
                     options = VoicePitch.entries,
@@ -173,7 +112,7 @@ fun SettingsScreen(
                     checked = settings.vibrateBeforeSpeaking,
                     onCheckedChange = { checked -> onUpdate { it.copy(vibrateBeforeSpeaking = checked) } },
                 )
-                ValueRow(title = stringResource(R.string.test_voice), value = null, onClick = onTestVoice)
+                TestVoiceRow(engine, onTestVoice)
                 ValueRow(
                     title = stringResource(R.string.install_voice),
                     value = null,
@@ -183,113 +122,19 @@ fun SettingsScreen(
             }
 
             SettingsGroup(stringResource(R.string.section_chimes)) {
-                SwitchRow(
-                    title = stringResource(R.string.setting_chime),
-                    info = stringResource(R.string.info_chime),
-                    checked = settings.chimeEnabled,
-                    onCheckedChange = { checked ->
-                        if (checked) onNeedNotifications()
-                        onUpdate { it.copy(chimeEnabled = checked) }
-                    },
-                )
+                ChimeRows(settings, onUpdate, onNeedNotifications)
                 if (settings.chimeEnabled) {
-                    ChoiceRow(
-                        title = stringResource(R.string.setting_chime_interval),
-                        options = CHIME_INTERVALS,
-                        selected = settings.chimeIntervalMinutes,
-                        optionLabel = { minutes ->
-                            stringResource(
-                                when (minutes) {
-                                    60 -> R.string.chime_every_hour
-                                    30 -> R.string.chime_every_half_hour
-                                    else -> R.string.chime_every_quarter_hour
-                                },
-                            )
-                        },
-                        onSelect = { minutes -> onUpdate { it.copy(chimeIntervalMinutes = minutes) } },
-                        cancelLabel = cancel,
-                    )
-                    ChoiceRow(
-                        title = stringResource(R.string.setting_chime_volume),
-                        options = CHIME_VOLUMES,
-                        selected = CHIME_VOLUMES.minBy { kotlin.math.abs(it - settings.chimeVolumePercent) },
-                        optionLabel = { percent ->
-                            stringResource(
-                                when (percent) {
-                                    50 -> R.string.volume_quiet
-                                    80 -> R.string.volume_medium
-                                    else -> R.string.volume_loud
-                                },
-                            )
-                        },
-                        onSelect = { percent -> onUpdate { it.copy(chimeVolumePercent = percent) } },
-                        cancelLabel = cancel,
-                    )
-                    SwitchRow(
-                        title = stringResource(R.string.setting_quiet_hours),
-                        info = stringResource(R.string.info_quiet_hours),
-                        value = if (settings.quietHoursEnabled) {
-                            "${clockTime(settings.quietStart)} – ${clockTime(settings.quietEnd)}"
-                        } else {
-                            off
-                        },
-                        checked = settings.quietHoursEnabled,
-                        onCheckedChange = { checked -> onUpdate { it.copy(quietHoursEnabled = checked) } },
-                    )
-                    if (settings.quietHoursEnabled) {
-                        ChoiceRow(
-                            title = stringResource(R.string.setting_quiet_start),
-                            options = QUIET_STARTS,
-                            selected = QUIET_STARTS.firstOrNull { it == settings.quietStart } ?: QUIET_STARTS[1],
-                            optionLabel = { clockTime(it) },
-                            onSelect = { time -> onUpdate { it.copy(quietStart = time) } },
-                            cancelLabel = cancel,
-                        )
-                        ChoiceRow(
-                            title = stringResource(R.string.setting_quiet_end),
-                            options = QUIET_ENDS,
-                            selected = QUIET_ENDS.firstOrNull { it == settings.quietEnd } ?: QUIET_ENDS[1],
-                            optionLabel = { clockTime(it) },
-                            onSelect = { time -> onUpdate { it.copy(quietEnd = time) } },
-                            cancelLabel = cancel,
-                        )
-                    }
-                    SwitchRow(
-                        title = stringResource(R.string.setting_follow_dnd),
-                        info = stringResource(R.string.info_dnd),
-                        checked = settings.chimeFollowsDoNotDisturb,
-                        onCheckedChange = { checked -> onUpdate { it.copy(chimeFollowsDoNotDisturb = checked) } },
+                    ValueRow(
+                        title = stringResource(R.string.last_chime),
+                        info = stringResource(R.string.info_last_chime),
+                        value = lastChimeText(lastChimeAt),
+                        onClick = null,
                     )
                 }
             }
 
             SettingsGroup(stringResource(R.string.section_shake)) {
-                SwitchRow(
-                    title = stringResource(R.string.setting_shake),
-                    info = stringResource(R.string.info_shake),
-                    value = stringResource(R.string.setting_shake_value),
-                    checked = settings.shakeEnabled,
-                    onCheckedChange = { checked ->
-                        if (checked) onNeedNotifications()
-                        onUpdate { it.copy(shakeEnabled = checked) }
-                    },
-                )
-                if (settings.shakeEnabled) {
-                    SwitchRow(
-                        title = stringResource(R.string.setting_shake_date),
-                        info = stringResource(R.string.info_shake_date),
-                        checked = settings.shakeAgainForDate,
-                        onCheckedChange = { checked -> onUpdate { it.copy(shakeAgainForDate = checked) } },
-                    )
-                    ChoiceRow(
-                        title = stringResource(R.string.setting_shake_sensitivity),
-                        options = listOf(ShakeSensitivity.High, ShakeSensitivity.Medium, ShakeSensitivity.Low),
-                        selected = settings.shakeSensitivity,
-                        optionLabel = { stringResource(it.label()) },
-                        onSelect = { s -> onUpdate { it.copy(shakeSensitivity = s) } },
-                        cancelLabel = cancel,
-                    )
-                }
+                ShakeRows(settings, onUpdate, onNeedNotifications)
             }
 
             SettingsGroup(stringResource(R.string.section_screen)) {
@@ -314,23 +159,14 @@ fun SettingsScreen(
             }
 
             SettingsGroup(stringResource(R.string.section_phone_setup)) {
+                PhoneMakerRow()
+                PinRows(settings, onSetPin, onRemovePin)
                 ValueRow(
-                    title = stringResource(R.string.open_battery_settings),
-                    info = stringResource(R.string.info_battery),
-                    value = stringResource(R.string.battery_value),
+                    title = stringResource(R.string.setup_again),
+                    value = stringResource(R.string.setup_again_value),
                     trailing = chevron,
-                    onClick = { open(Intent(AndroidSettings.ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS)) },
+                    onClick = onStartSetup,
                 )
-                ValueRow(
-                    title = stringResource(R.string.section_pin),
-                    info = stringResource(R.string.info_pin),
-                    value = if (settings.helperPinHash == null) off else on,
-                    trailing = chevron,
-                    onClick = onSetPin,
-                )
-                if (settings.helperPinHash != null) {
-                    ValueRow(title = stringResource(R.string.pin_remove), value = null, onClick = onRemovePin)
-                }
             }
 
             SettingsGroup(stringResource(R.string.section_support)) {
@@ -411,36 +247,16 @@ private const val LICENCE_URL = "https://www.gnu.org/licenses/gpl-3.0.html"
 private fun appVersion(context: android.content.Context): String =
     context.packageManager.getPackageInfo(context.packageName, 0).versionName.orEmpty()
 
-/** "9:00 PM" or "21:00", following the phone's clock style. */
-private fun clockTime(time: LocalTime): String = time.format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
-
-private fun SpeechSpeed.label(): Int = when (this) {
-    SpeechSpeed.Slow -> R.string.speed_slow
-    SpeechSpeed.Normal -> R.string.speed_normal
-    SpeechSpeed.Fast -> R.string.speed_fast
-}
-
-private fun TextSize.label(): Int = when (this) {
-    TextSize.Small -> R.string.size_small
-    TextSize.Medium -> R.string.size_medium
-    TextSize.Large -> R.string.size_large
-}
-
-private fun VoicePitch.label(): Int = when (this) {
-    VoicePitch.Lower -> R.string.pitch_lower
-    VoicePitch.Normal -> R.string.pitch_normal
-    VoicePitch.Higher -> R.string.pitch_higher
-}
-
-private fun ShakeSensitivity.label(): Int = when (this) {
-    ShakeSensitivity.Low -> R.string.sensitivity_low
-    ShakeSensitivity.Medium -> R.string.sensitivity_medium
-    ShakeSensitivity.High -> R.string.sensitivity_high
-}
-
-fun voiceMessage(voice: VoiceStatus): Int = when (voice) {
-    VoiceStatus.Starting, VoiceStatus.Ready -> R.string.status_ready
-    VoiceStatus.NoVoice -> R.string.status_no_voice
-    VoiceStatus.NoEngine -> R.string.status_no_engine
-    VoiceStatus.LanguageNotSupported -> R.string.status_language_not_supported
+/** "Today, 2:00 PM", "Yesterday, 9:00 PM", or the full date for anything older. */
+@Composable
+private fun lastChimeText(at: Instant?): String {
+    if (at == null) return stringResource(R.string.last_chime_none)
+    val local = at.atZone(ZoneId.systemDefault())
+    val today = LocalDate.now()
+    val time = clockTime(local.toLocalTime())
+    return when (local.toLocalDate()) {
+        today -> stringResource(R.string.last_chime_today, time)
+        today.minusDays(1) -> stringResource(R.string.last_chime_yesterday, time)
+        else -> local.format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.SHORT))
+    }
 }

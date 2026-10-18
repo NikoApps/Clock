@@ -9,16 +9,22 @@ import androidx.lifecycle.viewModelScope
 import io.github.nikoapps.clock.settings.BackgroundSync
 import io.github.nikoapps.clock.settings.Settings
 import io.github.nikoapps.clock.settings.SettingsRepository
+import io.github.nikoapps.clock.speech.SpeechLog
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.time.Instant
 
 class SettingsViewModel(application: Application) : AndroidViewModel(application) {
     private val repository = SettingsRepository(application)
 
     /** Null until the stored settings have loaded, so the screen never flashes defaults. */
     val settings: StateFlow<Settings?> = repository.settings
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
+
+    /** When a chime was last spoken, so a helper can check they still work. */
+    val lastChimeAt: StateFlow<Instant?> = SpeechLog(application).lastChimeAt
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
     fun update(transform: (Settings) -> Settings) {
