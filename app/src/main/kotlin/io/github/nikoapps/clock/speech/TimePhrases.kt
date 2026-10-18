@@ -41,6 +41,12 @@ fun timePhraserFor(locale: Locale, numberWords: (Locale) -> NumberWords): TimePh
         "hi" -> HindiTimePhraser(numberWords(HINDI))
         "es" -> SpanishTimePhraser(numberWords(SPANISH))
         "pt" -> PortugueseTimePhraser(numberWords(PORTUGUESE))
+        "fr" -> FrenchTimePhraser(numberWords(FRENCH))
+        // Android still calls Indonesian "in"; newer code says "id".
+        "in", "id" -> IndonesianTimePhraser(numberWords(INDONESIAN))
+        // ICU has no spellout rules for Bengali or Urdu, so they use their own number tables.
+        "bn" -> BengaliTimePhraser()
+        "ur" -> UrduTimePhraser()
         else -> null
     }
 
@@ -48,6 +54,10 @@ private val NEPALI: Locale = Locale.forLanguageTag("ne-NP")
 private val HINDI: Locale = Locale.forLanguageTag("hi-IN")
 private val SPANISH: Locale = Locale.forLanguageTag("es")
 private val PORTUGUESE: Locale = Locale.forLanguageTag("pt-BR")
+private val FRENCH: Locale = Locale.forLanguageTag("fr-FR")
+private val INDONESIAN: Locale = Locale.forLanguageTag("id-ID")
+private val BENGALI: Locale = Locale.forLanguageTag("bn-BD")
+private val URDU: Locale = Locale.forLanguageTag("ur-PK")
 
 /** The hour on a 12-hour clock: 0 and 12 are 12, 13 is 1. */
 private fun clockHour(hour: Int): Int = (hour + 11) % 12 + 1
@@ -239,3 +249,178 @@ class PortugueseTimePhraser(private val numbers: NumberWords) : TimePhraser {
         else -> "da madrugada"
     }
 }
+
+/**
+ * "Il est quatre heures moins le quart de l'après-midi."
+ * Midi and minuit replace twelve. From twenty-five to the hour, round minutes count down
+ * ("moins vingt"); other minutes are said as they are ("trois heures trente-sept").
+ */
+class FrenchTimePhraser(private val numbers: NumberWords) : TimePhraser {
+    override val locale: Locale = FRENCH
+
+    override fun phrase(time: LocalTime): String {
+        val minute = time.minute
+        val countDown = minute == 45 || minute in listOf(35, 40, 50, 55)
+        val hour = if (countDown) time.hour + 1 else time.hour
+        val noonOrMidnight = hour % 12 == 0
+        val minutes = when {
+            minute == 0 -> ""
+            minute == 15 -> " et quart"
+            // "Demie" agrees with heure; midi and minuit are masculine.
+            minute == 30 -> if (noonOrMidnight) " et demi" else " et demie"
+            minute == 45 -> " moins le quart"
+            countDown -> " moins ${numbers.words(60 - minute)}"
+            else -> " ${numbers.words(minute)}"
+        }
+        return "Il est ${hourName(hour)}$minutes${period(hour)}."
+    }
+
+    override fun datePhrase(date: LocalDate): String {
+        val day = if (date.dayOfMonth == 1) "premier" else numbers.words(date.dayOfMonth)
+        return "Nous sommes le ${date.dayName(locale)} $day ${date.monthName(locale)}."
+    }
+
+    private fun hourName(hour: Int): String = when (hour % 24) {
+        0 -> "minuit"
+        12 -> "midi"
+        else -> clockHour(hour).let { if (it == 1) "une heure" else "${numbers.words(it)} heures" }
+    }
+
+    private fun period(hour: Int): String = when (hour % 24) {
+        0, 12 -> ""
+        in 1..11 -> " du matin"
+        in 13..17 -> " de l'après-midi"
+        else -> " du soir"
+    }
+}
+
+/**
+ * "Sekarang pukul empat kurang seperempat sore."
+ * Setengah counts towards the next hour: 3:30 is "setengah empat".
+ * After half past, minutes count down with kurang.
+ */
+class IndonesianTimePhraser(private val numbers: NumberWords) : TimePhraser {
+    override val locale: Locale = INDONESIAN
+
+    override fun phrase(time: LocalTime): String {
+        val minute = time.minute
+        val h = numbers.words(clockHour(time.hour))
+        val next = numbers.words(clockHour(time.hour + 1))
+        val clock = when {
+            minute == 0 -> h
+            minute == 15 -> "$h lewat seperempat"
+            minute == 30 -> "setengah $next"
+            minute == 45 -> "$next kurang seperempat"
+            minute > 30 -> "$next kurang ${numbers.words(60 - minute)} menit"
+            else -> "$h lewat ${numbers.words(minute)} menit"
+        }
+        return "Sekarang pukul $clock ${period(time.hour)}."
+    }
+
+    override fun datePhrase(date: LocalDate): String =
+        "Hari ini hari ${date.dayName(locale)}, tanggal ${numbers.words(date.dayOfMonth)} ${date.monthName(locale)}."
+
+    private fun period(hour: Int): String = when (hour) {
+        in 4..10 -> "pagi"
+        in 11..14 -> "siang"
+        in 15..17 -> "sore"
+        else -> "malam"
+    }
+}
+
+/**
+ * "এখন বিকেল পৌনে চারটা বাজে।"
+ * সোয়া, সাড়ে and পৌনে for the quarter hours, with দেড়টা for 1:30 and আড়াইটা for 2:30.
+ * Other minutes use "<hour> বেজে <minutes> মিনিট".
+ */
+class BengaliTimePhraser : TimePhraser {
+    override val locale: Locale = BENGALI
+
+    override fun phrase(time: LocalTime): String {
+        val hour = clockHour(time.hour)
+        val minute = time.minute
+        val h = BENGALI_HOURS[hour - 1]
+        val clock = when {
+            minute == 0 -> "$h বাজে"
+            minute == 15 -> "সোয়া $h বাজে"
+            minute == 30 && hour == 1 -> "দেড়টা বাজে"
+            minute == 30 && hour == 2 -> "আড়াইটা বাজে"
+            minute == 30 -> "সাড়ে $h বাজে"
+            minute == 45 -> "পৌনে ${BENGALI_HOURS[clockHour(time.hour + 1) - 1]} বাজে"
+            else -> "$h বেজে ${BENGALI_NUMBERS[minute - 1]} মিনিট"
+        }
+        return "এখন ${period(time.hour)} $clock।"
+    }
+
+    override fun datePhrase(date: LocalDate): String =
+        "আজ ${date.dayName(locale)}, ${date.monthName(locale)} মাসের ${BENGALI_NUMBERS[date.dayOfMonth - 1]} তারিখ।"
+
+    private fun period(hour: Int): String = when (hour) {
+        in 4..11 -> "সকাল"
+        in 12..14 -> "দুপুর"
+        in 15..17 -> "বিকেল"
+        in 18..19 -> "সন্ধ্যা"
+        else -> "রাত"
+    }
+}
+
+/**
+ * "ابھی شام کے پونے چار بجے ہیں۔"
+ * Like Hindi: سوا، ساڑھے and پونے for the quarter hours, with ڈیڑھ for 1:30 and ڈھائی for 2:30.
+ * One o'clock takes بجا ہے، every other hour بجے ہیں.
+ */
+class UrduTimePhraser : TimePhraser {
+    override val locale: Locale = URDU
+
+    override fun phrase(time: LocalTime): String {
+        val hour = clockHour(time.hour)
+        val minute = time.minute
+        val h = URDU_NUMBERS[hour - 1]
+        val next = URDU_NUMBERS[clockHour(time.hour + 1) - 1]
+        val (clock, singular) = when {
+            minute == 0 -> "$h ${if (hour == 1) "بجا ہے" else "بجے ہیں"}" to (hour == 1)
+            minute == 15 -> "سوا $h بجے ہیں" to false
+            minute == 30 && hour == 1 -> "ڈیڑھ بجے ہیں" to false
+            minute == 30 && hour == 2 -> "ڈھائی بجے ہیں" to false
+            minute == 30 -> "ساڑھے $h بجے ہیں" to false
+            minute == 45 -> "پونے $next بجے ہیں" to false
+            else -> "$h بج کر ${URDU_NUMBERS[minute - 1]} منٹ ہوئے ہیں" to false
+        }
+        val of = if (singular) "کا" else "کے"
+        return "ابھی ${period(time.hour)} $of $clock۔"
+    }
+
+    override fun datePhrase(date: LocalDate): String =
+        "آج ${date.dayName(locale)}، ${URDU_NUMBERS[date.dayOfMonth - 1]} ${date.monthName(locale)} ہے۔"
+
+    private fun period(hour: Int): String = when (hour) {
+        in 4..11 -> "صبح"
+        in 12..15 -> "دوپہر"
+        in 16..19 -> "شام"
+        else -> "رات"
+    }
+}
+
+// Hours as they're said on a clock: একটা, দুইটা ... বারোটা.
+private val BENGALI_HOURS = listOf(
+    "একটা", "দুইটা", "তিনটা", "চারটা", "পাঁচটা", "ছয়টা", "সাতটা", "আটটা", "নয়টা", "দশটা", "এগারোটা", "বারোটা",
+)
+
+// One to fifty-nine. Bengali and Urdu numbers below a hundred are irregular, so they're listed.
+private val BENGALI_NUMBERS = listOf(
+    "এক", "দুই", "তিন", "চার", "পাঁচ", "ছয়", "সাত", "আট", "নয়", "দশ",
+    "এগারো", "বারো", "তেরো", "চৌদ্দ", "পনেরো", "ষোলো", "সতেরো", "আঠারো", "উনিশ", "বিশ",
+    "একুশ", "বাইশ", "তেইশ", "চব্বিশ", "পঁচিশ", "ছাব্বিশ", "সাতাশ", "আটাশ", "উনত্রিশ", "ত্রিশ",
+    "একত্রিশ", "বত্রিশ", "তেত্রিশ", "চৌত্রিশ", "পঁয়ত্রিশ", "ছত্রিশ", "সাঁইত্রিশ", "আটত্রিশ", "উনচল্লিশ", "চল্লিশ",
+    "একচল্লিশ", "বিয়াল্লিশ", "তেতাল্লিশ", "চুয়াল্লিশ", "পঁয়তাল্লিশ", "ছেচল্লিশ", "সাতচল্লিশ", "আটচল্লিশ", "উনপঞ্চাশ", "পঞ্চাশ",
+    "একান্ন", "বাহান্ন", "তিপ্পান্ন", "চুয়ান্ন", "পঞ্চান্ন", "ছাপ্পান্ন", "সাতান্ন", "আটান্ন", "উনষাট",
+)
+
+private val URDU_NUMBERS = listOf(
+    "ایک", "دو", "تین", "چار", "پانچ", "چھ", "سات", "آٹھ", "نو", "دس",
+    "گیارہ", "بارہ", "تیرہ", "چودہ", "پندرہ", "سولہ", "سترہ", "اٹھارہ", "انیس", "بیس",
+    "اکیس", "بائیس", "تئیس", "چوبیس", "پچیس", "چھبیس", "ستائیس", "اٹھائیس", "انتیس", "تیس",
+    "اکتیس", "بتیس", "تینتیس", "چونتیس", "پینتیس", "چھتیس", "سینتیس", "اڑتیس", "انتالیس", "چالیس",
+    "اکتالیس", "بیالیس", "تینتالیس", "چوالیس", "پینتالیس", "چھیالیس", "سینتالیس", "اڑتالیس", "انچاس", "پچاس",
+    "اکاون", "باون", "ترپن", "چون", "پچپن", "چھپن", "ستاون", "اٹھاون", "انسٹھ",
+)

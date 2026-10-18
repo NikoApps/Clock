@@ -33,7 +33,7 @@ import java.time.format.FormatStyle
 // Rows shared by the settings screen and first-run setup, so both always look and behave the same.
 
 /** Languages Niko Clock can speak the time in. Each has hand-written phrases. */
-private val VOICE_LANGUAGES: List<String?> = listOf(null, "en", "ne-NP", "hi-IN", "es", "pt-BR")
+private val VOICE_LANGUAGES: List<String?> = listOf(null, "en", "ne-NP", "hi-IN", "bn", "ur", "es", "pt-BR", "fr", "id")
 
 /** Each language in its own words, so people can find theirs without reading another. */
 private val LANGUAGE_NAMES = mapOf(
