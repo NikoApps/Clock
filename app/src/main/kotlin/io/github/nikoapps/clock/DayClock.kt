@@ -80,8 +80,9 @@ internal fun DayClockScreen(
                         fontWeight = FontWeight.Bold,
                     ),
                     maxLines = 1,
-                    autoSize = TextAutoSize.StepBased(minFontSize = 32.sp, maxFontSize = 80.sp),
-                    modifier = Modifier.fillMaxWidth(),
+                    autoSize = TextAutoSize.StepBased(minFontSize = 24.sp, maxFontSize = 80.sp),
+                    // The two big words shrink when space runs out, so nothing below is cut off.
+                    modifier = Modifier.weight(1f, fill = false).fillMaxWidth(),
                 )
                 BasicText(
                     text = stringResource(part.label()),
@@ -90,8 +91,8 @@ internal fun DayClockScreen(
                         textAlign = TextAlign.Center,
                     ),
                     maxLines = 1,
-                    autoSize = TextAutoSize.StepBased(minFontSize = 28.sp, maxFontSize = 64.sp),
-                    modifier = Modifier.fillMaxWidth(),
+                    autoSize = TextAutoSize.StepBased(minFontSize = 20.sp, maxFontSize = 64.sp),
+                    modifier = Modifier.weight(1f, fill = false).fillMaxWidth(),
                 )
                 Text(
                     text = now.format(dateFormat),

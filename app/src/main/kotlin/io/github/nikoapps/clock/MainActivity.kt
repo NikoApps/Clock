@@ -26,6 +26,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -267,7 +268,7 @@ private fun ClockScreen(
 }
 
 @Composable
-private fun TimeAndDate(timeText: String, dateText: String) {
+private fun ColumnScope.TimeAndDate(timeText: String, dateText: String) {
     // Shrinks to fit so the seconds never wrap, at any text size or in any language.
     BasicText(
         text = timeText,
@@ -278,7 +279,8 @@ private fun TimeAndDate(timeText: String, dateText: String) {
         ),
         maxLines = 1,
         autoSize = TextAutoSize.StepBased(minFontSize = 32.sp, maxFontSize = 96.sp),
-        modifier = Modifier.fillMaxWidth(),
+        // Gives up height first when the card is squeezed, by shrinking.
+        modifier = Modifier.weight(1f, fill = false).fillMaxWidth(),
     )
     Text(
         text = dateText,
@@ -291,6 +293,10 @@ private fun TimeAndDate(timeText: String, dateText: String) {
 /**
  * The main screen's fixed frame: title bar, the card that speaks on tap, the hint line and the
  * big button. [card] fills the card: the time and date, or the day clock.
+ *
+ * The hint and the button are measured first and always get their full height; the card takes
+ * what's left. With large text or a long warning, the card's text shrinks rather than the hint
+ * being cut off.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -299,7 +305,7 @@ internal fun ClockContent(
     onSpeak: () -> Unit,
     onSpeakDate: () -> Unit,
     onOpenSettings: () -> Unit,
-    card: @Composable () -> Unit,
+    card: @Composable ColumnScope.() -> Unit,
 ) {
     val speakLabel = stringResource(R.string.speak_time)
     val speakDateLabel = stringResource(R.string.speak_date)
@@ -336,6 +342,7 @@ internal fun ClockContent(
                 color = MaterialTheme.colorScheme.surface,
                 border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.5f)),
                 modifier = Modifier
+                    .weight(1f, fill = false)
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(32.dp))
                     .semantics(mergeDescendants = true) {
