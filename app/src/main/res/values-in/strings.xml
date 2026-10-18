@@ -124,12 +124,13 @@
     <string name="setup_next">Berikutnya</string>
     <string name="setup_done">Selesai</string>
     <string name="setup_skip">Lewati pengaturan awal</string>
-    <string name="setup_voice_intro">Pilih bahasa yang diucapkan Niko Clock, lalu coba suaranya.</string>
-    <string name="setup_chimes_intro">Niko Clock bisa mengucapkan waktu sendiri sepanjang hari. Saat malam, Niko Clock diam.</string>
-    <string name="setup_shake_intro">Menggoyang ponsel bisa membuat waktu diucapkan, bahkan saat layar mati. Ini memakai sedikit lebih banyak baterai.</string>
-    <string name="setup_pin_intro">PIN mencegah pengaturan berubah tanpa sengaja. Langkah ini boleh dilewati.</string>
-    <string name="setup_phone_intro">Beberapa ponsel menghentikan aplikasi di latar belakang untuk menghemat baterai. Periksa ini agar Niko Clock tetap berbicara.</string>
     <string name="setup_phone_ok">Pengaturan ini sudah benar.</string>
     <string name="setup_again">Atur langkah demi langkah</string>
     <string name="setup_again_value">Ulangi pengaturan utama</string>
+    <string name="widget_time_name">Waktu</string>
+    <string name="widget_date_name">Tanggal</string>
+    <string name="widget_both_name">Waktu dan tanggal</string>
+    <string name="widget_date_description">Tanggal hari ini. Sentuh untuk mendengar tanggal.</string>
+    <string name="widget_both_description">Waktu dan tanggal. Sentuh salah satunya untuk mendengarnya.</string>
+    <string name="widget_date_content_description">Tanggal. Sentuh untuk mendengar tanggal.</string>
 </resources>

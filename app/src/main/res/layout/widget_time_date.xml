@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Like the main screen: tap the time to hear the time, tap the date to hear the date.
+     Both shrink to fit, so the widget works at any size and font scale. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_background"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextClock
+        android:id="@+id/widget_time"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:contentDescription="@string/widget_content_description"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/widget_ink"
+        android:autoSizeMaxTextSize="44sp"
+        android:autoSizeMinTextSize="14sp"
+        android:autoSizeTextType="uniform"
+        android:textStyle="bold" />
+
+    <TextClock
+        android:id="@+id/widget_date"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:contentDescription="@string/widget_date_content_description"
+        android:gravity="center"
+        android:maxLines="2"
+        android:textColor="@color/widget_ink"
+        android:autoSizeMaxTextSize="22sp"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeTextType="uniform" />
+
+</LinearLayout>

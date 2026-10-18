@@ -124,12 +124,13 @@
     <string name="setup_next">التالي</string>
     <string name="setup_done">تم</string>
     <string name="setup_skip">تخطي الإعداد</string>
-    <string name="setup_voice_intro">اختر اللغة التي يتكلم بها Niko Clock، ثم جرّب الصوت.</string>
-    <string name="setup_chimes_intro">يمكن لـ Niko Clock أن يقول الوقت وحده خلال اليوم، ويبقى صامتًا في الليل.</string>
-    <string name="setup_shake_intro">هز الهاتف يمكن أن يقول الوقت، حتى والشاشة مطفأة. يستهلك ذلك بطارية أكثر قليلًا.</string>
-    <string name="setup_pin_intro">الرمز يمنع تغيير الإعدادات بالخطأ. يمكنك تخطي هذه الخطوة.</string>
-    <string name="setup_phone_intro">بعض الهواتف توقف التطبيقات في الخلفية لتوفير البطارية. راجع هذه الإعدادات حتى يستمر Niko Clock في الكلام.</string>
     <string name="setup_phone_ok">هذه الإعدادات سليمة.</string>
     <string name="setup_again">الإعداد خطوة بخطوة</string>
     <string name="setup_again_value">راجع الإعدادات الرئيسية مرة أخرى</string>
+    <string name="widget_time_name">الوقت</string>
+    <string name="widget_date_name">التاريخ</string>
+    <string name="widget_both_name">الوقت والتاريخ</string>
+    <string name="widget_date_description">تاريخ اليوم. المسه لسماع التاريخ.</string>
+    <string name="widget_both_description">الوقت والتاريخ. المس أيًّا منهما لسماعه.</string>
+    <string name="widget_date_content_description">التاريخ. المس لسماع التاريخ.</string>
 </resources>

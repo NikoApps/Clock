@@ -79,6 +79,24 @@ fun SecondaryButton(text: String, onClick: () -> Unit, modifier: Modifier = Modi
 }
 
 /**
+ * A step-by-step action such as Next: solid and high contrast, but calmer than [BigButton],
+ * for screens where the accent colour would shout. At least 64dp tall.
+ */
+@Composable
+fun SolidButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    Button(
+        onClick = onClick,
+        modifier = modifier.heightIn(min = 64.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.onBackground,
+            contentColor = MaterialTheme.colorScheme.background,
+        ),
+    ) {
+        Text(text = text, style = MaterialTheme.typography.labelLarge, textAlign = TextAlign.Center)
+    }
+}
+
+/**
  * A screen title that stays at the top while the content scrolls, with a back arrow.
  * The arrow is labelled for TalkBack and sits next to the title, so it is never a lone icon.
  */

@@ -124,12 +124,13 @@
     <string name="setup_next">পরের ধাপ</string>
     <string name="setup_done">হয়ে গেছে</string>
     <string name="setup_skip">সেটআপ বাদ দিন</string>
-    <string name="setup_voice_intro">Niko Clock কোন ভাষায় কথা বলবে তা বেছে নিন, তারপর কণ্ঠ পরীক্ষা করুন।</string>
-    <string name="setup_chimes_intro">Niko Clock সারাদিন নিজে থেকে সময় বলতে পারে। রাতে এটি চুপ থাকে।</string>
-    <string name="setup_shake_intro">ফোন ঝাঁকালে সময় শোনা যায়, স্ক্রিন বন্ধ থাকলেও। এতে একটু বেশি ব্যাটারি খরচ হয়।</string>
-    <string name="setup_pin_intro">PIN সেটিংস ভুল করে বদলানো থেকে রক্ষা করে। চাইলে এটি বাদ দিতে পারেন।</string>
-    <string name="setup_phone_intro">কিছু ফোন ব্যাটারি বাঁচাতে পটভূমির অ্যাপ বন্ধ করে দেয়। Niko Clock যাতে কথা বলতে থাকে, তাই এগুলো দেখে নিন।</string>
     <string name="setup_phone_ok">এই সেটিংস ঠিক আছে।</string>
     <string name="setup_again">ধাপে ধাপে সেটআপ</string>
     <string name="setup_again_value">প্রধান সেটিংস আবার দেখুন</string>
+    <string name="widget_time_name">সময়</string>
+    <string name="widget_date_name">তারিখ</string>
+    <string name="widget_both_name">সময় ও তারিখ</string>
+    <string name="widget_date_description">আজকের তারিখ। তারিখ শুনতে ছুঁয়ে দিন।</string>
+    <string name="widget_both_description">সময় ও তারিখ। শুনতে যেকোনোটি ছুঁয়ে দিন।</string>
+    <string name="widget_date_content_description">তারিখ। তারিখ শুনতে ছুঁয়ে দিন।</string>
 </resources>

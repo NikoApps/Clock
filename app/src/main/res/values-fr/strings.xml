@@ -124,12 +124,13 @@
     <string name="setup_next">Suivant</string>
     <string name="setup_done">Terminé</string>
     <string name="setup_skip">Passer la configuration</string>
-    <string name="setup_voice_intro">Choisissez la langue dans laquelle parle Niko Clock, puis testez la voix.</string>
-    <string name="setup_chimes_intro">Niko Clock peut dire l\'heure tout seul pendant la journée. Il reste silencieux la nuit.</string>
-    <string name="setup_shake_intro">Secouer le téléphone peut faire dire l\'heure, même écran éteint. Cela use un peu plus la batterie.</string>
-    <string name="setup_pin_intro">Un code évite de changer les réglages par erreur. Vous pouvez passer cette étape.</string>
-    <string name="setup_phone_intro">Certains téléphones arrêtent les applis en arrière-plan pour économiser la batterie. Vérifiez ces points pour que Niko Clock continue de parler.</string>
     <string name="setup_phone_ok">Ces réglages sont bons.</string>
     <string name="setup_again">Configurer étape par étape</string>
     <string name="setup_again_value">Revoir les réglages principaux</string>
+    <string name="widget_time_name">Heure</string>
+    <string name="widget_date_name">Date</string>
+    <string name="widget_both_name">Heure et date</string>
+    <string name="widget_date_description">La date du jour. Touchez-la pour entendre la date.</string>
+    <string name="widget_both_description">L\'heure et la date. Touchez l\'une ou l\'autre pour l\'entendre.</string>
+    <string name="widget_date_content_description">Date. Touchez pour entendre la date.</string>
 </resources>
