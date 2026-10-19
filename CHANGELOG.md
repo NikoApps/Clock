@@ -2,6 +2,19 @@
 
 Internal changelog for developers, generated from commit messages with git-cliff. The user-facing notes are in `fastlane/metadata/android/en-US/changelogs/`.
 
+## 0.3.1 - 2026-10-19
+
+### CI
+
+- attach the release APK as niko-clock.apk so latest/download links work
+
+### Docs
+
+- store description covers setup, warnings, widgets and AI assistance
+- phone screenshots for the store listing
+- feature graphic for the F-Droid listing
+- release notes for 0.3.1
+
 ## 0.3.0 - 2026-10-18
 
 ### Added
@@ -12,6 +25,10 @@ Internal changelog for developers, generated from commit messages with git-cliff
 ### Docs
 
 - link the Niko Clock page on the website
+
+### Chores
+
+- release 0.3.0
 
 ## 0.2.0 - 2026-10-17
 
