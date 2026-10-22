@@ -13,6 +13,8 @@ jobs:
     environment: release
     steps:
       - uses: actions/checkout@v7
+        with:
+          submodules: true
 
       - uses: actions/setup-java@v6
         with:
@@ -45,7 +47,7 @@ jobs:
         run: |
           ./gradlew assembleRelease --no-build-cache --console=plain
           cp app/build/outputs/apk/release/app-release-unsigned.apk "$RUNNER_TEMP/unsigned-1.apk"
-          git clean -fdx
+          git clean -fdx && git submodule foreach --recursive git clean -fdx
           ./gradlew assembleRelease --no-build-cache --console=plain
           cp app/build/outputs/apk/release/app-release-unsigned.apk "$RUNNER_TEMP/unsigned-2.apk"
           cmp "$RUNNER_TEMP/unsigned-1.apk" "$RUNNER_TEMP/unsigned-2.apk"
@@ -59,7 +61,7 @@ jobs:
         run: |
           export NIKO_KEYSTORE_FILE="$RUNNER_TEMP/release.p12"
           echo "$NIKO_KEYSTORE_BASE64" | base64 -d > "$NIKO_KEYSTORE_FILE"
-          git clean -fdx
+          git clean -fdx && git submodule foreach --recursive git clean -fdx
           ./gradlew assembleRelease --no-build-cache --console=plain
           rm "$NIKO_KEYSTORE_FILE"
           cp app/build/outputs/apk/release/app-release.apk "$RUNNER_TEMP/niko-clock.apk"
