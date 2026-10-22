@@ -26,9 +26,10 @@ Get the latest APK from [Releases](https://github.com/NikoApps/Clock/releases), 
 
 ## Building
 
-Requires JDK 17 and the Android SDK.
+Requires JDK 17 and the Android SDK. Shared code comes from [Niko Commons](https://github.com/NikoApps/Commons) as a git submodule, so clone with `--recursive`, or run `git submodule update --init` in an existing clone.
 
 ```sh
+git clone --recursive https://github.com/NikoApps/Clock.git
 ./gradlew assembleDebug
 ```
 
