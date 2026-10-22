@@ -5,8 +5,10 @@ What it does:
 * Tap the clock or the big button to hear the time. Tap twice for the date
 * Says the time by itself every hour, half hour or quarter hour, quiet at night
 * Shake the phone to hear the time, even with the screen off
+* A day clock mode that shows the day, morning or evening, and the full date in large words
+* Can show the Nepali date and a short note from a helper, and say good morning with the date
 * Quick settings tiles, and time, date, or time and date widgets
-* Speaks in natural sentences in English, Nepali, Hindi, Spanish and Portuguese, using the phone's own voice
+* Speaks in natural sentences in English, Nepali, Hindi, Bengali, Urdu, Spanish, Portuguese, French and Indonesian, using the phone's own voice
 * A short setup for helpers, and settings protected by a PIN
 * Warns when a phone setting may stop it speaking
 

@@ -1,0 +1,6 @@
+* Day clock mode: the day, the part of the day, the date and the time in large words
+* The Nepali date under the date, said in English and Nepali
+* A short note from a helper, shown on the clock and read after the date
+* A good morning message with the date at 6, 7 or 8
+* The day clock can stay on the lock screen while charging
+* Says the time in French, Indonesian, Bengali and Urdu
