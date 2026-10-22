@@ -1,15 +1,11 @@
 package io.github.nikoapps.clock.settings
 
+import io.github.nikoapps.commons.settings.SpeechSpeed
+import io.github.nikoapps.commons.settings.TextSize
+import io.github.nikoapps.commons.settings.VoicePitch
 import java.time.LocalTime
 
 enum class ShakeSensitivity { Low, Medium, High }
-
-/** Every setting is a choice of three plain options, never a number to type. */
-enum class SpeechSpeed(val rate: Float) { Slow(0.75f), Normal(0.9f), Fast(1.1f) }
-
-enum class TextSize(val scale: Float) { Small(1.0f), Medium(1.2f), Large(1.4f) }
-
-enum class VoicePitch(val pitch: Float) { Lower(0.85f), Normal(1.0f), Higher(1.15f) }
 
 /** Everything a helper can set. Defaults follow the Clock spec. */
 data class Settings(
@@ -53,7 +49,7 @@ data class Settings(
     val setupDone: Boolean = false,
 ) {
     val speechSpeed: SpeechSpeed
-        get() = SpeechSpeed.entries.minBy { kotlin.math.abs(it.rate - speechRate) }
+        get() = SpeechSpeed.closestTo(speechRate)
 
     /** True when [time] falls inside quiet hours, including ranges that cross midnight. */
     fun isQuiet(time: LocalTime): Boolean {

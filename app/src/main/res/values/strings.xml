@@ -3,24 +3,12 @@
     <string name="app_name" translatable="false">Niko Clock</string>
     <string name="speak_time">Speak time</string>
     <string name="status_ready">Tap the time to hear it. Tap twice to hear the date.</string>
-    <string name="status_no_voice">The phone has no voice for this language yet. A helper can add one in the phone\'s text-to-speech settings.</string>
-    <string name="status_no_engine">This phone has no voice to speak with. A helper can install one, such as RHVoice or eSpeak NG.</string>
-    <string name="status_language_not_supported">Niko Clock can\'t speak this language yet.</string>
     <string name="settings_title">Settings</string>
     <string name="section_voice">Voice</string>
-    <string name="language_phone">Same as phone</string>
-    <string name="test_voice">Test the voice</string>
     <string name="install_voice">Phone voices</string>
-    <string name="setting_speech_speed">How fast it speaks</string>
-    <string name="speed_slow">Slow</string>
-    <string name="speed_normal">Normal</string>
-    <string name="speed_fast">Fast</string>
     <string name="setting_vibrate">Buzz before speaking</string>
     <string name="section_screen">Screen</string>
     <string name="setting_text_size">Text size</string>
-    <string name="size_small">Small</string>
-    <string name="size_medium">Medium</string>
-    <string name="size_large">Large</string>
     <string name="section_chimes">Chimes</string>
     <string name="setting_chime">Say the time regularly</string>
     <string name="setting_chime_interval">How often</string>
@@ -42,17 +30,6 @@
     <string name="sensitivity_medium">Medium shake</string>
     <string name="sensitivity_high">Gentle shake</string>
     <string name="section_phone_setup">Phone</string>
-    <string name="section_pin">Helper PIN</string>
-    <string name="pin_remove">Remove the PIN</string>
-    <string name="pin_enter_title">Enter the helper PIN</string>
-    <string name="pin_enter_message">Enter the 4 numbers to open the settings.</string>
-    <string name="pin_wrong">That PIN isn\'t right. Try again.</string>
-    <string name="pin_set_title">Set a helper PIN</string>
-    <string name="pin_set_message">Choose 4 numbers. You will need them to open the settings.</string>
-    <string name="pin_confirm_message">Enter the same 4 numbers again.</string>
-    <string name="pin_mismatch">The numbers didn\'t match. Start again.</string>
-    <string name="pin_progress">Numbers entered: %1$d of %2$d</string>
-    <string name="pin_delete">Delete</string>
 
     <!-- Speak on shake -->
     <string name="shake_channel_name">Shake to hear the time</string>
@@ -66,22 +43,11 @@
     <string name="notification_speaking">Saying the time</string>
     <string name="widget_description">A big clock. Tap it to hear the time.</string>
     <string name="widget_content_description">Clock. Tap to hear the time.</string>
-    <string name="back">Back</string>
     <string name="settings_open">Settings</string>
-    <string name="setting_voice_language">Voice language</string>
     <string name="setting_screen_language">Screen language</string>
-    <string name="cancel">Cancel</string>
-    <string name="value_on">On</string>
-    <string name="value_off">Off</string>
-    <string name="voice_problem">The voice needs help</string>
     <string name="setting_shake_value">Works with the screen off</string>
     <string name="speak_date">Speak the date</string>
     <string name="setting_voice_pitch">Voice pitch</string>
-    <string name="pitch_lower">Lower</string>
-    <string name="pitch_normal">Normal</string>
-    <string name="pitch_higher">Higher</string>
-    <string name="ok">OK</string>
-    <string name="info_more_about">More about %1$s</string>
     <string name="info_vibrate">The phone gives a short buzz just before it speaks, so the person is ready to listen. Helpful for people who are hard of hearing.</string>
     <string name="info_chime">Niko Clock says the time by itself at set times through the day, even when the phone is locked. Pressing the button or shaking the phone always works too.</string>
     <string name="info_quiet_hours">No regular announcements during these hours, so nobody is woken at night. Tapping the time, the button or shaking the phone still works.</string>
@@ -111,27 +77,13 @@
     <string name="section_needs_attention">Needs attention</string>
     <string name="health_exact_alarms">Allow alarms</string>
     <string name="health_exact_alarms_value">Needed to say the time on the minute</string>
-    <string name="health_battery">Battery use</string>
-    <string name="health_battery_value">Set to Unrestricted or No restrictions so the phone doesn\'t stop Niko Clock</string>
-    <string name="health_hibernation">Unused app settings</string>
-    <string name="health_hibernation_value">Turn off Pause app activity if unused</string>
     <string name="last_chime">Last announcement</string>
     <string name="last_chime_none">None yet</string>
     <string name="last_chime_today">Today, %1$s</string>
     <string name="last_chime_yesterday">Yesterday, %1$s</string>
     <string name="info_last_chime">When Niko Clock last said the time by itself. If this is much older than it should be, the phone may be stopping Niko Clock. Check the phone settings below.</string>
-    <string name="phone_maker">Phone maker settings</string>
-    <string name="phone_maker_xiaomi">Turn on Autostart for Niko Clock, and set Battery saver to No restrictions.</string>
-    <string name="phone_maker_samsung">Set Battery to Unrestricted, and keep Niko Clock out of Sleeping apps and Deep sleeping apps.</string>
-    <string name="phone_maker_other">If the phone has Autostart or Auto-launch, turn it on for Niko Clock, and set battery use to No restrictions.</string>
-    <string name="voice_engine">Voice from %1$s</string>
 
     <!-- First-run setup -->
-    <string name="setup_title">Set up</string>
-    <string name="setup_step">Step %1$d of %2$d</string>
-    <string name="setup_next">Next</string>
-    <string name="setup_done">Done</string>
-    <string name="setup_skip">Skip setup</string>
     <string name="setup_phone_ok">These settings are fine.</string>
     <string name="setup_again">Set up step by step</string>
     <string name="setup_again_value">Go through the main settings again</string>

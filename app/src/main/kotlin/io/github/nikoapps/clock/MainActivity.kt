@@ -65,26 +65,26 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import io.github.nikoapps.clock.settings.HelperPin
-import io.github.nikoapps.clock.settings.TextSize
-import io.github.nikoapps.clock.ui.SetPinScreen
+import io.github.nikoapps.clock.settings.ClockHelperPin
 import io.github.nikoapps.clock.ui.SetupScreen
 import io.github.nikoapps.clock.calendar.BikramSambat
 import io.github.nikoapps.clock.calendar.display
 import android.app.KeyguardManager
 import androidx.activity.compose.LocalActivity
 import androidx.core.content.getSystemService
-import io.github.nikoapps.clock.health.PhoneHealth
-import androidx.annotation.StringRes
+import io.github.nikoapps.clock.health.ClockHealth
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.currentStateAsState
 import io.github.nikoapps.clock.ui.SettingsScreen
 import io.github.nikoapps.clock.ui.SettingsViewModel
-import io.github.nikoapps.clock.ui.UnlockPinScreen
-import io.github.nikoapps.clock.ui.voiceMessage
+import io.github.nikoapps.commons.settings.TextSize
+import io.github.nikoapps.commons.speech.VoiceStatus
 import io.github.nikoapps.commons.theme.NikoTheme
 import io.github.nikoapps.commons.ui.BigButton
+import io.github.nikoapps.commons.ui.SetPinScreen
+import io.github.nikoapps.commons.ui.UnlockPinScreen
+import io.github.nikoapps.commons.ui.voiceMessage
 import kotlinx.coroutines.delay
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -150,7 +150,7 @@ private fun App(settingsViewModel: SettingsViewModel, clockViewModel: ClockViewM
     val context = LocalContext.current
     val activity = LocalActivity.current
     val lifecycle by LocalLifecycleOwner.current.lifecycle.currentStateAsState()
-    val problems = remember(current, lifecycle) { PhoneHealth.problems(context, current) }
+    val problems = remember(current, lifecycle) { ClockHealth.problems(context, current) }
 
     // First run is for the helper. A phone that already has a PIN is past that, and skipping the
     // PIN for setup would let anyone into settings.
@@ -190,6 +190,7 @@ private fun App(settingsViewModel: SettingsViewModel, clockViewModel: ClockViewM
             },
         )
         Screen.Unlock -> UnlockPinScreen(
+            helperPin = ClockHelperPin,
             pinHash = current.helperPinHash ?: "",
             onUnlocked = { screen = Screen.Settings },
             onCancel = { screen = Screen.Clock },
@@ -227,7 +228,7 @@ private fun App(settingsViewModel: SettingsViewModel, clockViewModel: ClockViewM
         )
         Screen.SetPin -> SetPinScreen(
             onPinSet = { pin ->
-                settingsViewModel.update { it.copy(helperPinHash = HelperPin.hash(pin)) }
+                settingsViewModel.update { it.copy(helperPinHash = ClockHelperPin.hash(pin)) }
                 screen = pinReturn
             },
             onCancel = { screen = pinReturn },
@@ -278,11 +279,8 @@ private fun ClockScreen(
         DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "EEEEdMMMM"), locale)
     }
 
-    val hint = when {
-        voice != VoiceStatus.Ready && voice != VoiceStatus.Starting -> voiceMessage(voice)
-        needsAttention -> R.string.health_hint
-        else -> R.string.status_ready
-    }
+    val hint = voiceMessage(voice)
+        ?: stringResource(if (needsAttention) R.string.health_hint else R.string.status_ready)
 
     val nepaliDate = if (bikramSambat) {
         BikramSambat.fromGregorian(now.toLocalDate())?.display(nepali = locale.language == "ne")
@@ -365,7 +363,7 @@ private fun ColumnScope.TimeAndDate(timeText: String, dateText: String) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ClockContent(
-    @StringRes hint: Int,
+    hint: String,
     onSpeak: () -> Unit,
     onSpeakDate: () -> Unit,
     onOpenSettings: () -> Unit,
@@ -426,7 +424,7 @@ internal fun ClockContent(
             // Always in the same place under the clock: how to use it, or what a helper needs to fix.
             // TalkBack reads it out when it changes.
             Text(
-                text = stringResource(hint),
+                text = hint,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center,
@@ -449,7 +447,7 @@ internal fun ClockContent(
 @Composable
 private fun ClockContentPreview() {
     NikoTheme {
-        ClockContent(hint = R.string.status_ready, onSpeak = {}, onSpeakDate = {}, onOpenSettings = {}) {
+        ClockContent(hint = stringResource(R.string.status_ready), onSpeak = {}, onSpeakDate = {}, onOpenSettings = {}) {
             TimeAndDate(timeText = "21:34:40", dateText = "Saturday, 17 October")
         }
     }
