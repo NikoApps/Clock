@@ -2,6 +2,22 @@
 
 Internal changelog for developers, generated from commit messages with git-cliff. The user-facing notes are in `fastlane/metadata/android/en-US/changelogs/`.
 
+## 0.4.0 - 2026-10-22
+
+### Added
+
+- day clock mode
+- speak the time in French, Indonesian, Bengali and Urdu
+- Nepali date, helper note, morning greeting and lock screen day clock
+
+### Fixed
+
+- keep the hint line whole on small screens and large text
+
+### Docs
+
+- release notes and store description for 0.4.0
+
 ## 0.3.1 - 2026-10-19
 
 ### CI
@@ -14,6 +30,10 @@ Internal changelog for developers, generated from commit messages with git-cliff
 - phone screenshots for the store listing
 - feature graphic for the F-Droid listing
 - release notes for 0.3.1
+
+### Chores
+
+- release 0.3.1
 
 ## 0.3.0 - 2026-10-18
 
