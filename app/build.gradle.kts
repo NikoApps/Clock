@@ -68,6 +68,7 @@ tasks.configureEach {
 }
 
 dependencies {
+    implementation(project(":commons"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtime.compose)

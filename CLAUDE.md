@@ -21,7 +21,7 @@ If code and the Hub disagree, flag it instead of guessing which is right.
 - Kotlin, Jetpack Compose, Material 3 as the base layer with Niko's own components on top. No XML views.
 - One activity. ViewModel + StateFlow for screen state. DataStore for settings. No dependency injection framework.
 - Dependencies: AndroidX, Kotlin libraries and small GPLv3-compatible open source libraries only, pinned in `gradle/libs.versions.toml`. Never Google Play Services, Firebase, Play libraries, analytics or crash reporting. CI fails on them.
-- Shared code (theme, speech, later UI components) lives in `io.github.nikoapps.commons` inside this repo until the second app starts (ADR 0020). Keep it free of Clock-specific logic so it can move as is.
+- Shared code (theme, speech, components, PIN pad) lives in the public `Commons` repo, included as a git submodule at `commons/` and built as the `:commons` module (ADR 0032). Change it in Commons by pull request, then move the submodule pointer here in its own commit. Keep it free of Clock-specific logic. Clone with `--recursive` or run `git submodule update --init`.
 
 Project skills in `.claude/skills/`: `compose-patterns` and `kotlin-coroutines-flows`.
 

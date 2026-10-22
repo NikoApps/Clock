@@ -1,1 +1,0 @@
-Shared theme, colours and speech code. It lives here while Niko Clock is the only app, and moves into the Commons library when the second app starts. Package name already matches the future library, so the move is a copy.

@@ -16,3 +16,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "NikoClock"
 include(":app")
+
+// Shared Niko code, a git submodule (Hub ADR 0032).
+include(":commons")
+project(":commons").projectDir = file("commons/commons")
