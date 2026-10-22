@@ -25,21 +25,33 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import io.github.nikoapps.clock.R
-import io.github.nikoapps.clock.VoiceStatus
-import io.github.nikoapps.clock.health.HealthProblem
 import io.github.nikoapps.clock.settings.Settings
-import io.github.nikoapps.clock.settings.TextSize
-import io.github.nikoapps.clock.settings.VoicePitch
+import io.github.nikoapps.commons.health.HealthCheck
+import io.github.nikoapps.commons.settings.TextSize
+import io.github.nikoapps.commons.settings.VoicePitch
+import io.github.nikoapps.commons.speech.VoiceStatus
 import io.github.nikoapps.commons.ui.ChoiceRow
+import io.github.nikoapps.commons.ui.HealthRows
+import io.github.nikoapps.commons.ui.PhoneMakerRow
+import io.github.nikoapps.commons.ui.PinRows
+import io.github.nikoapps.commons.ui.ProvideInfoStrings
 import io.github.nikoapps.commons.ui.ScreenTopBar
 import io.github.nikoapps.commons.ui.SettingsGroup
+import io.github.nikoapps.commons.ui.SpeechSpeedRow
 import io.github.nikoapps.commons.ui.SwitchRow
+import io.github.nikoapps.commons.ui.TestVoiceRow
 import io.github.nikoapps.commons.ui.ValueRow
+import io.github.nikoapps.commons.ui.VoiceLanguageRow
+import io.github.nikoapps.commons.ui.VoiceProblemRow
+import io.github.nikoapps.commons.ui.label
+import io.github.nikoapps.commons.ui.languageName
+import io.github.nikoapps.commons.ui.openPage
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
+import io.github.nikoapps.commons.R as CommonsR
 
 /** Languages the screen text is translated into. */
 private val SCREEN_LANGUAGES: List<String?> = listOf(null, "en", "ne", "hi", "bn", "ur", "ar", "es", "pt", "fr", "in")
@@ -54,7 +66,7 @@ fun SettingsScreen(
     settings: Settings,
     voice: VoiceStatus,
     engine: String?,
-    problems: List<HealthProblem>,
+    problems: List<HealthCheck>,
     lastChimeAt: Instant?,
     screenLanguage: String?,
     canChooseScreenLanguage: Boolean,
@@ -68,18 +80,18 @@ fun SettingsScreen(
     onBack: () -> Unit,
 ) {
     val context = LocalContext.current
-    val chevron = painterResource(R.drawable.ic_chevron_right)
+    val chevron = painterResource(CommonsR.drawable.ic_chevron_right)
     val external = painterResource(R.drawable.ic_open_external)
     fun open(intent: Intent) = openPage(context, intent)
 
-    val cancel = stringResource(R.string.cancel)
+    val cancel = stringResource(CommonsR.string.cancel)
 
     ProvideInfoStrings {
     Column(modifier = Modifier.fillMaxSize().safeDrawingPadding()) {
         ScreenTopBar(
             title = stringResource(R.string.settings_title),
-            backIcon = painterResource(R.drawable.ic_arrow_back),
-            backLabel = stringResource(R.string.back),
+            backIcon = painterResource(CommonsR.drawable.ic_arrow_back),
+            backLabel = stringResource(CommonsR.string.back),
             onBack = onBack,
         )
         Column(
@@ -95,9 +107,9 @@ fun SettingsScreen(
             }
 
             SettingsGroup(stringResource(R.string.section_voice)) {
-                VoiceLanguageRow(settings, onUpdate)
+                VoiceLanguageRow(VOICE_LANGUAGES, settings.language) { tag -> onUpdate { it.copy(language = tag) } }
                 VoiceProblemRow(voice)
-                SpeechSpeedRow(settings, onUpdate)
+                SpeechSpeedRow(settings.speechSpeed) { speed -> onUpdate { it.copy(speechRate = speed.rate) } }
                 ChoiceRow(
                     title = stringResource(R.string.setting_voice_pitch),
                     options = VoicePitch.entries,
@@ -168,8 +180,8 @@ fun SettingsScreen(
             }
 
             SettingsGroup(stringResource(R.string.section_phone_setup)) {
-                PhoneMakerRow()
-                PinRows(settings, onSetPin, onRemovePin)
+                PhoneMakerRow(stringResource(R.string.info_battery))
+                PinRows(settings.helperPinHash != null, stringResource(R.string.info_pin), onSetPin, onRemovePin)
                 ValueRow(
                     title = stringResource(R.string.setup_again),
                     value = stringResource(R.string.setup_again_value),
@@ -215,7 +227,7 @@ fun SettingsScreen(
                         text = { Text(stringResource(R.string.privacy_text), style = MaterialTheme.typography.bodyLarge) },
                         confirmButton = {
                             TextButton(onClick = { privacyOpen = false }, modifier = Modifier.heightIn(min = 56.dp)) {
-                                Text(stringResource(R.string.ok), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
+                                Text(stringResource(CommonsR.string.ok), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
                             }
                         },
                         containerColor = MaterialTheme.colorScheme.surface,
@@ -238,7 +250,7 @@ fun SettingsScreen(
                 ValueRow(
                     title = stringResource(R.string.version),
                     value = appVersion(context),
-                    leading = painterResource(R.drawable.ic_info),
+                    leading = painterResource(CommonsR.drawable.ic_info),
                     onClick = null,
                 )
             }

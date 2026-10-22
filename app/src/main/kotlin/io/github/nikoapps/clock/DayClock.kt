@@ -7,7 +7,6 @@ import android.content.IntentFilter
 import android.os.BatteryManager
 import android.os.Build
 import android.text.format.DateFormat
-import androidx.annotation.StringRes
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -52,7 +51,7 @@ internal fun DayClockScreen(
     nepaliDate: String?,
     note: String?,
     showOnLockScreen: Boolean,
-    @StringRes hint: Int,
+    hint: String,
     onSpeak: () -> Unit,
     onSpeakDate: () -> Unit,
     onOpenSettings: () -> Unit,

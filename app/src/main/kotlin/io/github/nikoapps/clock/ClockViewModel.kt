@@ -10,6 +10,7 @@ import io.github.nikoapps.clock.speech.spokenDate
 import io.github.nikoapps.clock.speech.TimePhraser
 import io.github.nikoapps.clock.speech.phraserFor
 import io.github.nikoapps.commons.speech.Speaker
+import io.github.nikoapps.commons.speech.VoiceStatus
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,21 +18,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
-
-enum class VoiceStatus {
-    /** The speech engine is still starting. */
-    Starting,
-    Ready,
-
-    /** The phone has no text-to-speech engine at all. */
-    NoEngine,
-
-    /** There's an engine, but no installed offline voice for the language. */
-    NoVoice,
-
-    /** Niko Clock has no phrases for the phone's language yet. */
-    LanguageNotSupported,
-}
 
 /** [engine] is the speech engine's name, shown to helpers so they know which voice is in use. */
 data class ClockState(val voice: VoiceStatus = VoiceStatus.Starting, val engine: String? = null)
