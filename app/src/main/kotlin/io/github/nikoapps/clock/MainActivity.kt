@@ -62,7 +62,11 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.nikoapps.clock.settings.ClockHelperPin
@@ -236,12 +240,12 @@ private fun App(settingsViewModel: SettingsViewModel, clockViewModel: ClockViewM
     }
 }
 
-/** Scales all text by the helper's choice, on top of the phone's own font size. */
+/** Scales all text by the helper's choice, on top of the phone's own font size, up to 200%. */
 @Composable
 private fun TextSizeScale(size: TextSize, content: @Composable () -> Unit) {
     val density = LocalDensity.current
     CompositionLocalProvider(
-        LocalDensity provides Density(density.density, density.fontScale * size.scale),
+        LocalDensity provides Density(density.density, size.fontScaleOn(density.fontScale)),
         content = content,
     )
 }
@@ -301,54 +305,66 @@ private fun ClockScreen(
         )
         return
     }
-    ClockContent(hint = hint, onSpeak = onSpeak, onSpeakDate = onSpeakDate, onOpenSettings = onOpenSettings) {
-        TimeAndDate(timeText = now.format(timeFormat), dateText = now.format(dateFormat))
-        ExtraDateLines(nepaliDate = nepaliDate, note = note)
-    }
-}
-
-/** The Bikram Sambat date and the helper's note, under the date. Both only when the helper set them. */
-@Composable
-internal fun ExtraDateLines(nepaliDate: String?, note: String?) {
-    if (nepaliDate != null) {
-        Text(
-            text = nepaliDate,
-            style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Normal),
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            textAlign = TextAlign.Center,
-        )
-    }
-    if (!note.isNullOrBlank()) {
-        Text(
-            text = note,
-            style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Medium),
+    val extras = nepaliDate != null || !note.isNullOrBlank()
+    ClockContent(
+        hint = hint,
+        onSpeak = onSpeak,
+        onSpeakDate = onSpeakDate,
+        onOpenSettings = onOpenSettings,
+        compact = extras,
+    ) {
+        // Every line shrinks to fit its share of the card when space runs out. The time gets the
+        // biggest share, so it stays the largest thing on the screen at any text size.
+        FitLine(
+            text = now.format(timeFormat),
+            style = MaterialTheme.typography.displayLarge.copy(fontFeatureSettings = "tnum"),
             color = MaterialTheme.colorScheme.secondary,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = 4.dp),
+            maxSize = 96.sp,
+            share = TIME_SHARE,
         )
+        FitLine(
+            text = now.format(dateFormat),
+            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Normal),
+            color = MaterialTheme.colorScheme.onSurface,
+        )
+        if (nepaliDate != null) {
+            FitLine(
+                text = nepaliDate,
+                style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Normal),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        if (!note.isNullOrBlank()) {
+            FitLine(
+                text = note,
+                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Medium),
+                color = MaterialTheme.colorScheme.secondary,
+            )
+        }
     }
 }
 
+private const val TIME_SHARE = 3f
+
+/**
+ * One centred line that shrinks to fit when the card runs out of room. [share] is its part of the
+ * room left over, against 1 for an ordinary line. The line height is in em, so a shrunk word keeps
+ * its descenders.
+ */
 @Composable
-private fun ColumnScope.TimeAndDate(timeText: String, dateText: String) {
-    // Shrinks to fit so the seconds never wrap, at any text size or in any language.
+internal fun ColumnScope.FitLine(
+    text: String,
+    style: TextStyle,
+    color: Color,
+    maxSize: TextUnit = style.fontSize,
+    share: Float = 1f,
+) {
     BasicText(
-        text = timeText,
-        style = MaterialTheme.typography.displayLarge.copy(
-            color = MaterialTheme.colorScheme.secondary,
-            textAlign = TextAlign.Center,
-            fontFeatureSettings = "tnum",
-        ),
+        text = text,
+        style = style.copy(color = color, textAlign = TextAlign.Center, lineHeight = 1.2.em),
         maxLines = 1,
-        autoSize = TextAutoSize.StepBased(minFontSize = 32.sp, maxFontSize = 96.sp),
-        // Gives up height first when the card is squeezed, by shrinking.
-        modifier = Modifier.weight(1f, fill = false).fillMaxWidth(),
-    )
-    Text(
-        text = dateText,
-        style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Normal),
-        color = MaterialTheme.colorScheme.onSurface,
-        textAlign = TextAlign.Center,
+        autoSize = TextAutoSize.StepBased(minFontSize = 12.sp, maxFontSize = maxSize),
+        modifier = Modifier.weight(share, fill = false).fillMaxWidth(),
     )
 }
 
@@ -367,6 +383,7 @@ internal fun ClockContent(
     onSpeak: () -> Unit,
     onSpeakDate: () -> Unit,
     onOpenSettings: () -> Unit,
+    compact: Boolean = false,
     card: @Composable ColumnScope.() -> Unit,
 ) {
     val speakLabel = stringResource(R.string.speak_time)
@@ -413,22 +430,29 @@ internal fun ClockContent(
                     }
                     .combinedClickable(onClickLabel = speakLabel, onClick = onSpeak, onDoubleClick = onSpeakDate),
             ) {
+                // A compact card leaves more room for its lines when it has many of them.
                 Column(
-                    modifier = Modifier.padding(horizontal = 20.dp, vertical = 40.dp),
+                    modifier = Modifier.padding(horizontal = 20.dp, vertical = if (compact) 16.dp else 40.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(12.dp),
+                    verticalArrangement = Arrangement.spacedBy(if (compact) 4.dp else 12.dp),
                 ) {
                     card()
                 }
             }
             // Always in the same place under the clock: how to use it, or what a helper needs to fix.
-            // TalkBack reads it out when it changes.
-            Text(
+            // TalkBack reads it out when it changes. At large font sizes it shrinks to three lines,
+            // so it never takes the room the clock needs.
+            val hintStyle = MaterialTheme.typography.bodyMedium
+            BasicText(
                 text = hint,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center,
+                style = hintStyle.copy(
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
+                    lineHeight = 1.3.em,
+                ),
                 minLines = 2,
+                maxLines = 3,
+                autoSize = TextAutoSize.StepBased(minFontSize = 12.sp, maxFontSize = hintStyle.fontSize),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 20.dp)
@@ -448,7 +472,8 @@ internal fun ClockContent(
 private fun ClockContentPreview() {
     NikoTheme {
         ClockContent(hint = stringResource(R.string.status_ready), onSpeak = {}, onSpeakDate = {}, onOpenSettings = {}) {
-            TimeAndDate(timeText = "21:34:40", dateText = "Saturday, 17 October")
+            FitLine("21:34:40", MaterialTheme.typography.displayLarge, MaterialTheme.colorScheme.secondary, 96.sp, TIME_SHARE)
+            FitLine("Saturday, 17 October", MaterialTheme.typography.headlineMedium, MaterialTheme.colorScheme.onSurface)
         }
     }
 }
