@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Color as AndroidColor
 import android.os.BatteryManager
 import android.os.Build
 import android.text.format.DateFormat
@@ -20,7 +21,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.LocalActivity
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
@@ -81,7 +85,16 @@ internal fun DayClockScreen(
     }
 
     // A dark screen at night, whatever the phone's theme, so it doesn't light up the bedroom.
-    NikoTheme(darkTheme = part == PartOfDay.Night || isSystemInDarkTheme()) {
+    val dark = part == PartOfDay.Night || isSystemInDarkTheme()
+    // The status bar and navigation bar icons follow that, not the phone's theme, so they stay
+    // readable on the dark night screen of a phone in light mode. Back to the phone's on the way out.
+    DisposableEffect(activity, dark) {
+        val window = activity as? ComponentActivity
+        val style = SystemBarStyle.auto(AndroidColor.TRANSPARENT, AndroidColor.TRANSPARENT) { dark }
+        window?.enableEdgeToEdge(statusBarStyle = style, navigationBarStyle = style)
+        onDispose { window?.enableEdgeToEdge() }
+    }
+    NikoTheme(darkTheme = dark) {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             val extras = nepaliDate != null || !note.isNullOrBlank()
             ClockContent(
