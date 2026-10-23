@@ -42,6 +42,7 @@
         <!-- Speak on shake -->
         <service
             android:name=".shake.ShakeService"
+            android:directBootAware="true"
             android:exported="false"
             android:foregroundServiceType="specialUse">
             <property
@@ -50,8 +51,10 @@
         </service>
         <receiver
             android:name=".shake.ShakeBootReceiver"
+            android:directBootAware="true"
             android:exported="false">
             <intent-filter>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
@@ -60,6 +63,7 @@
         <!-- Chimes, quick settings tile and widget -->
         <service
             android:name=".speech.SpeakService"
+            android:directBootAware="true"
             android:exported="false"
             android:foregroundServiceType="specialUse">
             <property
@@ -69,8 +73,10 @@
 
         <receiver
             android:name=".chime.ChimeReceiver"
+            android:directBootAware="true"
             android:exported="false">
             <intent-filter>
+                <action android:name="android.intent.action.LOCKED_BOOT_COMPLETED" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
                 <action android:name="android.intent.action.TIME_SET" />
@@ -81,6 +87,7 @@
 
         <service
             android:name=".tile.SpeakTimeTileService"
+            android:directBootAware="true"
             android:exported="true"
             android:icon="@drawable/ic_notification_clock"
             android:label="@string/speak_time"
@@ -96,6 +103,7 @@
 
         <service
             android:name=".tile.SpeakDateTileService"
+            android:directBootAware="true"
             android:exported="true"
             android:icon="@drawable/ic_calendar"
             android:label="@string/speak_date"

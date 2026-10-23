@@ -9,12 +9,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 /**
- * Starts shake listening again after the phone restarts or Niko Clock is updated.
+ * Starts shake listening again after the phone restarts or Niko Clock is updated. After a restart
+ * it starts before the first unlock, so a locked phone answers a shake (ADR 0036).
  * Android allows a `specialUse` foreground service to start from these broadcasts.
  */
 class ShakeBootReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
-        if (intent.action != Intent.ACTION_BOOT_COMPLETED && intent.action != Intent.ACTION_MY_PACKAGE_REPLACED) return
+        if (intent.action !in STARTS) return
         val pending = goAsync()
         CoroutineScope(Dispatchers.IO).launch {
             try {
@@ -25,3 +26,9 @@ class ShakeBootReceiver : BroadcastReceiver() {
         }
     }
 }
+
+private val STARTS = setOf(
+    Intent.ACTION_LOCKED_BOOT_COMPLETED,
+    Intent.ACTION_BOOT_COMPLETED,
+    Intent.ACTION_MY_PACKAGE_REPLACED,
+)

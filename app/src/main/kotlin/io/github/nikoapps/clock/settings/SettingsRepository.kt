@@ -1,14 +1,12 @@
 package io.github.nikoapps.clock.settings
 
 import android.content.Context
-import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.datastore.preferences.preferencesDataStore
 import io.github.nikoapps.commons.settings.TextSize
 import io.github.nikoapps.commons.settings.VoicePitch
 import kotlinx.coroutines.flow.Flow
@@ -16,11 +14,9 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import java.time.LocalTime
 
-private val Context.settingsStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
-
 /** Reads and writes [Settings]. One DataStore per process, shared by the app, services and receivers. */
 class SettingsRepository(context: Context) {
-    private val store = context.applicationContext.settingsStore
+    private val store = context.deviceDataStore("settings")
 
     val settings: Flow<Settings> = store.data.map { it.toSettings() }
 

@@ -20,7 +20,8 @@ import java.time.ZonedDateTime
 
 /**
  * Fires each chime and the morning greeting, and schedules the next one. Also puts the chime back after a restart,
- * an app update, a clock or time zone change, and when the exact alarm permission changes.
+ * an app update, a clock or time zone change, and when the exact alarm permission changes. After a restart that is
+ * before the first unlock, so a locked phone keeps chiming (ADR 0036).
  *
  * Doesn't speak itself: Android may stop audio from a receiver, so it starts [SpeakService].
  */
