@@ -80,12 +80,15 @@ class TimeAnnouncer(context: Context) {
 
         if (current.vibrateBeforeSpeaking) vibrate()
 
+        // A chime and the morning greeting can fall on the same minute. They wait their turn, so
+        // neither cuts the other off. A tap on the clock still interrupts, as people expect.
+        val queued = kind == Announcement.Chime || kind == Announcement.Greeting
         val focus = requestFocus(usage)
         try {
             val id = UUID.randomUUID().toString()
             val done = CompletableDeferred<Unit>()
             pending[id] = done
-            if (!speaker.speak(sentence, volume = volume, utteranceId = id)) {
+            if (!speaker.speak(sentence, queue = queued, volume = volume, utteranceId = id)) {
                 pending.remove(id)
                 return false
             }
