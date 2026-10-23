@@ -11,12 +11,9 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.text.BasicText
-import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
@@ -86,52 +83,59 @@ internal fun DayClockScreen(
     // A dark screen at night, whatever the phone's theme, so it doesn't light up the bedroom.
     NikoTheme(darkTheme = part == PartOfDay.Night || isSystemInDarkTheme()) {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-            ClockContent(hint = hint, onSpeak = onSpeak, onSpeakDate = onSpeakDate, onOpenSettings = onOpenSettings) {
+            val extras = nepaliDate != null || !note.isNullOrBlank()
+            ClockContent(
+                hint = hint,
+                onSpeak = onSpeak,
+                onSpeakDate = onSpeakDate,
+                onOpenSettings = onOpenSettings,
+                compact = extras,
+            ) {
                 Icon(
                     painter = painterResource(part.icon()),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.secondary,
-                    modifier = Modifier.size(88.dp),
+                    modifier = Modifier.size(if (extras) 56.dp else 88.dp),
                 )
-                BasicText(
+                // Every line shrinks to fit its share of the card when space runs out. The day and the
+                // part of day get the biggest shares, so they stay the largest words at any text size.
+                FitLine(
                     text = now.format(dayFormat),
-                    style = MaterialTheme.typography.displayLarge.copy(
-                        color = MaterialTheme.colorScheme.onSurface,
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold,
-                    ),
-                    maxLines = 1,
-                    autoSize = TextAutoSize.StepBased(minFontSize = 24.sp, maxFontSize = 80.sp),
-                    // The two big words shrink when space runs out, so nothing below is cut off.
-                    modifier = Modifier.weight(1f, fill = false).fillMaxWidth(),
-                )
-                BasicText(
-                    text = stringResource(part.label()),
-                    style = MaterialTheme.typography.displayMedium.copy(
-                        color = MaterialTheme.colorScheme.secondary,
-                        textAlign = TextAlign.Center,
-                    ),
-                    maxLines = 1,
-                    autoSize = TextAutoSize.StepBased(minFontSize = 20.sp, maxFontSize = 64.sp),
-                    modifier = Modifier.weight(1f, fill = false).fillMaxWidth(),
-                )
-                Text(
-                    text = now.format(dateFormat),
-                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Normal),
+                    style = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Bold),
                     color = MaterialTheme.colorScheme.onSurface,
-                    textAlign = TextAlign.Center,
+                    maxSize = 80.sp,
+                    share = DAY_WORD_SHARE,
                 )
-                Text(
-                    text = now.format(timeFormat),
-                    style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Normal),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    textAlign = TextAlign.Center,
+                FitLine(
+                    text = stringResource(part.label()),
+                    style = MaterialTheme.typography.displayMedium,
+                    color = MaterialTheme.colorScheme.secondary,
+                    maxSize = 64.sp,
+                    share = DAY_WORD_SHARE,
                 )
-                ExtraDateLines(nepaliDate = nepaliDate, note = note)
+                val lineStyle = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.Normal)
+                FitLine(now.format(dateFormat), lineStyle, MaterialTheme.colorScheme.onSurface)
+                FitLine(now.format(timeFormat), lineStyle, MaterialTheme.colorScheme.onSurfaceVariant)
+                if (nepaliDate != null) {
+                    FitLine(
+                        text = nepaliDate,
+                        style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Normal),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                if (!note.isNullOrBlank()) {
+                    FitLine(
+                        text = note,
+                        style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Medium),
+                        color = MaterialTheme.colorScheme.secondary,
+                    )
+                }
             }
         }
     }
 }
+
+private const val DAY_WORD_SHARE = 2.5f
 
 /** Whether the phone is plugged in, kept up to date. */
 @Composable
