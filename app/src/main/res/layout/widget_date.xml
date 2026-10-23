@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- One big button: the whole widget says the date when tapped. -->
+<!-- One big button: the whole widget says the date when tapped.
+     The text shrinks to fit, so the widget works at any size and font scale. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
@@ -10,25 +11,35 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <!-- The format is set in code, in the phone's own way of writing dates. -->
+    <!-- The format is set in code, in the phone's own way of writing dates. The one here is for
+         the preview in the widget picker, which never runs that code. -->
     <TextClock
         android:id="@+id/widget_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:autoSizeMaxTextSize="28sp"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeTextType="uniform"
+        android:format12Hour="EEEE, d MMMM"
+        android:format24Hour="EEEE, d MMMM"
         android:gravity="center"
         android:importantForAccessibility="no"
         android:maxLines="2"
         android:textColor="@color/widget_ink"
-        android:textSize="28sp"
         android:textStyle="bold" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:autoSizeMaxTextSize="18sp"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeTextType="uniform"
+        android:gravity="center"
         android:importantForAccessibility="no"
         android:maxLines="1"
         android:text="@string/speak_date"
-        android:textColor="@color/widget_ink"
-        android:textSize="18sp" />
+        android:textColor="@color/widget_ink" />
 
 </LinearLayout>
