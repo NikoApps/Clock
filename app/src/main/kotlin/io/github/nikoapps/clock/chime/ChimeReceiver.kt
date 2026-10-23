@@ -36,7 +36,7 @@ class ChimeReceiver : BroadcastReceiver() {
                     ACTION_CHIME -> chime(appContext, intent, settings)
                     ACTION_GREETING -> greet(appContext, intent, settings)
                     else -> {
-                        ChimeScheduler.sync(appContext, settings)
+                        ChimeScheduler.restore(appContext, settings)
                         GreetingScheduler.sync(appContext, settings)
                     }
                 }
@@ -46,12 +46,16 @@ class ChimeReceiver : BroadcastReceiver() {
         }
     }
 
-    private fun chime(context: Context, intent: Intent, settings: Settings) {
+    private suspend fun chime(context: Context, intent: Intent, settings: Settings) {
         if (!settings.chimeEnabled) {
             ChimeScheduler.cancel(context)
             return
         }
         ChimeScheduler.scheduleNext(context, settings, plannedOrNow(intent))
+
+        // Putting the chime back after a clock change can schedule one that already fired.
+        val planned = intent.getLongExtra(EXTRA_AT, 0L)
+        if (planned > 0L && !ChimeSlots(context).claim(planned)) return
 
         if (settings.isQuiet(LocalTime.now())) return
         if (settings.chimeFollowsDoNotDisturb && isDoNotDisturbOn(context)) return
