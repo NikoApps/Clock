@@ -248,7 +248,7 @@ private fun NoteRow(note: String?, onNote: (String?) -> Unit) {
                     onNote(text.trim().ifEmpty { null })
                     open = false
                 },
-                modifier = Modifier.heightIn(min = 56.dp),
+                modifier = Modifier.heightIn(min = 64.dp),
             ) { buttonText(stringResource(R.string.note_save)) }
         },
         dismissButton = {
@@ -259,10 +259,10 @@ private fun NoteRow(note: String?, onNote: (String?) -> Unit) {
                             onNote(null)
                             open = false
                         },
-                        modifier = Modifier.heightIn(min = 56.dp),
+                        modifier = Modifier.heightIn(min = 64.dp),
                     ) { buttonText(stringResource(R.string.note_remove)) }
                 }
-                TextButton(onClick = { open = false }, modifier = Modifier.heightIn(min = 56.dp)) {
+                TextButton(onClick = { open = false }, modifier = Modifier.heightIn(min = 64.dp)) {
                     buttonText(stringResource(CommonsR.string.cancel))
                 }
             }
