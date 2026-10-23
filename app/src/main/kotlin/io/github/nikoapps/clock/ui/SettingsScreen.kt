@@ -226,7 +226,7 @@ fun SettingsScreen(
                         title = { Text(stringResource(R.string.privacy), style = MaterialTheme.typography.titleLarge) },
                         text = { Text(stringResource(R.string.privacy_text), style = MaterialTheme.typography.bodyLarge) },
                         confirmButton = {
-                            TextButton(onClick = { privacyOpen = false }, modifier = Modifier.heightIn(min = 56.dp)) {
+                            TextButton(onClick = { privacyOpen = false }, modifier = Modifier.heightIn(min = 64.dp)) {
                                 Text(stringResource(CommonsR.string.ok), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurface)
                             }
                         },
