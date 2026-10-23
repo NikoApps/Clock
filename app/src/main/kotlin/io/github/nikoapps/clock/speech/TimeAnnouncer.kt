@@ -58,7 +58,7 @@ class TimeAnnouncer(context: Context) {
         // Slow phones can take a few seconds to start the engine.
         if (withTimeoutOrNull(ENGINE_START_TIMEOUT_MS) { ready.await() } != true) return false
         // Never fall back to another language: saying nothing is better than the wrong words.
-        if (!speaker.useVoiceFor(phraser.locale)) return false
+        if (!speaker.awaitVoiceFor(phraser.locale)) return false
 
         speaker.setRate(current.speechRate)
         speaker.setPitch(current.voicePitch.pitch)

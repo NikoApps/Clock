@@ -35,6 +35,7 @@ import io.github.nikoapps.clock.settings.SettingsRepository
 import io.github.nikoapps.clock.speech.TimePhraser
 import io.github.nikoapps.clock.speech.spokenDate
 import io.github.nikoapps.clock.speech.phraserFor
+import io.github.nikoapps.clock.speech.awaitVoiceFor
 import io.github.nikoapps.commons.speech.Speaker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -161,12 +162,12 @@ class ShakeService : Service(), SensorEventListener {
 
     private fun speak(sentence: (TimePhraser) -> String) {
         val phraser = phraser ?: return
-        // Never fall back to a voice in another language.
-        if (!speaker.useVoiceFor(phraser.locale)) {
-            Log.w(TAG, "No offline voice for ${phraser.locale}, staying quiet")
-            return
-        }
         scope.launch {
+            // Never fall back to a voice in another language.
+            if (!speaker.awaitVoiceFor(phraser.locale)) {
+                Log.w(TAG, "No offline voice for ${phraser.locale}, staying quiet")
+                return@launch
+            }
             if (settings.vibrateBeforeSpeaking) {
                 vibrate()
                 delay(VIBRATION_MS + 150)

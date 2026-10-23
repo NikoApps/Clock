@@ -8,6 +8,7 @@ import io.github.nikoapps.clock.settings.Settings
 import io.github.nikoapps.clock.settings.SettingsRepository
 import io.github.nikoapps.clock.speech.spokenDate
 import io.github.nikoapps.clock.speech.TimePhraser
+import io.github.nikoapps.clock.speech.awaitVoiceFor
 import io.github.nikoapps.clock.speech.phraserFor
 import io.github.nikoapps.commons.speech.Speaker
 import io.github.nikoapps.commons.speech.VoiceStatus
@@ -35,7 +36,7 @@ class ClockViewModel(application: Application) : AndroidViewModel(application) {
     private val speaker = Speaker(
         context = application,
         audioUsage = AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY,
-        onReady = { ready -> if (ready) checkVoice() else setVoice(VoiceStatus.NoEngine) },
+        onReady = { ready -> if (ready) viewModelScope.launch { checkVoice() } else setVoice(VoiceStatus.NoEngine) },
     )
 
     init {
@@ -57,16 +58,18 @@ class ClockViewModel(application: Application) : AndroidViewModel(application) {
 
     private fun speakWith(sentence: (TimePhraser) -> String) {
         val phraser = phraser ?: return
-        // A helper may have installed a voice since the last check.
-        if (_state.value.voice != VoiceStatus.Ready) checkVoice()
-        if (_state.value.voice == VoiceStatus.Ready) speaker.speak(sentence(phraser))
+        viewModelScope.launch {
+            // A helper may have installed a voice since the last check.
+            if (_state.value.voice != VoiceStatus.Ready) checkVoice()
+            if (_state.value.voice == VoiceStatus.Ready) speaker.speak(sentence(phraser))
+        }
     }
 
-    private fun checkVoice() {
+    private suspend fun checkVoice() {
         val phraser = phraser ?: return
         if (!speaker.isReady) return
         _state.update { it.copy(engine = speaker.engineName()) }
-        setVoice(if (speaker.useVoiceFor(phraser.locale)) VoiceStatus.Ready else VoiceStatus.NoVoice)
+        setVoice(if (speaker.awaitVoiceFor(phraser.locale)) VoiceStatus.Ready else VoiceStatus.NoVoice)
     }
 
     private fun setVoice(status: VoiceStatus) = _state.update { it.copy(voice = status) }
