@@ -22,6 +22,9 @@ class NextChimeTest {
     @Test fun `a moment before the hour goes to that hour`() = assertEquals(at(15, 0), nextChimeAfter(at(14, 59, 59), 60))
     @Test fun `crosses midnight`() = assertEquals(at(0, 0).plusDays(1), nextChimeAfter(at(23, 45), 60))
     @Test fun `unknown interval falls back to hourly`() = assertEquals(at(15, 0), nextChimeAfter(at(14, 20), 7))
+    @Test fun `restoring just after a chime came due keeps that chime`() = assertEquals(at(15, 0), chimeToRestore(at(15, 0, 2), 60))
+    @Test fun `restoring a minute later moves on`() = assertEquals(at(15, 15), chimeToRestore(at(15, 1, 30), 15))
+    @Test fun `restoring before a chime keeps the next one`() = assertEquals(at(15, 0), chimeToRestore(at(14, 59, 50), 60))
 
     @Test fun `spring forward skips the missing hour`() {
         // 2026-03-08 02:00 doesn't exist in New York: clocks go from 01:59 to 03:00.

@@ -17,9 +17,23 @@ object ChimeScheduler {
         if (settings.chimeEnabled) scheduleNext(context, settings, ZonedDateTime.now()) else cancel(context)
     }
 
+    /**
+     * After the clock changes, the phone restarts or the app updates. A chime that came due while
+     * Android was still passing the news around fires straight away instead of being skipped;
+     * [ChimeSlots] keeps it from sounding twice if it had already fired.
+     */
+    fun restore(context: Context, settings: Settings) {
+        if (!settings.chimeEnabled) return cancel(context)
+        schedule(context, chimeToRestore(ZonedDateTime.now(), settings.chimeIntervalMinutes))
+    }
+
     fun scheduleNext(context: Context, settings: Settings, after: ZonedDateTime) {
+        schedule(context, nextChimeAfter(after, settings.chimeIntervalMinutes))
+    }
+
+    private fun schedule(context: Context, next: ZonedDateTime) {
         val alarms = context.getSystemService<AlarmManager>() ?: return
-        val at = nextChimeAfter(after, settings.chimeIntervalMinutes).toInstant().toEpochMilli()
+        val at = next.toInstant().toEpochMilli()
         val operation = pendingIntent(context, PendingIntent.FLAG_UPDATE_CURRENT, at) ?: return
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || alarms.canScheduleExactAlarms()) {
             alarms.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, operation)

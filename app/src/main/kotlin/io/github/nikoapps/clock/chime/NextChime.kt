@@ -19,3 +19,14 @@ fun nextChimeAfter(now: ZonedDateTime, intervalMinutes: Int): ZonedDateTime {
     while (next.minute % interval != 0) next = next.plusMinutes(1)
     return next
 }
+
+/**
+ * How far back to look when putting the chime back after the clock changes, the phone restarts or
+ * the app updates. Android hands out the "time changed" news one app at a time, which took 12
+ * seconds on a Samsung A01, so a chime can come due before Clock hears of the change.
+ */
+const val RESTORE_LOOKBACK_SECONDS = 60L
+
+/** The chime to schedule after a clock change: one that came due a moment ago fires straight away. */
+fun chimeToRestore(now: ZonedDateTime, intervalMinutes: Int): ZonedDateTime =
+    nextChimeAfter(now.minusSeconds(RESTORE_LOOKBACK_SECONDS), intervalMinutes)
