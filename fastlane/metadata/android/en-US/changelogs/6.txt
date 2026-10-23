@@ -1,0 +1,6 @@
+* Easier to use at the largest font sizes: the time, the PIN keys and the setup buttons stay on screen
+* The day clock keeps the day and part of day as its biggest words
+* A chime is no longer skipped when the phone's clock changes just before it
+* The good morning message waits for the chime instead of cutting it off
+* Widgets fit their words at large font sizes
+* Bigger buttons in settings

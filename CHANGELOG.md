@@ -2,6 +2,31 @@
 
 Internal changelog for developers, generated from commit messages with git-cliff. The user-facing notes are in `fastlane/metadata/android/en-US/changelogs/`.
 
+## 0.4.1 - 2026-10-23
+
+### Fixed
+
+- keep the time and the day clock's words biggest at large font sizes
+- keep the status bar readable on the day clock's night screen
+- don't skip a chime when the phone's clock changes just before it
+- let the morning greeting wait for the chime at the same minute
+- fit the widgets' text at large font sizes
+- make dialog buttons 64dp
+
+### Changed
+
+- use the shared Commons library as a git submodule
+- use PIN screens, phone health, setup frame and rows from Commons
+
+### Build
+
+- move commons to 20218c6
+
+### Docs
+
+- clone with submodules
+- README lists the day clock and nine spoken languages
+
 ## 0.4.0 - 2026-10-22
 
 ### Added
@@ -17,6 +42,10 @@ Internal changelog for developers, generated from commit messages with git-cliff
 ### Docs
 
 - release notes and store description for 0.4.0
+
+### Chores
+
+- release 0.4.0
 
 ## 0.3.1 - 2026-10-19
 
