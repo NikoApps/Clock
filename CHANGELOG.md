@@ -2,6 +2,16 @@
 
 Internal changelog for developers, generated from commit messages with git-cliff. The user-facing notes are in `fastlane/metadata/android/en-US/changelogs/`.
 
+## 0.4.2 - 2026-10-23
+
+### Added
+
+- chime and listen for shake before the first unlock after a restart
+
+### Fixed
+
+- wait for the speech engine's voices when it starts cold
+
 ## 0.4.1 - 2026-10-23
 
 ### Fixed
@@ -26,6 +36,10 @@ Internal changelog for developers, generated from commit messages with git-cliff
 
 - clone with submodules
 - README lists the day clock and nine spoken languages
+
+### Chores
+
+- release 0.4.1
 
 ## 0.4.0 - 2026-10-22
 

@@ -1,0 +1,3 @@
+* Keeps saying the time after the phone restarts, even before it is unlocked
+* Shake works again straight after a restart
+* The first time after a restart no longer stays quiet while the voice loads
