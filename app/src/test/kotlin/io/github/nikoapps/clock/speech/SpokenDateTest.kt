@@ -3,6 +3,8 @@ package io.github.nikoapps.clock.speech
 import com.ibm.icu.text.MessageFormat
 import io.github.nikoapps.clock.calendar.BsDate
 import io.github.nikoapps.clock.settings.Settings
+import io.github.nikoapps.commons.speech.NumberWords
+import io.github.nikoapps.commons.speech.timePhraserFor
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
@@ -22,28 +24,33 @@ class SpokenDateTest {
     private val oct18 = LocalDate.of(2026, 10, 18)
 
     @Test fun `english bikram sambat`() =
-        assertEquals("In the Nepali calendar, it is the first of Kartik, two thousand eighty-three.", english.bikramSambatPhrase(BsDate(2083, 7, 1)))
+        assertEquals("In the Nepali calendar, it is the first of Kartik, two thousand eighty-three.", bikramSambatPhrase(english.locale, words(english.locale), BsDate(2083, 7, 1)))
 
     @Test fun `nepali bikram sambat`() =
-        assertEquals("विक्रम संवत् दुई हजार त्रियासी, कात्तिक एक गते।", nepali.bikramSambatPhrase(BsDate(2083, 7, 1)))
+        assertEquals("विक्रम संवत् दुई हजार त्रियासी, कात्तिक एक गते।", bikramSambatPhrase(nepali.locale, words(nepali.locale), BsDate(2083, 7, 1)))
 
-    @Test fun `other languages leave it out`() = assertNull(spanish.bikramSambatPhrase(BsDate(2083, 7, 1)))
+    @Test fun `other languages leave it out`() = assertNull(bikramSambatPhrase(spanish.locale, words(spanish.locale), BsDate(2083, 7, 1)))
 
     @Test fun `date alone by default`() =
-        assertEquals("Today is Sunday, the eighteenth of October.", spokenDate(english, Settings(), oct18))
+        assertEquals("Today is Sunday, the eighteenth of October.", spokenDate(english, Settings(), oct18, ::words))
 
     @Test fun `date, nepali date and note`() = assertEquals(
         "Today is Sunday, the eighteenth of October. In the Nepali calendar, it is the first of Kartik, two thousand eighty-three. Ram visits today.",
-        spokenDate(english, Settings(bikramSambat = true, helperNote = " Ram visits today. "), oct18),
+        spokenDate(english, Settings(bikramSambat = true, helperNote = " Ram visits today. "), oct18, ::words),
     )
 
     @Test fun `spanish skips the nepali date but keeps the note`() = assertEquals(
         "Hoy es domingo, dieciocho de octubre. Médico a las tres.",
-        spokenDate(spanish, Settings(bikramSambat = true, helperNote = "Médico a las tres."), oct18),
+        spokenDate(spanish, Settings(bikramSambat = true, helperNote = "Médico a las tres."), oct18, ::words),
     )
 
     @Test fun greeting() = assertEquals(
         "शुभ प्रभात। आज आइतबार, अक्टोबर अठार गते।",
-        morningGreeting(nepali, Settings(), oct18),
+        morningGreeting(nepali, Settings(), oct18, ::words),
+    )
+
+    @Test fun `greeting with the nepali date in nepali`() = assertEquals(
+        "शुभ प्रभात। आज आइतबार, अक्टोबर अठार गते। विक्रम संवत् दुई हजार त्रियासी, कात्तिक एक गते।",
+        morningGreeting(nepali, Settings(bikramSambat = true), oct18, ::words),
     )
 }
