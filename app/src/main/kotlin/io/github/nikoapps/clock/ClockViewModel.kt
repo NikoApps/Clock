@@ -7,11 +7,11 @@ import androidx.lifecycle.viewModelScope
 import io.github.nikoapps.clock.settings.Settings
 import io.github.nikoapps.clock.settings.SettingsRepository
 import io.github.nikoapps.clock.speech.spokenDate
-import io.github.nikoapps.clock.speech.TimePhraser
 import io.github.nikoapps.clock.speech.awaitVoiceFor
-import io.github.nikoapps.clock.speech.phraserFor
 import io.github.nikoapps.commons.speech.Speaker
+import io.github.nikoapps.commons.speech.TimePhraser
 import io.github.nikoapps.commons.speech.VoiceStatus
+import io.github.nikoapps.commons.speech.phraserFor
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -44,7 +44,7 @@ class ClockViewModel(application: Application) : AndroidViewModel(application) {
         viewModelScope.launch {
             SettingsRepository(application).settings.collect { settings ->
                 this@ClockViewModel.settings = settings
-                phraser = phraserFor(settings)
+                phraser = phraserFor(settings.language)
                 speaker.setRate(settings.speechRate)
                 speaker.setPitch(settings.voicePitch.pitch)
                 if (phraser == null) setVoice(VoiceStatus.LanguageNotSupported) else checkVoice()

@@ -32,11 +32,11 @@ import io.github.nikoapps.clock.MainActivity
 import io.github.nikoapps.clock.R
 import io.github.nikoapps.clock.settings.Settings
 import io.github.nikoapps.clock.settings.SettingsRepository
-import io.github.nikoapps.clock.speech.TimePhraser
 import io.github.nikoapps.clock.speech.spokenDate
-import io.github.nikoapps.clock.speech.phraserFor
 import io.github.nikoapps.clock.speech.awaitVoiceFor
 import io.github.nikoapps.commons.speech.Speaker
+import io.github.nikoapps.commons.speech.TimePhraser
+import io.github.nikoapps.commons.speech.phraserFor
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -90,7 +90,7 @@ class ShakeService : Service(), SensorEventListener {
                 }
                 settings = latest
                 detector.sensitivity = latest.shakeSensitivity
-                phraser = phraserFor(latest)
+                phraser = phraserFor(latest.language)
                 speaker.setRate(latest.speechRate)
                 speaker.setPitch(latest.voicePitch.pitch)
             }

@@ -9,6 +9,7 @@ import android.os.Vibrator
 import androidx.core.content.getSystemService
 import io.github.nikoapps.clock.settings.SettingsRepository
 import io.github.nikoapps.commons.speech.Speaker
+import io.github.nikoapps.commons.speech.phraserFor
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeoutOrNull
@@ -54,7 +55,7 @@ class TimeAnnouncer(context: Context) {
     /** Returns true if the time was spoken to the end. */
     suspend fun announce(kind: Announcement): Boolean {
         val current = settings.current()
-        val phraser = phraserFor(current) ?: return false
+        val phraser = phraserFor(current.language) ?: return false
         // Slow phones can take a few seconds to start the engine.
         if (withTimeoutOrNull(ENGINE_START_TIMEOUT_MS) { ready.await() } != true) return false
         // Never fall back to another language: saying nothing is better than the wrong words.
