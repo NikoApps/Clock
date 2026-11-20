@@ -149,6 +149,10 @@ fun SettingsScreen(
                 ShakeRows(settings, onUpdate, onNeedNotifications)
             }
 
+            SettingsGroup(stringResource(R.string.speak_status)) {
+                PhoneStatusRows(settings, onUpdate)
+            }
+
             SettingsGroup(stringResource(R.string.section_day_and_date)) {
                 DayAndDateRows(settings, onUpdate, onNeedNotifications)
             }

@@ -15,7 +15,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withTimeoutOrNull
 import java.time.Instant
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
+import io.github.nikoapps.commons.status.PhoneStatusReader
 import java.util.UUID
 import java.util.concurrent.ConcurrentHashMap
 
@@ -32,6 +34,9 @@ enum class Announcement {
 
     /** The morning greeting with the date: alarm stream at the chime volume, like [Chime]. */
     Greeting,
+
+    /** Someone asked for the phone status (status tile): same stream as [Request]. */
+    Status,
 }
 
 /**
@@ -65,17 +70,18 @@ class TimeAnnouncer(context: Context) {
         speaker.setPitch(current.voicePitch.pitch)
         val usage = when (kind) {
             Announcement.Chime, Announcement.Greeting -> AudioAttributes.USAGE_ALARM
-            Announcement.Request, Announcement.Date -> AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY
+            Announcement.Request, Announcement.Date, Announcement.Status -> AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY
         }
         speaker.setAudioUsage(usage)
         // Volume is relative to the alarm stream's own volume, so the system volume is never changed.
         val volume = when (kind) {
             Announcement.Chime, Announcement.Greeting -> current.chimeVolumePercent.coerceIn(0, 100) / 100f
-            Announcement.Request, Announcement.Date -> 1f
+            Announcement.Request, Announcement.Date, Announcement.Status -> 1f
         }
         val sentence = when (kind) {
             Announcement.Date -> spokenDate(phraser, current, LocalDate.now())
             Announcement.Greeting -> morningGreeting(phraser, current, LocalDate.now())
+            Announcement.Status -> spokenStatus(phraser, PhoneStatusReader.read(appContext), LocalDateTime.now())
             Announcement.Chime, Announcement.Request -> phraser.phrase(LocalTime.now())
         }
 

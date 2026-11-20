@@ -86,6 +86,9 @@ import io.github.nikoapps.commons.settings.TextSize
 import io.github.nikoapps.commons.speech.VoiceStatus
 import io.github.nikoapps.commons.theme.NikoTheme
 import io.github.nikoapps.commons.ui.BigButton
+import io.github.nikoapps.commons.ui.SecondaryButton
+import io.github.nikoapps.commons.status.PhoneStatusReader
+import io.github.nikoapps.commons.status.StatusWarning
 import io.github.nikoapps.commons.ui.SetPinScreen
 import io.github.nikoapps.commons.ui.UnlockPinScreen
 import io.github.nikoapps.commons.ui.voiceMessage
@@ -177,6 +180,7 @@ private fun App(settingsViewModel: SettingsViewModel, clockViewModel: ClockViewM
             note = current.helperNote,
             onSpeak = clockViewModel::onSpeak,
             onSpeakDate = clockViewModel::onSpeakDate,
+            onSpeakStatus = if (current.statusButton) clockViewModel::onSpeakStatus else null,
             onOpenSettings = {
                 val open = { screen = if (current.helperPinHash == null) Screen.Settings else Screen.Unlock }
                 // Over the lock screen, settings wait until the phone is unlocked.
@@ -260,6 +264,7 @@ private fun ClockScreen(
     note: String?,
     onSpeak: () -> Unit,
     onSpeakDate: () -> Unit,
+    onSpeakStatus: (() -> Unit)?,
     onOpenSettings: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -283,7 +288,14 @@ private fun ClockScreen(
         DateTimeFormatter.ofPattern(DateFormat.getBestDateTimePattern(locale, "EEEEdMMMM"), locale)
     }
 
+    // What stops calls coming in, checked every few seconds: anyone looking at the clock should see
+    // it, before the helper's warnings, which only matter for chimes and shake.
+    val lifecycle by LocalLifecycleOwner.current.lifecycle.currentStateAsState()
+    val phoneWarning = remember(now.second / PHONE_CHECK_SECONDS, now.minute, lifecycle) {
+        PhoneStatusReader.warningsOnly(context).warnings.firstOrNull()
+    }
     val hint = voiceMessage(voice)
+        ?: phoneWarning?.let { stringResource(it.hint()) }
         ?: stringResource(if (needsAttention) R.string.health_hint else R.string.status_ready)
 
     val nepaliDate = if (bikramSambat) {
@@ -301,6 +313,7 @@ private fun ClockScreen(
             hint = hint,
             onSpeak = onSpeak,
             onSpeakDate = onSpeakDate,
+            onSpeakStatus = onSpeakStatus,
             onOpenSettings = onOpenSettings,
         )
         return
@@ -310,6 +323,7 @@ private fun ClockScreen(
         hint = hint,
         onSpeak = onSpeak,
         onSpeakDate = onSpeakDate,
+        onSpeakStatus = onSpeakStatus,
         onOpenSettings = onOpenSettings,
         compact = extras,
     ) {
@@ -346,6 +360,17 @@ private fun ClockScreen(
 
 private const val TIME_SHARE = 3f
 
+/** How often the hint line checks airplane mode, Do Not Disturb and the ringer. */
+private const val PHONE_CHECK_SECONDS = 5
+
+/** The hint line's words for what stops calls coming in. */
+private fun StatusWarning.hint(): Int = when (this) {
+    StatusWarning.AirplaneMode -> R.string.hint_airplane
+    StatusWarning.NoSim -> R.string.hint_no_sim
+    StatusWarning.DoNotDisturb -> R.string.hint_dnd
+    StatusWarning.RingerSilent, StatusWarning.RingerVibrate, StatusWarning.RingVolumeOff -> R.string.hint_ringer_off
+}
+
 /**
  * One centred line that shrinks to fit when the card runs out of room. [share] is its part of the
  * room left over, against 1 for an ordinary line. The line height is in em, so a shrunk word keeps
@@ -369,8 +394,9 @@ internal fun ColumnScope.FitLine(
 }
 
 /**
- * The main screen's fixed frame: title bar, the card that speaks on tap, the hint line and the
- * big button. [card] fills the card: the time and date, or the day clock.
+ * The main screen's fixed frame: title bar, the card that speaks on tap, the hint line, the Phone
+ * status button when [onSpeakStatus] is set, and the big button. [card] fills the card: the time
+ * and date, or the day clock.
  *
  * The hint and the button are measured first and always get their full height; the card takes
  * what's left. With large text or a long warning, the card's text shrinks rather than the hint
@@ -383,6 +409,7 @@ internal fun ClockContent(
     onSpeak: () -> Unit,
     onSpeakDate: () -> Unit,
     onOpenSettings: () -> Unit,
+    onSpeakStatus: (() -> Unit)? = null,
     compact: Boolean = false,
     card: @Composable ColumnScope.() -> Unit,
 ) {
@@ -459,10 +486,17 @@ internal fun ClockContent(
                     .semantics { liveRegion = LiveRegionMode.Polite },
             )
         }
+        if (onSpeakStatus != null) {
+            SecondaryButton(
+                text = stringResource(R.string.speak_status),
+                onClick = onSpeakStatus,
+                modifier = Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp),
+            )
+        }
         BigButton(
             text = speakLabel,
             onClick = onSpeak,
-            modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp),
+            modifier = Modifier.padding(horizontal = 24.dp, vertical = if (onSpeakStatus != null) 16.dp else 24.dp),
         )
     }
 }
@@ -471,7 +505,7 @@ internal fun ClockContent(
 @Composable
 private fun ClockContentPreview() {
     NikoTheme {
-        ClockContent(hint = stringResource(R.string.status_ready), onSpeak = {}, onSpeakDate = {}, onOpenSettings = {}) {
+        ClockContent(hint = stringResource(R.string.status_ready), onSpeak = {}, onSpeakDate = {}, onOpenSettings = {}, onSpeakStatus = {}) {
             FitLine("21:34:40", MaterialTheme.typography.displayLarge, MaterialTheme.colorScheme.secondary, 96.sp, TIME_SHARE)
             FitLine("Saturday, 17 October", MaterialTheme.typography.headlineMedium, MaterialTheme.colorScheme.onSurface)
         }

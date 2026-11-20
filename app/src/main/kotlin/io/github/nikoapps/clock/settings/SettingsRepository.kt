@@ -53,6 +53,8 @@ class SettingsRepository(context: Context) {
         val helperNote = stringPreferencesKey("helper_note")
         val greetingEnabled = booleanPreferencesKey("greeting_enabled")
         val greetingTime = intPreferencesKey("greeting_minute")
+        val statusButton = booleanPreferencesKey("status_button")
+        val shakeAgainForStatus = booleanPreferencesKey("shake_again_for_status")
     }
 
     private fun Preferences.toSettings(): Settings {
@@ -87,6 +89,8 @@ class SettingsRepository(context: Context) {
             helperNote = this[Keys.helperNote],
             greetingEnabled = this[Keys.greetingEnabled] ?: d.greetingEnabled,
             greetingTime = this[Keys.greetingTime]?.let(::minuteToTime) ?: d.greetingTime,
+            statusButton = this[Keys.statusButton] ?: d.statusButton,
+            shakeAgainForStatus = this[Keys.shakeAgainForStatus] ?: d.shakeAgainForStatus,
         )
     }
 
@@ -111,6 +115,8 @@ class SettingsRepository(context: Context) {
         this[Keys.dayClock] = s.dayClock
         this[Keys.dayClockOnLockScreen] = s.dayClockOnLockScreen
         this[Keys.bikramSambat] = s.bikramSambat
+        this[Keys.statusButton] = s.statusButton
+        this[Keys.shakeAgainForStatus] = s.shakeAgainForStatus
         val note = s.helperNote?.trim()
         if (note.isNullOrEmpty()) remove(Keys.helperNote) else this[Keys.helperNote] = note
         this[Keys.greetingEnabled] = s.greetingEnabled

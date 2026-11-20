@@ -110,4 +110,15 @@
     <string name="info_greeting">Setiap pagi pada jam yang dipilih, Niko Clock mengucapkan selamat pagi dan tanggal, beserta tanggal Nepal dan catatan jika diaktifkan. Pesan ini tetap diucapkan saat diam di malam hari, tapi ikut diam saat Jangan Ganggu jika pengumuman waktu juga diam.</string>
     <string name="setting_lock_screen">Tampilkan di layar kunci saat mengisi daya</string>
     <string name="info_lock_screen">Saat ponsel diisi daya, jam hari tetap tampil di depan layar kunci, jadi bisa dibaca tanpa membuka kunci. Membuka pengaturan tetap perlu membuka kunci ponsel.</string>
+
+    <!-- Phone status (Hub ADR 0039) -->
+    <string name="speak_status">Status ponsel</string>
+    <string name="setting_status_button">Tombol status ponsel</string>
+    <string name="info_status_button">Menampilkan tombol Status ponsel di bawah jam. Tombol ini memberi tahu jika mode pesawat, Jangan Ganggu, atau dering yang mati bisa menghalangi panggilan, lalu baterai, sinyal, internet, waktu, dan tanggal. Ubin Status ponsel di setelan cepat juga bisa dipakai.</string>
+    <string name="setting_shake_status">Goyang sekali lagi untuk status ponsel</string>
+    <string name="info_shake_status">Setelah tanggal, goyangkan lagi dalam beberapa detik untuk mendengar status ponsel.</string>
+    <string name="hint_airplane">Mode pesawat aktif. Panggilan dan pesan tidak bisa masuk.</string>
+    <string name="hint_no_sim">Tidak ada kartu SIM. Panggilan tidak bisa masuk.</string>
+    <string name="hint_dnd">Jangan Ganggu aktif. Panggilan mungkin tidak berdering.</string>
+    <string name="hint_ringer_off">Dering mati. Panggilan tidak akan berdering.</string>
 </resources>

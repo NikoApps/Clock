@@ -18,6 +18,9 @@ class SpeakTimeTileService : SpeakTileService(Announcement.Request)
 /** Quick settings tile that says the date. */
 class SpeakDateTileService : SpeakTileService(Announcement.Date)
 
+/** Quick settings tile that says the phone status: what may stop calls, battery, signal, internet, time and date. */
+class SpeakStatusTileService : SpeakTileService(Announcement.Status)
+
 /** A one-tap tile that speaks [kind]. */
 abstract class SpeakTileService(private val kind: Announcement) : TileService() {
 

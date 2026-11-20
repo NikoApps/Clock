@@ -55,6 +55,7 @@ internal fun DayClockScreen(
     hint: String,
     onSpeak: () -> Unit,
     onSpeakDate: () -> Unit,
+    onSpeakStatus: (() -> Unit)?,
     onOpenSettings: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -102,6 +103,7 @@ internal fun DayClockScreen(
                 onSpeak = onSpeak,
                 onSpeakDate = onSpeakDate,
                 onOpenSettings = onOpenSettings,
+                onSpeakStatus = onSpeakStatus,
                 compact = extras,
             ) {
                 Icon(

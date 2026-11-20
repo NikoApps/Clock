@@ -18,7 +18,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
+import io.github.nikoapps.clock.speech.spokenStatus
+import io.github.nikoapps.commons.status.PhoneStatusReader
 
 /** [engine] is the speech engine's name, shown to helpers so they know which voice is in use. */
 data class ClockState(val voice: VoiceStatus = VoiceStatus.Starting, val engine: String? = null)
@@ -55,6 +58,8 @@ class ClockViewModel(application: Application) : AndroidViewModel(application) {
     fun onSpeak() = speakWith { it.phrase(LocalTime.now()) }
 
     fun onSpeakDate() = speakWith { spokenDate(it, settings, LocalDate.now()) }
+
+    fun onSpeakStatus() = speakWith { spokenStatus(it, PhoneStatusReader.read(getApplication()), LocalDateTime.now()) }
 
     private fun speakWith(sentence: (TimePhraser) -> String) {
         val phraser = phraser ?: return

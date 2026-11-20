@@ -110,4 +110,15 @@
     <string name="info_greeting">ہر صبح چنے ہوئے وقت پر Niko Clock صبح بخیر کہتا ہے اور تاریخ بتاتا ہے، ساتھ میں نیپالی تاریخ اور نوٹ بھی اگر وہ آن ہوں۔ رات کو خاموش رہنے کے وقت میں بھی بولتا ہے، لیکن اگر وقت کا اعلان ڈو ناٹ ڈسٹرب میں خاموش رہتا ہے تو یہ بھی خاموش رہتا ہے۔</string>
     <string name="setting_lock_screen">چارج ہوتے وقت لاک اسکرین پر دکھائیں</string>
     <string name="info_lock_screen">فون چارج ہوتے وقت دن کی گھڑی لاک اسکرین کے سامنے رہتی ہے، تاکہ ان لاک کیے بغیر پڑھی جا سکے۔ سیٹنگز کھولنے کے لیے پھر بھی فون ان لاک کرنا ہوگا۔</string>
+
+    <!-- Phone status (Hub ADR 0039) -->
+    <string name="speak_status">فون کی حالت</string>
+    <string name="setting_status_button">فون کی حالت کا بٹن</string>
+    <string name="info_status_button">گھڑی کے نیچے فون کی حالت کا بٹن دکھاتا ہے۔ اگر ہوائی جہاز موڈ، ڈسٹرب نہ کریں یا بند گھنٹی سے کال رک سکتی ہے تو بتاتا ہے، پھر بیٹری، سگنل، انٹرنیٹ، وقت اور تاریخ بتاتا ہے۔ کوئیک سیٹنگز میں فون کی حالت کا ٹائل بھی کام کرتا ہے۔</string>
+    <string name="setting_shake_status">ایک بار اور ہلائیں، فون کی حالت کے لیے</string>
+    <string name="info_shake_status">تاریخ کے بعد چند سیکنڈ میں پھر ہلائیں، فون کی حالت سنائی دے گی۔</string>
+    <string name="hint_airplane">ہوائی جہاز موڈ آن ہے۔ کال اور پیغام نہیں آ سکتے۔</string>
+    <string name="hint_no_sim">سم کارڈ نہیں ہے۔ کال نہیں آ سکتی۔</string>
+    <string name="hint_dnd">ڈسٹرب نہ کریں آن ہے۔ کال پر گھنٹی شاید نہ بجے۔</string>
+    <string name="hint_ringer_off">گھنٹی بند ہے۔ کال پر گھنٹی نہیں بجے گی۔</string>
 </resources>

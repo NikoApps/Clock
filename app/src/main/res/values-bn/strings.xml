@@ -110,4 +110,15 @@
     <string name="info_greeting">প্রতিদিন সকালে বেছে নেওয়া সময়ে Niko Clock সুপ্রভাত জানায় আর তারিখ বলে, নেপালি তারিখ আর নোট চালু থাকলে সেগুলোও। রাতে চুপ থাকার সময়েও বলে, তবে সময় ঘোষণা বিরক্ত করবেন না-তে চুপ থাকলে এটিও চুপ থাকে।</string>
     <string name="setting_lock_screen">চার্জের সময় লক স্ক্রিনে দেখান</string>
     <string name="info_lock_screen">ফোন চার্জ হওয়ার সময় দিনের ঘড়ি লক স্ক্রিনের সামনে থাকে, তাই আনলক না করেই পড়া যায়। সেটিংস খুলতে তবুও ফোন আনলক করতে হবে।</string>
+
+    <!-- Phone status (Hub ADR 0039) -->
+    <string name="speak_status">ফোনের অবস্থা</string>
+    <string name="setting_status_button">ফোনের অবস্থা বোতাম</string>
+    <string name="info_status_button">ঘড়ির নিচে ফোনের অবস্থা বোতাম দেখায়। এয়ারপ্লেন মোড, বিরক্ত করবেন না বা বন্ধ রিংটোনের কারণে কল আটকে যেতে পারলে বলে, তারপর ব্যাটারি, নেটওয়ার্ক, ইন্টারনেট, সময় আর তারিখ বলে। কুইক সেটিংসের ফোনের অবস্থা টাইলও কাজ করে।</string>
+    <string name="setting_shake_status">আরেকবার ঝাঁকিয়ে ফোনের অবস্থা</string>
+    <string name="info_shake_status">তারিখ বলার পর কয়েক সেকেন্ডের মধ্যে আবার ঝাঁকান, ফোনের অবস্থা শুনবেন।</string>
+    <string name="hint_airplane">এয়ারপ্লেন মোড চালু আছে। কল আর মেসেজ আসতে পারবে না।</string>
+    <string name="hint_no_sim">সিম কার্ড নেই। কল আসতে পারবে না।</string>
+    <string name="hint_dnd">বিরক্ত করবেন না চালু আছে। কল এলে রিং না-ও বাজতে পারে।</string>
+    <string name="hint_ringer_off">রিংটোন বন্ধ আছে। কল এলে রিং বাজবে না।</string>
 </resources>

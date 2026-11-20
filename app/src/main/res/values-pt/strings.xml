@@ -110,4 +110,15 @@
     <string name="info_greeting">Toda manhã, no horário escolhido, o Niko Clock dá bom dia e diz a data, com a data nepalesa e o recado se estiverem ligados. Ele fala mesmo no horário de silêncio à noite, mas fica em silêncio no Não perturbe se os avisos de hora também ficam.</string>
     <string name="setting_lock_screen">Mostrar na tela de bloqueio ao carregar</string>
     <string name="info_lock_screen">Enquanto o celular carrega, o relógio do dia fica na frente da tela de bloqueio, para ser lido sem desbloquear. Para abrir as configurações ainda é preciso desbloquear o celular.</string>
+
+    <!-- Phone status (Hub ADR 0039) -->
+    <string name="speak_status">Estado do celular</string>
+    <string name="setting_status_button">Botão de estado do celular</string>
+    <string name="info_status_button">Mostra um botão Estado do celular embaixo do relógio. Diz se o modo avião, Não perturbe ou a campainha no silencioso podem impedir chamadas, e depois a bateria, o sinal, a internet, a hora e a data. O bloco Estado do celular nas configurações rápidas também funciona.</string>
+    <string name="setting_shake_status">Sacudir mais uma vez para o estado do celular</string>
+    <string name="info_shake_status">Depois da data, sacuda de novo em alguns segundos para ouvir o estado do celular.</string>
+    <string name="hint_airplane">O modo avião está ligado. Chamadas e mensagens não podem chegar.</string>
+    <string name="hint_no_sim">Não há chip. Chamadas não podem chegar.</string>
+    <string name="hint_dnd">Não perturbe está ligado. As chamadas podem não tocar.</string>
+    <string name="hint_ringer_off">A campainha está desligada. As chamadas não vão tocar.</string>
 </resources>

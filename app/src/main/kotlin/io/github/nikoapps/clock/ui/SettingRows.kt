@@ -145,6 +145,12 @@ fun ShakeRows(settings: Settings, onUpdate: ((Settings) -> Settings) -> Unit, on
         checked = settings.shakeAgainForDate,
         onCheckedChange = { checked -> onUpdate { it.copy(shakeAgainForDate = checked) } },
     )
+    SwitchRow(
+        title = stringResource(R.string.setting_shake_status),
+        info = stringResource(R.string.info_shake_status),
+        checked = settings.shakeAgainForStatus,
+        onCheckedChange = { checked -> onUpdate { it.copy(shakeAgainForStatus = checked) } },
+    )
     ChoiceRow(
         title = stringResource(R.string.setting_shake_sensitivity),
         options = listOf(ShakeSensitivity.High, ShakeSensitivity.Medium, ShakeSensitivity.Low),
@@ -152,6 +158,17 @@ fun ShakeRows(settings: Settings, onUpdate: ((Settings) -> Settings) -> Unit, on
         optionLabel = { stringResource(it.label()) },
         onSelect = { s -> onUpdate { it.copy(shakeSensitivity = s) } },
         cancelLabel = stringResource(CommonsR.string.cancel),
+    )
+}
+
+/** The Phone status button under the clock (Hub ADR 0039). The tile and the shake work without it. */
+@Composable
+fun PhoneStatusRows(settings: Settings, onUpdate: ((Settings) -> Settings) -> Unit) {
+    SwitchRow(
+        title = stringResource(R.string.setting_status_button),
+        info = stringResource(R.string.info_status_button),
+        checked = settings.statusButton,
+        onCheckedChange = { checked -> onUpdate { it.copy(statusButton = checked) } },
     )
 }
 
