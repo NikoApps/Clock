@@ -110,4 +110,15 @@
     <string name="info_greeting">हर सुबह चुने हुए समय पर Niko Clock सुप्रभात कहता है और तारीख़ बताता है, साथ में नेपाली तारीख़ और नोट, अगर वे चालू हों। यह रात में चुप रहने के समय भी बोलता है, पर अगर समय की घोषणा डू नॉट डिस्टर्ब में चुप रहती है तो यह भी चुप रहता है।</string>
     <string name="setting_lock_screen">चार्ज होते समय लॉक स्क्रीन पर दिखाएँ</string>
     <string name="info_lock_screen">फ़ोन चार्ज होते समय दिन घड़ी लॉक स्क्रीन के ऊपर रहती है, ताकि बिना अनलॉक किए पढ़ी जा सके। सेटिंग खोलने के लिए फिर भी फ़ोन अनलॉक करना होगा।</string>
+
+    <!-- Phone status (Hub ADR 0039) -->
+    <string name="speak_status">फ़ोन की स्थिति</string>
+    <string name="setting_status_button">फ़ोन की स्थिति बटन</string>
+    <string name="info_status_button">घड़ी के नीचे फ़ोन की स्थिति बटन दिखाता है। अगर हवाई जहाज़ मोड, परेशान न करें या बंद घंटी से कॉल रुक सकती है तो बताता है, फिर बैटरी, सिग्नल, इंटरनेट, समय और तारीख़ बताता है। क्विक सेटिंग्स में फ़ोन की स्थिति टाइल भी काम करती है।</string>
+    <string name="setting_shake_status">एक बार और हिलाएँ, फ़ोन की स्थिति के लिए</string>
+    <string name="info_shake_status">तारीख़ के बाद कुछ सेकंड में फिर से हिलाएँ, फ़ोन की स्थिति सुनाई देगी।</string>
+    <string name="hint_airplane">हवाई जहाज़ मोड चालू है। कॉल और संदेश नहीं आ सकते।</string>
+    <string name="hint_no_sim">सिम कार्ड नहीं है। कॉल नहीं आ सकती।</string>
+    <string name="hint_dnd">परेशान न करें चालू है। कॉल पर घंटी शायद न बजे।</string>
+    <string name="hint_ringer_off">घंटी बंद है। कॉल पर घंटी नहीं बजेगी।</string>
 </resources>

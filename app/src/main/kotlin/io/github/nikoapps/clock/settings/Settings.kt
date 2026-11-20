@@ -47,6 +47,10 @@ data class Settings(
     val greetingTime: LocalTime = LocalTime.of(7, 0),
     /** The helper finished or skipped first-run setup. */
     val setupDone: Boolean = false,
+    /** A Phone status button under the clock says what may stop calls, then battery, signal, internet, time and date (Hub ADR 0039). */
+    val statusButton: Boolean = true,
+    /** After the date, one more shake says the phone status. */
+    val shakeAgainForStatus: Boolean = true,
 ) {
     val speechSpeed: SpeechSpeed
         get() = SpeechSpeed.closestTo(speechRate)

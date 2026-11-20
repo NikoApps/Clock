@@ -110,4 +110,15 @@
     <string name="info_greeting">Chaque matin à l\'heure choisie, Niko Clock dit bonjour et la date, avec la date népalaise et la note si elles sont activées. Il parle même pendant le silence de la nuit, mais se tait en mode Ne pas déranger si les annonces se taisent aussi.</string>
     <string name="setting_lock_screen">Afficher sur l\'écran verrouillé pendant la charge</string>
     <string name="info_lock_screen">Pendant la charge, l\'horloge du jour reste devant l\'écran verrouillé, pour qu\'on puisse la lire sans déverrouiller. Pour ouvrir les réglages, il faut quand même déverrouiller le téléphone.</string>
+
+    <!-- Phone status (Hub ADR 0039) -->
+    <string name="speak_status">État du téléphone</string>
+    <string name="setting_status_button">Bouton État du téléphone</string>
+    <string name="info_status_button">Affiche un bouton État du téléphone sous l\'horloge. Il dit si le mode avion, Ne pas déranger ou une sonnerie coupée peuvent bloquer les appels, puis la batterie, le réseau, internet, l\'heure et la date. La vignette État du téléphone dans les réglages rapides fonctionne aussi.</string>
+    <string name="setting_shake_status">Secouer encore pour l\'état du téléphone</string>
+    <string name="info_shake_status">Après la date, secouez encore dans les secondes qui suivent pour entendre l\'état du téléphone.</string>
+    <string name="hint_airplane">Le mode avion est activé. Les appels et les messages ne peuvent pas arriver.</string>
+    <string name="hint_no_sim">Il n\'y a pas de carte SIM. Les appels ne peuvent pas arriver.</string>
+    <string name="hint_dnd">Ne pas déranger est activé. Les appels risquent de ne pas sonner.</string>
+    <string name="hint_ringer_off">La sonnerie est coupée. Les appels ne sonneront pas.</string>
 </resources>

@@ -114,4 +114,15 @@
     <string name="info_greeting">हरेक बिहान रोजेको समयमा Niko Clock ले शुभ प्रभात र मिति भन्छ, नेपाली मिति र टिपोट खुला भए ती पनि। राति चुप रहने समयमा पनि बोल्छ, तर नियमित समय डु नट डिस्टर्बमा चुप रहन्छ भने यो पनि चुप रहन्छ।</string>
     <string name="setting_lock_screen">चार्ज हुँदा लक स्क्रिनमा देखाउने</string>
     <string name="info_lock_screen">फोन चार्ज हुँदा दिन घडी लक स्क्रिनभन्दा अगाडि रहन्छ, त्यसैले अनलक नगरी पढ्न सकिन्छ। सेटिङ खोल्न भने फोन अनलक गर्नुपर्छ।</string>
+
+    <!-- Phone status (Hub ADR 0039) -->
+    <string name="speak_status">फोनको अवस्था</string>
+    <string name="setting_status_button">फोनको अवस्था बटन</string>
+    <string name="info_status_button">घडीमुनि फोनको अवस्था बटन देखाउँछ। एयरप्लेन मोड, डु नट डिस्टर्ब वा बन्द घन्टीले कल रोक्न सक्छ भने भन्छ, अनि ब्याट्री, सिग्नल, इन्टरनेट, समय र मिति भन्छ। क्विक सेटिङको फोनको अवस्था टाइलले पनि काम गर्छ।</string>
+    <string name="setting_shake_status">फेरि हल्लाएर फोनको अवस्था</string>
+    <string name="info_shake_status">मिति भनेपछि केही सेकेन्डभित्र फेरि हल्लाउनुहोस्, फोनको अवस्था सुनिन्छ।</string>
+    <string name="hint_airplane">एयरप्लेन मोड खुला छ। कल र सन्देश आउन सक्दैनन्।</string>
+    <string name="hint_no_sim">सिम कार्ड छैन। कल आउन सक्दैन।</string>
+    <string name="hint_dnd">डु नट डिस्टर्ब खुला छ। कलमा घन्टी नबज्न सक्छ।</string>
+    <string name="hint_ringer_off">घन्टी बन्द छ। कलमा घन्टी बज्दैन।</string>
 </resources>

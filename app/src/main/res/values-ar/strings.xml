@@ -110,4 +110,15 @@
     <string name="info_greeting">كل صباح في الوقت المختار، يقول Niko Clock صباح الخير والتاريخ، مع التاريخ النيبالي والملاحظة إن كانا مفعّلين. يتكلم حتى في ساعات الصمت ليلًا، لكنه يبقى صامتًا في وضع عدم الإزعاج إذا كان إعلان الوقت صامتًا فيه.</string>
     <string name="setting_lock_screen">العرض على شاشة القفل أثناء الشحن</string>
     <string name="info_lock_screen">أثناء شحن الهاتف، تبقى ساعة اليوم أمام شاشة القفل، فيمكن قراءتها دون فتح القفل. فتح الإعدادات ما زال يحتاج إلى فتح قفل الهاتف.</string>
+
+    <!-- Phone status (Hub ADR 0039) -->
+    <string name="speak_status">حالة الهاتف</string>
+    <string name="setting_status_button">زر حالة الهاتف</string>
+    <string name="info_status_button">يعرض زر حالة الهاتف تحت الساعة. يقول إن كان وضع الطيران أو عدم الإزعاج أو إيقاف الرنين قد يمنع المكالمات، ثم البطارية والإشارة والإنترنت والوقت والتاريخ. يعمل مربع حالة الهاتف في الإعدادات السريعة أيضًا.</string>
+    <string name="setting_shake_status">هزّة أخرى لحالة الهاتف</string>
+    <string name="info_shake_status">بعد التاريخ، هزّ الهاتف مرة أخرى خلال ثوانٍ لسماع حالة الهاتف.</string>
+    <string name="hint_airplane">وضع الطيران مفعّل. لا يمكن أن تصل المكالمات والرسائل.</string>
+    <string name="hint_no_sim">لا توجد شريحة SIM. لا يمكن أن تصل المكالمات.</string>
+    <string name="hint_dnd">وضع عدم الإزعاج مفعّل. قد لا ترن المكالمات.</string>
+    <string name="hint_ringer_off">الرنين متوقف. لن ترن المكالمات.</string>
 </resources>

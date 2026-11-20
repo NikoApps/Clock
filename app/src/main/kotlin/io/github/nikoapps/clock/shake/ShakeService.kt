@@ -44,7 +44,10 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
+import io.github.nikoapps.clock.speech.spokenStatus
+import io.github.nikoapps.commons.status.PhoneStatusReader
 
 /**
  * Listens for a shake, even with the phone locked and the screen off, and speaks the time.
@@ -67,8 +70,9 @@ class ShakeService : Service(), SensorEventListener {
     private var phraser: TimePhraser? = null
     private var listening = false
 
-    /** When the last shake spoke the time, so a second shake soon after can speak the date. */
-    private var lastTimeSpokenAt: Long? = null
+    /** When the last shake spoke, and what it said, so the next shake soon after can say the next thing. */
+    private var lastShakeAt: Long? = null
+    private var step = 0
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -147,16 +151,21 @@ class ShakeService : Service(), SensorEventListener {
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) = Unit
 
-    /** Shake once for the time. Shake again within a few seconds for the date. */
+    /**
+     * Shake once for the time. Shake again within a few seconds for the date, and once more for the
+     * phone status, as far as the helper turned them on. After the last one, the next shake starts
+     * again with the time.
+     */
     private fun onShake() {
         val now = SystemClock.elapsedRealtime()
-        val last = lastTimeSpokenAt
-        if (settings.shakeAgainForDate && last != null && now - last < DATE_WINDOW_MS) {
-            lastTimeSpokenAt = null
-            speak { spokenDate(it, settings, LocalDate.now()) }
-        } else {
-            lastTimeSpokenAt = now
-            speak { it.phrase(LocalTime.now()) }
+        val steps = shakeSteps(settings)
+        val last = lastShakeAt
+        step = if (last != null && now - last < AGAIN_WINDOW_MS && step + 1 < steps.size) step + 1 else 0
+        lastShakeAt = now
+        when (steps[step]) {
+            ShakeStep.Time -> speak { it.phrase(LocalTime.now()) }
+            ShakeStep.Date -> speak { spokenDate(it, settings, LocalDate.now()) }
+            ShakeStep.Status -> speak { spokenStatus(it, PhoneStatusReader.read(this), LocalDateTime.now()) }
         }
     }
 
@@ -241,7 +250,8 @@ class ShakeService : Service(), SensorEventListener {
         private const val VIBRATION_MS = 150L
 
         // A shake can't fire again for 3 s, so this leaves about 7 s to shake again for the date.
-        private const val DATE_WINDOW_MS = 10_000L
+        // The status follows the date, which takes a few seconds to say, so it's counted from the last shake.
+        private const val AGAIN_WINDOW_MS = 10_000L
 
         /** Starts or stops shake listening to match [settings]. Registered with BackgroundSync. */
         fun sync(context: Context, settings: Settings) {

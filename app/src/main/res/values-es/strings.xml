@@ -110,4 +110,15 @@
     <string name="info_greeting">Cada mañana a la hora elegida, Niko Clock da los buenos días y dice la fecha, con la fecha nepalí y la nota si están activadas. Habla también en las horas de silencio, pero se calla con No molestar si los avisos de hora también se callan.</string>
     <string name="setting_lock_screen">Mostrar en la pantalla de bloqueo al cargar</string>
     <string name="info_lock_screen">Mientras el teléfono se carga, el reloj del día queda delante de la pantalla de bloqueo, así se puede leer sin desbloquear. Para abrir los ajustes hay que desbloquear el teléfono igualmente.</string>
+
+    <!-- Phone status (Hub ADR 0039) -->
+    <string name="speak_status">Estado del teléfono</string>
+    <string name="setting_status_button">Botón de estado del teléfono</string>
+    <string name="info_status_button">Muestra un botón Estado del teléfono debajo del reloj. Dice si el modo avión, No molestar o el timbre en silencio pueden impedir las llamadas, y luego la batería, la señal, internet, la hora y la fecha. El mosaico Estado del teléfono en ajustes rápidos también funciona.</string>
+    <string name="setting_shake_status">Agitar otra vez para el estado del teléfono</string>
+    <string name="info_shake_status">Después de la fecha, agite otra vez en unos segundos para oír el estado del teléfono.</string>
+    <string name="hint_airplane">El modo avión está activado. No pueden entrar llamadas ni mensajes.</string>
+    <string name="hint_no_sim">No hay tarjeta SIM. No pueden entrar llamadas.</string>
+    <string name="hint_dnd">No molestar está activado. Puede que las llamadas no suenen.</string>
+    <string name="hint_ringer_off">El timbre está apagado. Las llamadas no sonarán.</string>
 </resources>

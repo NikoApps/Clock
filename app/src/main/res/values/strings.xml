@@ -122,4 +122,15 @@
     <string name="info_greeting">Each morning at the chosen time, Niko Clock says good morning and the date, with the Nepali date and the note if they are on. It speaks during quiet hours, but stays quiet during Do Not Disturb if chimes do.</string>
     <string name="setting_lock_screen">Show on the lock screen while charging</string>
     <string name="info_lock_screen">While the phone is charging, the day clock stays in front of the lock screen, so it can be read without unlocking. Opening settings still needs the phone to be unlocked.</string>
+
+    <!-- Phone status (Hub ADR 0039) -->
+    <string name="speak_status">Phone status</string>
+    <string name="setting_status_button">Phone status button</string>
+    <string name="info_status_button">Shows a Phone status button under the clock. It says if airplane mode, Do Not Disturb or a silent ringer could stop calls, then the battery, signal, internet, time and date. The Phone status tile in quick settings works too.</string>
+    <string name="setting_shake_status">Shake once more for phone status</string>
+    <string name="info_shake_status">After the date, shake again within a few seconds to hear the phone status.</string>
+    <string name="hint_airplane">Airplane mode is on. Calls and messages can\'t come in.</string>
+    <string name="hint_no_sim">There is no SIM card. Calls can\'t come in.</string>
+    <string name="hint_dnd">Do Not Disturb is on. Calls may not ring.</string>
+    <string name="hint_ringer_off">The ringer is off. Calls won\'t ring.</string>
 </resources>
